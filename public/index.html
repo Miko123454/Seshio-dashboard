@@ -3,102 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seshio | Dashboard</title>
+    <title>Seshio | Bot Dashboard</title>
     <style>
         :root {
-            --sidebar-color: #2c2f33;
-            --bg-color: #f6f6f7;
-            --primary-blue: #7289da;
-            --text-dark: #23272a;
-            --card-bg: #ffffff;
+            --bg-dark: #0f1115;
+            --bg-panel: #181b21;
+            --accent-cyan: #00e5ff;
+            --accent-blue: #0077ff;
+            --text-light: #e0e0e0;
+            --text-muted: #8b92a5;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            display: flex;
-            background-color: var(--bg-color);
-            color: var(--text-dark);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
         }
 
-        /* Sidebar */
-        .sidebar {
-            width: 240px;
-            background-color: var(--sidebar-color);
+        /* --- SĀKUMLAPA (LANDING PAGE) --- */
+        #landing-page {
+            display: flex;
             height: 100vh;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10%;
+        }
+
+        .hero-text {
+            max-width: 500px;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn-invite {
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
             color: white;
-            position: fixed;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3);
+        }
+
+        .btn-invite:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
+        }
+
+        .hero-image {
+            width: 45%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            /* Šeit kods meklēs tavu bg.jpg bildi no public mapes */
+            content: url('bg.jpg'); 
+        }
+
+        /* --- DASHBOARD SKATS --- */
+        #dashboard-page {
+            display: none; /* Sākumā paslēpts */
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 80px;
+            background-color: var(--bg-panel);
+            border-right: 1px solid #2a2e38;
             display: flex;
             flex-direction: column;
-            padding: 20px 0;
-        }
-
-        .sidebar-header {
-            padding: 0 20px 20px;
-            font-size: 22px;
-            font-weight: bold;
-            border-bottom: 1px solid #444;
-            margin-bottom: 20px;
-            display: flex;
             align-items: center;
+            padding-top: 20px;
         }
 
-        .nav-link {
-            padding: 15px 25px;
-            color: #b9bbbe;
-            text-decoration: none;
+        .server-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #2b2f3a;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            cursor: pointer;
             transition: 0.2s;
-            font-size: 15px;
+            color: var(--text-muted);
         }
 
-        .nav-link:hover, .nav-link.active {
-            background-color: #42454a;
+        .server-icon:hover, .server-icon.active {
+            background-color: var(--accent-blue);
             color: white;
-            border-left: 4px solid var(--primary-blue);
+            border-radius: 15px;
         }
 
-        /* Main Content */
-        .content {
-            margin-left: 240px;
+        .settings-panel {
             flex: 1;
             padding: 40px;
+            overflow-y: auto;
         }
 
-        .header {
+        .settings-panel h2 {
+            margin-top: 0;
+            font-size: 24px;
+            border-bottom: 1px solid #2a2e38;
+            padding-bottom: 15px;
             margin-bottom: 30px;
         }
 
-        .header h1 { margin: 0; font-size: 28px; }
-        .header p { color: #72767d; margin: 5px 0 0; }
-
-        /* Settings Card */
-        .card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            padding: 30px;
-            max-width: 800px;
-        }
-
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            max-width: 600px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
+            color: var(--text-muted);
             font-size: 14px;
-            color: #4f545c;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        input[type="text"], input[type="number"], textarea {
+        input, textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #ebedef;
+            background-color: var(--bg-panel);
+            border: 1px solid #2a2e38;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 6px;
             font-size: 15px;
             box-sizing: border-box;
             transition: border 0.2s;
@@ -106,81 +155,82 @@
 
         input:focus, textarea:focus {
             outline: none;
-            border: 1px solid var(--primary-blue);
+            border-color: var(--accent-cyan);
         }
 
         .btn-save {
-            background-color: var(--primary-blue);
+            background-color: var(--accent-blue);
             color: white;
             border: none;
-            padding: 14px 28px;
-            border-radius: 4px;
+            padding: 12px 25px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 16px;
-            transition: background 0.2s;
+            margin-top: 10px;
         }
 
-        .btn-save:hover {
-            background-color: #5b6eae;
-        }
+        .btn-save:hover { background-color: #005ce6; }
 
-        .hint {
-            font-size: 12px;
-            color: #72767d;
-            margin-top: 4px;
-        }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="sidebar-header">SESHIO</div>
-        <a href="#" class="nav-link active">🏠 Dashboard</a>
-        <a href="#" class="nav-link">⚙️ Modules</a>
-        <a href="#" class="nav-link">📜 Logs</a>
-        <a href="#" class="nav-link">❓ Support</a>
+    <div id="landing-page">
+        <div class="hero-text">
+            <h1>Seshio System</h1>
+            <p>Automatizē savas lomu spēles sesijas, pārvaldi balsojumus un uzturi kārtību savā serverī ar vienu modernu Discord botu.</p>
+            <button class="btn-invite" onclick="enterDashboard()">Ielogoties / Invite Bot</button>
+        </div>
+        <img class="hero-image" alt="Seshio AI Image" onerror="this.style.display='none'">
     </div>
 
-    <div class="content">
-        <div class="header">
-            <h1>Server Settings</h1>
-            <p>Konfigurē sava bota darbību šajā serverī.</p>
+    <div id="dashboard-page">
+        <div class="sidebar">
+            <div class="server-icon active" title="LVRPL Serveris">LV</div>
+            <div class="server-icon" title="Cits Serveris">CS</div>
+            <div class="server-icon" title="Pievienot jaunu">+</div>
         </div>
 
-        <div class="card">
+        <div class="settings-panel">
+            <h2>LVRPL Konfigurācija</h2>
+            
             <div class="form-group">
-                <label>Discord Server ID (Guild ID)</label>
-                <input type="text" id="guildId" placeholder="Ielīmē sava servera ID">
-                <div class="hint">Labais klikšķis uz servera ikonas -> Copy Server ID</div>
+                <label>Discord Servera ID (Guild ID)</label>
+                <input type="text" id="guildId" placeholder="Ielīmē sava servera ID te...">
             </div>
 
             <div class="form-group">
                 <label>Pinga Lomas ID</label>
-                <input type="text" id="pingRole" placeholder="Ielīmē Role ID">
-                <div class="hint">Šī loma tiks iepingota, kad sesija sāksies.</div>
+                <input type="text" id="pingRole" placeholder="Role ID, ko pingot sesijas sākumā">
             </div>
 
             <div class="form-group">
-                <label>Vajadzīgais balsu skaits</label>
-                <input type="number" id="requiredVotes" value="1" min="1">
+                <label>Vajadzīgās balsis</label>
+                <input type="number" id="requiredVotes" value="1">
             </div>
 
             <div class="form-group">
-                <label>Sesijas sākuma bilde (URL)</label>
-                <input type="text" id="startImage" placeholder="https://i.imgur.com/example.png">
+                <label>Sesijas Bilde (URL)</label>
+                <input type="text" id="startImage" placeholder="https://...">
             </div>
 
             <div class="form-group">
-                <label>Sesijas ziņojuma teksts</label>
+                <label>Sesijas Teksts</label>
                 <textarea id="startText" rows="5" placeholder="Ievadi ziņu, ko bots rādīs..."></textarea>
             </div>
 
-            <button class="btn-save" onclick="saveSettings()">Save Changes</button>
+            <button class="btn-save" onclick="saveSettings()">SAGLABĀT IZMAIŅAS</button>
         </div>
     </div>
 
     <script>
+        // Funkcija, kas nomaina sākumlapu uz Dashboardu
+        function enterDashboard() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('dashboard-page').style.display = 'flex';
+        }
+
+        // Funkcija, kas saglabā datus datu bāzē
         async function saveSettings() {
             const data = {
                 guildId: document.getElementById('guildId').value,
@@ -196,8 +246,8 @@
                 body: JSON.stringify(data)
             });
 
-            if(res.ok) alert("✅ Iestatījumi saglabāti!");
-            else alert("❌ Kļūda saglabājot!");
+            if(res.ok) alert("✅ Iestatījumi veiksmīgi saglabāti!");
+            else alert("❌ Kļūda saglabājot datus!");
         }
     </script>
 </body>
