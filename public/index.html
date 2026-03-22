@@ -36,7 +36,6 @@
         .logo { font-size: 24px; font-weight: 800; margin-bottom: 40px; color: var(--text-main); cursor: pointer; transition: 0.2s; } .logo:hover{opacity: 0.8;}
         .logo span { color: var(--accent-cyan); margin-right: 10px; }
         
-        /* Sānjoslas serveri */
         .sidebar-server-list { flex: 1; overflow-y: auto; margin-right: -10px; padding-right: 10px; }
         .sidebar-server-list::-webkit-scrollbar { width: 4px; }
         .sidebar-server-list::-webkit-scrollbar-thumb { background: rgba(0,242,254,0.3); border-radius: 4px; }
@@ -52,13 +51,15 @@
         .back-btn { background: rgba(255,255,255,0.1); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: 0.2s; } .back-btn:hover{background: rgba(255,255,255,0.2);}
         
         .panel { background-color: rgba(17, 26, 34, 0.8); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 16px; padding: 30px; }
+        .form-row { display: flex; gap: 15px; margin-bottom: 20px; } /* Jauna klase, lai laukus liktu blakus */
+        .form-row .form-group { margin-bottom: 0; flex: 1; }
         .form-group { margin-bottom: 20px; } .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
         input, textarea, select { width: 100%; background-color: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 242, 254, 0.15); border-radius: 8px; color: var(--text-main); padding: 12px 15px; font-size: 14px; }
         select { cursor: pointer; appearance: none; } select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent-cyan); }
         .btn-save { width: 100%; background: var(--accent-cyan); color: #000; border: none; padding: 16px; border-radius: 8px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 15px; transition: 0.3s; } .btn-save:hover { box-shadow: 0 0 20px rgba(0, 242, 254, 0.4); transform: translateY(-2px); }
         
         /* Discord Preview */
-        .preview-panel { background: #313338; border-radius: 12px; padding: 25px; font-family: 'gg sans', 'Whitney', sans-serif; color: #dbdee1; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .preview-panel { background: #313338; border-radius: 12px; padding: 25px; font-family: 'gg sans', 'Whitney', sans-serif; color: #dbdee1; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); align-self: start; }
         .preview-header { font-size: 12px; font-weight: bold; color: #80848e; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
         .discord-message { display: flex; gap: 15px; }
         .discord-avatar { width: 45px; height: 45px; background: #5865F2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 20px; flex-shrink: 0; }
@@ -82,7 +83,7 @@
             </div>
         </div>
         
-        <img class="hero-image" src="https://media.discordapp.net/attachments/1485233746994139147/1485345443914453246/bj.jpg?ex=69c1873e&is=69c035be&hm=5cf7bed225727c186f08411e332b53942f2d06631dc067c0b416465b60de633c&=&format=webp&width=1569&height=856" alt="Seshio Logo" onerror="this.style.display='none';">
+        <img class="hero-image" src="https://media.discordapp.net/attachments/1183060714771746816/1344403153406001153/Dmtdcsdmtdcsdmtd.jpg?ex=67c0cbb9&is=67bf7a39&hm=9b7ef5d0c75c5e00940f8a848c90df0e7368bb4f29a00827210e7b41d401a75c&=&format=webp&width=732&height=411" alt="Seshio Logo" onerror="this.style.display='none';">
     </div>
 
     <div id="server-selector-page">
@@ -117,6 +118,18 @@
             </div>
 
             <div class="panel">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Virsraksts (Embed Title)</label>
+                        <input type="text" id="embedTitle" placeholder="LVRPL | Server start up" oninput="updatePreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Piekļuves Kods</label>
+                        <input type="text" id="embedCode" placeholder="KODS: LVRPL" oninput="updatePreview()">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label>Paziņojuma loma (Ping Role)</label>
                     <select id="pingRole" onchange="updatePreview()">
@@ -129,7 +142,7 @@
                 </div>
                 <div class="form-group">
                     <label>Paziņojuma Teksts</label>
-                    <textarea id="startText" rows="5" oninput="updatePreview()"></textarea>
+                    <textarea id="startText" rows="4" oninput="updatePreview()"></textarea>
                 </div>
                 <button class="btn-save" onclick="saveData()">SAGLABĀT IZMAIŅAS</button>
             </div>
@@ -142,8 +155,11 @@
                         <div class="discord-name">Seshio <span class="bot-tag">APP</span></div>
                         <div class="discord-text" style="color: #c9cdcf; background: rgba(88, 101, 242, 0.3); padding: 0 4px; border-radius: 3px; display: inline-block;" id="preview-ping">@Loma</div>
                         <div class="discord-embed">
-                            <div class="embed-title">LVRPL | Server start up</div>
-                            <div class="discord-text" style="color: #dbdee1;">KODS: LVRPL<br><br>📋 <b>Nobalsoja:</b><br>@Lietotājs</div>
+                            <div class="embed-title" id="preview-title">LVRPL | Server start up</div>
+                            <div class="discord-text" style="color: #dbdee1;">
+                                <span id="preview-code" style="display:block; margin-bottom: 10px;">KODS: LVRPL</span>
+                                📋 <b>Nobalsoja:</b><br>@Lietotājs
+                            </div>
                             <div class="discord-text" id="preview-text" style="margin-top: 15px;">Sāksim jaunu sesiju!</div>
                             <img id="preview-image" class="embed-image" src="" alt="Preview">
                         </div>
@@ -159,10 +175,22 @@
         let manageableGuilds = [];
 
         function updatePreview() {
+            // Atjauno tekstu
             document.getElementById('preview-text').innerText = document.getElementById('startText').value || "Tavs teksts būs šeit...";
+            
+            // Atjauno virsrakstu un kodu
+            document.getElementById('preview-title').innerText = document.getElementById('embedTitle').value || "Server start up";
+            const codeInput = document.getElementById('embedCode').value;
+            const codePreview = document.getElementById('preview-code');
+            if(codeInput) { codePreview.innerText = codeInput; codePreview.style.display = 'block'; }
+            else { codePreview.style.display = 'none'; }
+
+            // Atjauno bildi
             const imgUrl = document.getElementById('startImage').value;
             const imgEl = document.getElementById('preview-image');
             if(imgUrl) { imgEl.src = imgUrl; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
+            
+            // Atjauno pingu
             const roleSelect = document.getElementById('pingRole');
             if(roleSelect.options.length > 0 && roleSelect.selectedIndex >= 0 && roleSelect.value !== "") {
                 document.getElementById('preview-ping').innerText = "@" + roleSelect.options[roleSelect.selectedIndex].text;
@@ -251,9 +279,12 @@
                 `;
             });
 
+            // Notīrām visus laukus
             document.getElementById('pingRole').innerHTML = '<option value="">Ielādē...</option>';
             document.getElementById('startImage').value = '';
             document.getElementById('startText').value = 'Ielādē datus...';
+            document.getElementById('embedTitle').value = '';
+            document.getElementById('embedCode').value = '';
 
             try {
                 const rolesRes = await fetch(`/api/roles/${guildId}`);
@@ -267,11 +298,12 @@
                 const settingsRes = await fetch(`/api/settings/${guildId}`);
                 if (settingsRes.ok) {
                     const data = await settingsRes.json();
-                    if(data.startText) document.getElementById('startText').value = data.startText;
-                    else document.getElementById('startText').value = "Sāksim jaunu sesiju!";
                     
+                    document.getElementById('startText').value = data.startText || "Sāksim jaunu sesiju!";
                     if(data.startImage) document.getElementById('startImage').value = data.startImage;
                     if(data.pingRole) document.getElementById('pingRole').value = data.pingRole;
+                    if(data.embedTitle) document.getElementById('embedTitle').value = data.embedTitle;
+                    if(data.embedCode) document.getElementById('embedCode').value = data.embedCode;
                 }
             } catch(e) { console.error("Kļūda ielādējot datus", e); }
             
@@ -288,7 +320,9 @@
                 guildId: currentGuildId,
                 pingRole: document.getElementById('pingRole').value,
                 startImage: document.getElementById('startImage').value,
-                startText: document.getElementById('startText').value
+                startText: document.getElementById('startText').value,
+                embedTitle: document.getElementById('embedTitle').value,
+                embedCode: document.getElementById('embedCode').value
             };
 
             try {
