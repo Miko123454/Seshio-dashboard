@@ -11,11 +11,14 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // --- MONGODB MODELIS ---
+// Pievienoti jauni lauki: embedTitle un embedCode
 const settingsSchema = new mongoose.Schema({
     guildId: { type: String, required: true, unique: true },
     pingRole: String,
     startImage: String,
-    startText: String
+    startText: String,
+    embedTitle: String,
+    embedCode: String
 });
 const Settings = mongoose.model('Settings', settingsSchema);
 
@@ -25,10 +28,15 @@ const activeSessions = new Map();
 
 // --- WEB API: SAGLABĀT IESTATĪJUMUS ---
 app.post('/api/save-settings', async (req, res) => {
-    const { guildId, pingRole, startImage, startText } = req.body;
+    // Sagaidām jaunos laukus no mājaslapas
+    const { guildId, pingRole, startImage, startText, embedTitle, embedCode } = req.body;
     if (!guildId) return res.status(400).json({ error: "Trūkst Guild ID" });
     try {
-        await Settings.findOneAndUpdate({ guildId }, { pingRole, startImage, startText }, { upsert: true, new: true });
+        await Settings.findOneAndUpdate(
+            { guildId }, 
+            { pingRole, startImage, startText, embedTitle, embedCode }, 
+            { upsert: true, new: true }
+        );
         res.json({ success: true });
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -37,13 +45,12 @@ app.post('/api/save-settings', async (req, res) => {
 app.get('/api/settings/:guildId', async (req, res) => {
     try {
         const data = await Settings.findOne({ guildId: req.params.guildId });
-        res.json(data || {}); // Ja nav datu, atgriež tukšu objektu
+        res.json(data || {}); 
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // --- WEB API: BOTA SERVERU SARAKSTS ---
 app.get('/api/bot-guilds', (req, res) => {
-    // Atgriežam masīvu ar visiem serveru ID, kuros bots ir iekšā
     res.json(client.guilds.cache.map(g => g.id));
 });
 
@@ -66,10 +73,13 @@ client.on(Events.InteractionCreate, async interaction => {
         const requiredVotes = interaction.options.getInteger('balsis') || 1;
         const sessionId = interaction.id;
 
+        // Izmantojam saglabāto virsrakstu vai noklusējuma tekstu
+        const displayTitle = dbData.embedTitle || 'Session start-up vote';
+
         activeSessions.set(sessionId, { ...dbData._doc, requiredVotes, votedUsers: [], currentVotes: 0, authorId: interaction.user.id, channelId: interaction.channelId });
 
         const voteEmbed = new EmbedBuilder()
-            .setTitle('Session start-up vote')
+            .setTitle(displayTitle)
             .setDescription(`Vajadzīgas **${requiredVotes}** balsis!\n\n${dbData.startText || "Balsošana sākusies!"}`)
             .setColor('#00f2fe')
             .setFooter({ text: `Balsis: 0/${requiredVotes}` });
@@ -109,10 +119,16 @@ client.on(Events.InteractionCreate, async interaction => {
         if (action === 'start') {
             await interaction.deferUpdate();
             const channel = await client.channels.fetch(sessionData.channelId);
+            
+            // Izmantojam saglabāto virsrakstu un kodu
+            const displayTitle = sessionData.embedTitle || 'Server start up';
+            const displayCode = sessionData.embedCode ? `${sessionData.embedCode}\n\n` : '';
+
             const startEmbed = new EmbedBuilder()
-                .setTitle('LVRPL | Server start up')
-                .setDescription(`KODS: LVRPL\n\n📋 **Nobalsoja:**\n${sessionData.votedUsers.map(id => `<@${id}>`).join(', ')}`)
+                .setTitle(displayTitle)
+                .setDescription(`${displayCode}📋 **Nobalsoja:**\n${sessionData.votedUsers.map(id => `<@${id}>`).join(', ')}`)
                 .setColor('#00f2fe');
+            
             if (sessionData.startImage) startEmbed.setImage(sessionData.startImage);
 
             await channel.send({ content: sessionData.pingRole ? `<@&${sessionData.pingRole}>` : "@here", embeds: [startEmbed] });
