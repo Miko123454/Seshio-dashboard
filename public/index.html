@@ -14,7 +14,7 @@
         #landing-page { display: flex; width: 100%; height: 100vh; align-items: center; justify-content: center; gap: 100px; padding: 0 10%; z-index: 50; }
         .hero-text { max-width: 500px; } .hero-text h1 { font-size: 3.5rem; margin-bottom: 15px; background: linear-gradient(90deg, #ffffff, var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; } .hero-text p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 30px; line-height: 1.6; }
         .btn-login { background-color: #5865F2; color: white; padding: 16px 35px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 18px; transition: 0.2s; border: none; cursor: pointer; display: inline-block; box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3); } .btn-login:hover { background-color: #4752C4; transform: translateY(-2px); }
-        .hero-image { width: 400px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 242, 254, 0.2); border: 1px solid rgba(0, 242, 254, 0.3); }
+        .hero-image { width: 400px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 242, 254, 0.2); border: 1px solid rgba(0, 242, 254, 0.3); object-fit: cover; }
         
         /* 2. SERVERU IZVĒLNE */
         #server-selector-page { display: none; width: 100%; height: 100vh; overflow-y: auto; padding: 60px 10%; }
@@ -30,12 +30,19 @@
         .btn-invite { background: #5865F2; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 700; display: block; width: 100%; cursor: pointer; border: none; text-transform: uppercase; font-size: 13px; }
         .btn-invite:hover { background: #4752C4; }
 
-        /* 3. DASHBOARD (Panelis) */
+        /* 3. DASHBOARD */
         #dashboard-page { display: none; width: 100%; height: 100vh; }
         .sidebar { width: 260px; background-color: var(--bg-panel); border-right: 1px solid rgba(0, 242, 254, 0.2); display: flex; flex-direction: column; padding: 25px 20px; }
         .logo { font-size: 24px; font-weight: 800; margin-bottom: 40px; color: var(--text-main); cursor: pointer; transition: 0.2s; } .logo:hover{opacity: 0.8;}
         .logo span { color: var(--accent-cyan); margin-right: 10px; }
-        .nav-item { display: flex; align-items: center; padding: 12px 15px; color: var(--text-muted); text-decoration: none; border-radius: 8px; margin-bottom: 5px; font-weight: 500; } .nav-item.active { background: linear-gradient(90deg, rgba(0, 242, 254, 0.15) 0%, transparent 100%); color: var(--accent-cyan); border-left: 3px solid var(--accent-cyan); }
+        
+        /* Sānjoslas serveri */
+        .sidebar-server-list { flex: 1; overflow-y: auto; margin-right: -10px; padding-right: 10px; }
+        .sidebar-server-list::-webkit-scrollbar { width: 4px; }
+        .sidebar-server-list::-webkit-scrollbar-thumb { background: rgba(0,242,254,0.3); border-radius: 4px; }
+        .nav-item { display: flex; align-items: center; padding: 12px 15px; color: var(--text-muted); text-decoration: none; border-radius: 8px; margin-bottom: 5px; font-weight: 500; transition: 0.2s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } 
+        .nav-item:hover { color: #fff; background: rgba(255,255,255,0.05); }
+        .nav-item.active { background: linear-gradient(90deg, rgba(0, 242, 254, 0.15) 0%, transparent 100%); color: var(--accent-cyan); border-left: 3px solid var(--accent-cyan); }
         .section-title { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin: 30px 0 15px 15px; font-weight: 700; }
         
         .main-content { flex: 1; padding: 40px; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
@@ -74,7 +81,8 @@
                 <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio-dashboard.onrender.com%2F&response_type=token&scope=identify%20guilds" class="btn-login">Login with Discord</a>
             </div>
         </div>
-        <img class="hero-image" src="bj.jpg" alt="Seshio Logo">
+        
+        <img class="hero-image" src="https://media.discordapp.net/attachments/1485233746994139147/1485345443914453246/bj.jpg?ex=69c1873e&is=69c035be&hm=5cf7bed225727c186f08411e332b53942f2d06631dc067c0b416465b60de633c&=&format=webp&width=1569&height=856" alt="Seshio Logo" onerror="this.style.display='none';">
     </div>
 
     <div id="server-selector-page">
@@ -90,18 +98,22 @@
     <div id="dashboard-page">
         <div class="sidebar">
             <div class="logo" onclick="backToServers()"><span>❂</span> SESHIO</div>
-            <a href="#" class="nav-item active">Dashboard</a>
-            <div class="section-title">AKTĪVAIS SERVERIS</div>
-            <a href="#" class="nav-item active" id="active-server-name">Ielādē...</a>
+            <a href="#" onclick="backToServers()" class="nav-item">Dashboard</a>
+            
+            <div class="section-title">TAVI SERVERI</div>
+            
+            <div class="sidebar-server-list" id="sidebar-server-list">
+                <a href="#" class="nav-item">Ielādē...</a>
+            </div>
         </div>
 
         <div class="main-content">
             <div class="header">
                 <div>
-                    <h1>Server Settings</h1>
+                    <h1 id="active-server-title">Server Settings</h1>
                     <p>Konfigurē sava servera sesijas izskatu. Balsis ievadīsi ar /session komandu.</p>
                 </div>
-                <button class="back-btn" onclick="backToServers()">⬅ Atpakaļ uz serveriem</button>
+                <button class="back-btn" onclick="backToServers()">⬅ Visi serveri</button>
             </div>
 
             <div class="panel">
@@ -144,6 +156,7 @@
     <script>
         const CLIENT_ID = '1485224120047108237';
         let currentGuildId = null;
+        let manageableGuilds = [];
 
         function updatePreview() {
             document.getElementById('preview-text').innerText = document.getElementById('startText').value || "Tavs teksts būs šeit...";
@@ -169,12 +182,10 @@
                 document.getElementById('landing-page').style.display = 'none';
                 document.getElementById('server-selector-page').style.display = 'block';
 
-                // 1. Iegūstam lietotāju
                 fetch('https://discord.com/api/users/@me', { headers: { authorization: `${tokenType} ${accessToken}` } })
                 .then(res => res.json())
                 .then(user => { document.getElementById('welcome-name').innerText = user.username; });
 
-                // 2. Iegūstam visus lietotāja serverus UN bota serverus
                 try {
                     const [guildsRes, botGuildsRes] = await Promise.all([
                         fetch('https://discord.com/api/users/@me/guilds', { headers: { authorization: `${tokenType} ${accessToken}` } }),
@@ -187,11 +198,12 @@
                     const serverList = document.getElementById('server-list');
                     serverList.innerHTML = '';
 
-                    // Filtrējam tikai serverus, kuros lietotājam ir Admin vai Manage Server tiesības
                     const adminGuilds = userGuilds.filter(g => {
                         const perms = BigInt(g.permissions);
-                        return (perms & 8n) === 8n || (perms & 32n) === 32n; // 8 = Administrator, 32 = Manage Server
+                        return (perms & 8n) === 8n || (perms & 32n) === 32n;
                     });
+
+                    manageableGuilds = adminGuilds.filter(g => botGuilds.includes(g.id));
 
                     if(adminGuilds.length === 0) {
                         serverList.innerHTML = '<div style="color:var(--text-muted); grid-column: 1/-1;">Tev nav neviena servera, kuru tu varētu pārvaldīt.</div>';
@@ -221,20 +233,29 @@
             }
         };
 
-        // Atveram konkrēta servera paneli un velkam datus
         async function openDashboard(guildId, guildName) {
             currentGuildId = guildId;
             document.getElementById('server-selector-page').style.display = 'none';
             document.getElementById('dashboard-page').style.display = 'flex';
-            document.getElementById('active-server-name').innerText = guildName;
+            
+            document.getElementById('active-server-title').innerText = guildName + " Settings";
 
-            // 1. Notīrām laukus, pirms ielādējas jaunie
+            const sidebarList = document.getElementById('sidebar-server-list');
+            sidebarList.innerHTML = '';
+            manageableGuilds.forEach(g => {
+                const isActive = g.id === guildId;
+                sidebarList.innerHTML += `
+                    <a href="#" onclick="openDashboard('${g.id}', '${g.name.replace(/'/g, "\\'")}')" class="nav-item ${isActive ? 'active' : ''}">
+                        ${g.name}
+                    </a>
+                `;
+            });
+
             document.getElementById('pingRole').innerHTML = '<option value="">Ielādē...</option>';
             document.getElementById('startImage').value = '';
             document.getElementById('startText').value = 'Ielādē datus...';
 
             try {
-                // 2. Ielādējam LOMAS no servera
                 const rolesRes = await fetch(`/api/roles/${guildId}`);
                 if (rolesRes.ok) {
                     const roles = await rolesRes.json();
@@ -243,7 +264,6 @@
                     roles.forEach(role => { select.innerHTML += `<option value="${role.id}">${role.name}</option>`; });
                 }
 
-                // 3. Ielādējam IESTATĪJUMUS no datubāzes
                 const settingsRes = await fetch(`/api/settings/${guildId}`);
                 if (settingsRes.ok) {
                     const data = await settingsRes.json();
