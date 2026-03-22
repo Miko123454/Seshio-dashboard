@@ -51,61 +51,40 @@
         }
         .hero-text p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 30px; line-height: 1.6; }
 
-        /* Jaunās pogas */
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
+        .button-group { display: flex; gap: 15px; margin-top: 20px; }
 
         .btn-add {
-            background-color: #c2295a; /* Rozā/sarkans no tavas bildes */
-            color: white;
-            padding: 14px 28px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            transition: opacity 0.2s;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(194, 41, 90, 0.4);
+            background-color: #c2295a; color: white; padding: 14px 28px; border-radius: 4px; 
+            text-decoration: none; font-weight: 500; font-size: 16px; transition: opacity 0.2s; 
+            border: none; cursor: pointer; box-shadow: 0 4px 15px rgba(194, 41, 90, 0.4);
         }
         .btn-add:hover { opacity: 0.8; }
 
         .btn-login {
-            background-color: #2b2d31; /* Discord dark grey */
-            color: white;
-            padding: 14px 28px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            transition: background-color 0.2s;
-            border: none;
-            cursor: pointer;
+            background-color: #2b2d31; color: white; padding: 14px 28px; border-radius: 4px; 
+            text-decoration: none; font-weight: 500; font-size: 16px; transition: background-color 0.2s; 
+            border: none; cursor: pointer; display: inline-block; text-align: center;
         }
         .btn-login:hover { background-color: #3b3d42; }
 
-        /* Bilde - SALABOTA */
+        /* Bilde - Ievietots bj.png */
         .hero-image {
-            width: 400px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 242, 254, 0.2);
+            width: 400px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 242, 254, 0.2);
             border: 1px solid rgba(0, 242, 254, 0.3);
         }
 
         /* --- DASHBOARD SKATS --- */
         #dashboard-page {
-            display: none; /* Sākumā slēpts */
-            width: 100%;
-            height: 100vh;
+            display: none; width: 100%; height: 100vh;
         }
 
-        /* (Šeit paliek viss iepriekšējais Dashboard CSS. Es to saīsināju, lai tu redzētu galveno, bet atstāju struktūru) */
         .sidebar { width: 260px; background-color: var(--bg-panel); border-right: 1px solid rgba(0, 242, 254, 0.2); display: flex; flex-direction: column; padding: 25px 20px; }
-        .logo { font-size: 24px; font-weight: 800; margin-bottom: 40px; color: var(--text-main); }
+        
+        /* Pievienots pointer, lai logo varētu uzklikšķināt */
+        .logo { font-size: 24px; font-weight: 800; margin-bottom: 40px; color: var(--text-main); cursor: pointer; transition: 0.2s; }
+        .logo:hover { opacity: 0.8; }
         .logo span { color: var(--accent-cyan); margin-right: 10px; font-size: 28px; }
+        
         .nav-item { display: flex; align-items: center; padding: 12px 15px; color: var(--text-muted); text-decoration: none; border-radius: 8px; margin-bottom: 5px; font-weight: 500; }
         .nav-item.active { background: linear-gradient(90deg, rgba(0, 242, 254, 0.15) 0%, transparent 100%); color: var(--accent-cyan); border-left: 3px solid var(--accent-cyan); }
         .section-title { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin: 30px 0 15px 15px; font-weight: 700; }
@@ -113,11 +92,16 @@
         .header { margin-bottom: 40px; }
         .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 5px; }
         .header p { color: var(--text-muted); font-size: 14px; }
+        
+        /* Sveiciena teksts lietotājam */
+        #welcome-user { color: var(--accent-cyan); font-weight: 600; margin-left: 10px; }
+
         .panel { background-color: rgba(17, 26, 34, 0.8); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 16px; padding: 30px; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
         input, textarea { width: 100%; background-color: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 242, 254, 0.15); border-radius: 8px; color: var(--text-main); padding: 12px 15px; font-size: 14px; }
-        .btn-save { width: 100%; background: var(--accent-cyan); color: #000; border: none; padding: 16px; border-radius: 8px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 15px; }
+        .btn-save { width: 100%; background: var(--accent-cyan); color: #000; border: none; padding: 16px; border-radius: 8px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        .btn-save:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0, 242, 254, 0.4); }
     </style>
 </head>
 <body>
@@ -130,17 +114,16 @@
             <div class="button-group">
                 <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&permissions=8&scope=bot%20applications.commands" target="_blank" class="btn-add">Add To Server</a>
                 
-                <button onclick="enterDashboard()" class="btn-login">Login with Discord</button>
+                <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio-dashboard.onrender.com%2F&response_type=token&scope=identify" class="btn-login">Login with Discord</a>
             </div>
         </div>
 
         <img class="hero-image" src="bj.png" alt="Seshio Logo">
     </div>
 
-
     <div id="dashboard-page">
         <div class="sidebar">
-            <div class="logo"><span>❂</span> SESHIO</div>
+            <div class="logo" onclick="returnToLanding()"><span>❂</span> SESHIO</div>
             <a href="#" class="nav-item active">Dashboard</a>
             <div class="section-title">SERVERI</div>
             <a href="#" class="nav-item active">LV RPL</a>
@@ -148,7 +131,7 @@
 
         <div class="main-content">
             <div class="header">
-                <h1>Server Settings | LV RPL Server</h1>
+                <h1>Server Settings <span id="welcome-user"></span></h1>
                 <p>Konfigurē sava servera sesijas un moduļus.</p>
             </div>
 
@@ -179,13 +162,39 @@
     </div>
 
     <script>
-        // Pāreja no sākumlapas uz paneli
-        function enterDashboard() {
-            document.getElementById('landing-page').style.display = 'none';
-            document.getElementById('dashboard-page').style.display = 'flex';
+        // Funkcija atgriezties uz sākumlapu
+        function returnToLanding() {
+            document.getElementById('dashboard-page').style.display = 'none';
+            document.getElementById('landing-page').style.display = 'flex';
+            // Notīrām URL, lai varētu ielogoties vēlreiz, ja vajag
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
 
-        // Datu saglabāšana (Tavs iepriekšējais kods)
+        // --- DISCORD IELOGOŠANĀS LOĢIKA ---
+        window.onload = () => {
+            // Pārbauda, vai URL satur Discord iedoto slepeno atslēgu (token)
+            const fragment = new URLSearchParams(window.location.hash.slice(1));
+            const [accessToken, tokenType] = [fragment.get('access_token'), fragment.get('token_type')];
+
+            if (accessToken) {
+                // Slēpjam sākumlapu un rādām paneli
+                document.getElementById('landing-page').style.display = 'none';
+                document.getElementById('dashboard-page').style.display = 'flex';
+
+                // Paņemam īstos datus no Discord par lietotāju, kas tikko ielogojās
+                fetch('https://discord.com/api/users/@me', {
+                    headers: { authorization: `${tokenType} ${accessToken}` }
+                })
+                .then(result => result.json())
+                .then(response => {
+                    // Parādām lietotāja īsto vārdu augšā pie virsraksta!
+                    document.getElementById('welcome-user').innerText = `| Sveiks, ${response.username}!`;
+                })
+                .catch(console.error);
+            }
+        };
+
+        // --- DATU SAGLABĀŠANA DB ---
         async function saveData() {
             const btn = document.querySelector('.btn-save');
             btn.innerHTML = 'SAGLABĀ...';
@@ -214,7 +223,7 @@
             } catch (err) {
                 btn.innerHTML = '❌ KĻŪDA SAZIŅĀ';
             }
-            setTimeout(() => { btn.innerHTML = 'SAGLABĀT IZMAIŅAS'; btn.style.background = ''; }, 3000);
+            setTimeout(() => { btn.innerHTML = 'SAGLABĀT IZMAIŅAS'; btn.style.background = 'var(--accent-cyan)'; }, 3000);
         }
     </script>
 </body>
