@@ -3,93 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seshio | Dashboard</title>
+    <title>Seshio System | Bot Dashboard</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-        :root { --bg-main: #0a1118; --bg-panel: #111a22; --border-glow: #00f2fe; --text-main: #ffffff; --text-muted: #8b9bb4; --accent-cyan: #00f2fe; --accent-green: #00e676; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; background-image: radial-gradient(circle at top right, rgba(0, 242, 254, 0.05), transparent 40%), radial-gradient(circle at bottom left, rgba(0, 242, 254, 0.05), transparent 40%); }
-        
-        /* 1. SĀKUMLAPA */
-        #landing-page { display: flex; width: 100%; height: 100vh; align-items: center; justify-content: center; gap: 100px; padding: 0 10%; z-index: 50; }
-        .hero-text { max-width: 500px; } .hero-text h1 { font-size: 3.5rem; margin-bottom: 15px; background: linear-gradient(90deg, #ffffff, var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; } .hero-text p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 30px; line-height: 1.6; }
-        .btn-login { background-color: #5865F2; color: white; padding: 16px 35px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 18px; transition: 0.2s; border: none; cursor: pointer; display: inline-block; box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3); } .btn-login:hover { background-color: #4752C4; transform: translateY(-2px); }
-        .hero-image { width: 400px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 242, 254, 0.2); border: 1px solid rgba(0, 242, 254, 0.3); object-fit: cover; }
-        
-        /* 2. SERVERU IZVĒLNE */
-        #server-selector-page { display: none; width: 100%; height: 100vh; overflow-y: auto; padding: 60px 10%; }
-        .selector-header h2 { font-size: 32px; margin-bottom: 10px; }
-        .selector-header p { color: var(--text-muted); font-size: 16px; margin-bottom: 40px; }
-        .server-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
-        .server-card { background: rgba(17, 26, 34, 0.8); border: 1px solid rgba(0, 242, 254, 0.15); border-radius: 12px; padding: 25px 20px; text-align: center; transition: 0.3s; backdrop-filter: blur(10px); }
-        .server-card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 0 15px rgba(0,242,254,0.1); }
-        .server-icon-large { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 15px; background: #2b2d31; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; border: 2px solid rgba(255,255,255,0.1); }
-        .server-name { font-weight: 700; margin-bottom: 20px; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
-        .btn-manage { background: var(--accent-cyan); color: #000; padding: 12px 20px; border-radius: 6px; font-weight: 800; display: block; width: 100%; cursor: pointer; border: none; text-transform: uppercase; font-size: 13px; transition: 0.2s; }
-        .btn-manage:hover { background: #33f4fe; box-shadow: 0 0 15px rgba(0,242,254,0.4); }
-        .btn-invite { background: #5865F2; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 700; display: block; width: 100%; cursor: pointer; border: none; text-transform: uppercase; font-size: 13px; }
-        .btn-invite:hover { background: #4752C4; }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
-        /* 3. DASHBOARD */
-        #dashboard-page { display: none; width: 100%; height: 100vh; }
-        .sidebar { width: 260px; background-color: var(--bg-panel); border-right: 1px solid rgba(0, 242, 254, 0.2); display: flex; flex-direction: column; padding: 25px 20px; }
-        .logo { font-size: 24px; font-weight: 800; margin-bottom: 40px; color: var(--text-main); cursor: pointer; transition: 0.2s; } .logo:hover{opacity: 0.8;}
-        .logo span { color: var(--accent-cyan); margin-right: 10px; }
+        :root {
+            --bg-dark: #091216; /* Tumšāks, nedaudz zaļgans fons no bildes */
+            --bg-card: rgba(15, 25, 30, 0.8);
+            --accent-cyan: #4cebda; /* Gaiši cian-zaļš no bildes */
+            --accent-blue: #6c5ce7; /* Login pogas lillā krāsa */
+            --text-light: #ffffff;
+            --text-muted: #9aa8b1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            /* Fona mirdzums, kā bildē */
+            background-image: radial-gradient(circle at 70% 50%, rgba(76, 235, 218, 0.1), transparent 50%),
+                              radial-gradient(circle at 10% 90%, rgba(76, 235, 218, 0.05), transparent 40%);
+        }
+
+        /* --- SĀKUMLAPA (LANDING PAGE) --- */
+        #landing-page {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+            align-items: center;
+            justify-content: flex-start; /* Teksts kreisajā pusē */
+            padding: 0 10%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-text {
+            max-width: 550px;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent-cyan);
+            letter-spacing: -1px;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .btn-login {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .btn-login:hover {
+            background-color: #5a4bcf;
+            transform: translateY(-2px);
+        }
+
+        /* Lielā fona bilde no atsūtītā ekrānšāviņa */
+        .hero-image-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 65%;
+            background-image: url('http://googleusercontent.com/image_generation_content/1');
+            background-size: cover;
+            background-position: right center;
+            background-repeat: no-repeat;
+            z-index: 1;
+            /* Pievienojam gradientu, lai saplūst ar tumšo fonu kreisajā pusē */
+            mask-image: linear-gradient(to right, transparent 0%, black 30%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+        }
+
+        /* Augšējais kreisais stūris */
+        .top-logo {
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 700;
+            z-index: 20;
+            letter-spacing: 1px;
+        }
+        .top-logo span { color: var(--accent-cyan); margin-right: 10px; font-size: 24px;}
+
+
+        /* --- SERVERU IZVĒLNE (SELECTOR) --- */
+        #server-selector-page { display: none; width: 100%; height: 100vh; overflow-y: auto; padding: 60px 10%; z-index: 20;}
+        .selector-header h2 { font-size: 32px; margin-bottom: 10px; color: var(--accent-cyan); }
+        .selector-header p { color: var(--text-light); font-size: 16px; margin-bottom: 40px; opacity: 0.8;}
+        .server-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
+        .server-card { background: var(--bg-card); border: 1px solid rgba(76, 235, 218, 0.15); border-radius: 12px; padding: 25px 20px; text-align: center; transition: 0.3s; backdrop-filter: blur(10px); }
+        .server-card:hover { transform: translateY(-5px); border-color: var(--accent-cyan); box-shadow: 0 10px 20px rgba(0,0,0,0.3), 0 0 15px rgba(76,235,218,0.2); }
+        .server-icon-large { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 15px; background: #1a262c; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; border: 2px solid rgba(76,235,218,0.2); }
+        .server-name { font-weight: 600; margin-bottom: 20px; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .btn-manage { background: var(--accent-cyan); color: #000; padding: 12px 20px; border-radius: 6px; font-weight: 700; display: block; width: 100%; cursor: pointer; border: none; font-size: 14px; transition: 0.2s; }
+        .btn-manage:hover { background: #6cf0e3; box-shadow: 0 0 15px rgba(76,235,218,0.4); }
+        .btn-invite { background: #2b3a42; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; display: block; width: 100%; cursor: pointer; border: 1px solid rgba(76,235,218,0.3); font-size: 14px; transition: 0.2s;}
+        .btn-invite:hover { background: #374a54; }
+
+
+        /* --- DASHBOARD (Panelis) --- */
+        #dashboard-page { display: none; width: 100%; height: 100vh; z-index: 20;}
+        .sidebar { width: 260px; background-color: rgba(10, 18, 22, 0.9); border-right: 1px solid rgba(76, 235, 218, 0.1); display: flex; flex-direction: column; padding: 25px 20px; backdrop-filter: blur(10px);}
+        
+        .sidebar-logo { font-size: 22px; font-weight: 800; margin-bottom: 40px; color: var(--text-light); cursor: pointer; display: flex; align-items: center; letter-spacing: 1px;}
+        .sidebar-logo span { color: var(--accent-cyan); margin-right: 10px; font-size: 24px;}
         
         .sidebar-server-list { flex: 1; overflow-y: auto; margin-right: -10px; padding-right: 10px; }
         .sidebar-server-list::-webkit-scrollbar { width: 4px; }
-        .sidebar-server-list::-webkit-scrollbar-thumb { background: rgba(0,242,254,0.3); border-radius: 4px; }
-        .nav-item { display: flex; align-items: center; padding: 12px 15px; color: var(--text-muted); text-decoration: none; border-radius: 8px; margin-bottom: 5px; font-weight: 500; transition: 0.2s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } 
+        .sidebar-server-list::-webkit-scrollbar-thumb { background: rgba(76,235,218,0.3); border-radius: 4px; }
+        
+        .nav-item { display: flex; align-items: center; padding: 12px 15px; color: var(--text-muted); text-decoration: none; border-radius: 8px; margin-bottom: 5px; font-weight: 500; transition: 0.2s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;} 
         .nav-item:hover { color: #fff; background: rgba(255,255,255,0.05); }
-        .nav-item.active { background: linear-gradient(90deg, rgba(0, 242, 254, 0.15) 0%, transparent 100%); color: var(--accent-cyan); border-left: 3px solid var(--accent-cyan); }
-        .section-title { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin: 30px 0 15px 15px; font-weight: 700; }
+        .nav-item.active { background: linear-gradient(90deg, rgba(76, 235, 218, 0.1) 0%, transparent 100%); color: var(--accent-cyan); border-left: 3px solid var(--accent-cyan); }
+        .section-title { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin: 30px 0 15px 15px; font-weight: 700; letter-spacing: 1px;}
         
         .main-content { flex: 1; padding: 40px; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .header { grid-column: 1 / -1; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end;} 
-        .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 5px; } 
+        .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 5px; color: var(--accent-cyan);} 
         .header p { color: var(--text-muted); font-size: 14px; }
-        .back-btn { background: rgba(255,255,255,0.1); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: 0.2s; } .back-btn:hover{background: rgba(255,255,255,0.2);}
+        .back-btn { background: rgba(76,235,218,0.1); color: var(--accent-cyan); border: 1px solid rgba(76,235,218,0.2); padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: 0.2s; font-weight: 500;} 
+        .back-btn:hover {background: rgba(76,235,218,0.2);}
         
-        .panel { background-color: rgba(17, 26, 34, 0.8); border: 1px solid rgba(0, 242, 254, 0.2); border-radius: 16px; padding: 30px; }
-        .form-row { display: flex; gap: 15px; margin-bottom: 20px; } /* Jauna klase, lai laukus liktu blakus */
+        .panel { background-color: var(--bg-card); border: 1px solid rgba(76, 235, 218, 0.15); border-radius: 12px; padding: 30px; backdrop-filter: blur(10px);}
+        .form-row { display: flex; gap: 15px; margin-bottom: 20px; }
         .form-row .form-group { margin-bottom: 0; flex: 1; }
-        .form-group { margin-bottom: 20px; } .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
-        input, textarea, select { width: 100%; background-color: rgba(0, 0, 0, 0.2); border: 1px solid rgba(0, 242, 254, 0.15); border-radius: 8px; color: var(--text-main); padding: 12px 15px; font-size: 14px; }
-        select { cursor: pointer; appearance: none; } select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent-cyan); }
-        .btn-save { width: 100%; background: var(--accent-cyan); color: #000; border: none; padding: 16px; border-radius: 8px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 15px; transition: 0.3s; } .btn-save:hover { box-shadow: 0 0 20px rgba(0, 242, 254, 0.4); transform: translateY(-2px); }
+        .form-group { margin-bottom: 20px; } 
+        .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
         
-        /* Discord Preview */
-        .preview-panel { background: #313338; border-radius: 12px; padding: 25px; font-family: 'gg sans', 'Whitney', sans-serif; color: #dbdee1; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); align-self: start; }
-        .preview-header { font-size: 12px; font-weight: bold; color: #80848e; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
+        input, textarea, select { width: 100%; background-color: rgba(0, 0, 0, 0.3); border: 1px solid rgba(76, 235, 218, 0.2); border-radius: 8px; color: var(--text-light); padding: 12px 15px; font-size: 14px; transition: border-color 0.2s;}
+        select { cursor: pointer; appearance: none; } 
+        select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent-cyan); }
+        
+        .btn-save { width: 100%; background: var(--accent-cyan); color: #000; border: none; padding: 16px; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 10px; transition: 0.3s; } 
+        .btn-save:hover { box-shadow: 0 0 20px rgba(76, 235, 218, 0.4); transform: translateY(-2px); background: #6cf0e3;}
+        
+        /* Discord Preview Dizains */
+        .preview-panel { background: #2b2d31; border-radius: 12px; padding: 25px; font-family: 'gg sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #dbdee1; align-self: start; border: 1px solid rgba(255,255,255,0.05);}
+        .preview-header { font-size: 12px; font-weight: 700; color: #80848e; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
         .discord-message { display: flex; gap: 15px; }
-        .discord-avatar { width: 45px; height: 45px; background: #5865F2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 20px; flex-shrink: 0; }
+        .discord-avatar { width: 40px; height: 40px; background: #5865F2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 18px; flex-shrink: 0; }
         .discord-content { flex: 1; }
         .discord-name { font-weight: 500; color: #fff; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 16px; }
-        .bot-tag { background: #5865F2; color: white; font-size: 10px; padding: 3px 5px; border-radius: 3px; font-weight: 600; }
-        .discord-text { font-size: 15px; line-height: 1.4; margin-bottom: 10px; white-space: pre-wrap; }
-        .discord-embed { border-left: 4px solid #00f2fe; background: #2b2d31; border-radius: 4px; padding: 15px; margin-top: 5px; }
-        .embed-title { font-weight: 700; color: #fff; margin-bottom: 10px; font-size: 16px; }
-        .embed-image { max-width: 100%; border-radius: 8px; margin-top: 15px; display: none; }
+        .bot-tag { background: #5865F2; color: white; font-size: 10px; padding: 2px 4px; border-radius: 3px; font-weight: 600; }
+        .discord-text { font-size: 14px; line-height: 1.4; margin-bottom: 8px; white-space: pre-wrap; color: #dbdee1;}
+        .discord-embed { border-left: 4px solid var(--accent-cyan); background: #1e1f22; border-radius: 4px; padding: 12px 16px; margin-top: 5px; }
+        .embed-title { font-weight: 700; color: #fff; margin-bottom: 8px; font-size: 15px; }
+        .embed-image { max-width: 100%; border-radius: 4px; margin-top: 12px; display: none; }
     </style>
 </head>
 <body>
 
     <div id="landing-page">
+        <div class="top-logo">
+            <span>❂</span> SESHIO
+        </div>
+        
         <div class="hero-text">
             <h1>Seshio System</h1>
             <p>Automatizē savas lomu spēles sesijas, pārvaldi balsojumus un uzturi kārtību savā serverī ar vienu modernu Discord botu.</p>
-            <div class="button-group">
-                <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio-dashboard.onrender.com%2F&response_type=token&scope=identify%20guilds" class="btn-login">Login with Discord</a>
-            </div>
+            <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio-dashboard.onrender.com%2F&response_type=token&scope=identify%20guilds" class="btn-login">Login with Discord</a>
         </div>
         
-        <img class="hero-image" src="https://media.discordapp.net/attachments/1183060714771746816/1344403153406001153/Dmtdcsdmtdcsdmtd.jpg?ex=67c0cbb9&is=67bf7a39&hm=9b7ef5d0c75c5e00940f8a848c90df0e7368bb4f29a00827210e7b41d401a75c&=&format=webp&width=732&height=411" alt="Seshio Logo" onerror="this.style.display='none';">
+        <div class="hero-image-bg"></div>
     </div>
 
     <div id="server-selector-page">
         <div class="selector-header">
             <h2>Izvēlies Serveri</h2>
-            <p>Sveiks, <span id="welcome-name" style="color:var(--accent-cyan); font-weight:bold;">Lietotāj</span>! Šeit ir serveri, kuros tu esi administrators.</p>
+            <p>Sveiks, <span id="welcome-name" style="color:var(--text-light); font-weight:600;">Lietotāj</span>! Šeit ir serveri, kuros tu esi administrators.</p>
         </div>
         <div class="server-grid" id="server-list">
             <div style="color: var(--text-muted);">Ielādē serverus...</div>
@@ -98,10 +211,10 @@
 
     <div id="dashboard-page">
         <div class="sidebar">
-            <div class="logo" onclick="backToServers()"><span>❂</span> SESHIO</div>
+            <div class="sidebar-logo" onclick="backToServers()"><span>❂</span> SESHIO</div>
             <a href="#" onclick="backToServers()" class="nav-item">Dashboard</a>
             
-            <div class="section-title">TAVI SERVERI</div>
+            <div class="section-title">AKTĪVAIS SERVERIS</div>
             
             <div class="sidebar-server-list" id="sidebar-server-list">
                 <a href="#" class="nav-item">Ielādē...</a>
@@ -112,13 +225,12 @@
             <div class="header">
                 <div>
                     <h1 id="active-server-title">Server Settings</h1>
-                    <p>Konfigurē sava servera sesijas izskatu. Balsis ievadīsi ar /session komandu.</p>
+                    <p>Konfigurē sava servera sesijas izskatu.</p>
                 </div>
                 <button class="back-btn" onclick="backToServers()">⬅ Visi serveri</button>
             </div>
 
             <div class="panel">
-                
                 <div class="form-row">
                     <div class="form-group">
                         <label>Virsraksts (Embed Title)</label>
@@ -157,10 +269,10 @@
                         <div class="discord-embed">
                             <div class="embed-title" id="preview-title">LVRPL | Server start up</div>
                             <div class="discord-text" style="color: #dbdee1;">
-                                <span id="preview-code" style="display:block; margin-bottom: 10px;">KODS: LVRPL</span>
-                                📋 <b>Nobalsoja:</b><br>@Lietotājs
+                                <span id="preview-code" style="display:block; margin-bottom: 8px;">KODS: LVRPL</span>
+                                📋 <b>Nobalsoja:</b><br><span style="color:#c9cdcf; background: rgba(88, 101, 242, 0.3); padding: 0 4px; border-radius: 3px;">@Lietotājs</span>
                             </div>
-                            <div class="discord-text" id="preview-text" style="margin-top: 15px;">Sāksim jaunu sesiju!</div>
+                            <div class="discord-text" id="preview-text" style="margin-top: 12px;">Sāksim jaunu sesiju!</div>
                             <img id="preview-image" class="embed-image" src="" alt="Preview">
                         </div>
                     </div>
@@ -175,22 +287,18 @@
         let manageableGuilds = [];
 
         function updatePreview() {
-            // Atjauno tekstu
             document.getElementById('preview-text').innerText = document.getElementById('startText').value || "Tavs teksts būs šeit...";
             
-            // Atjauno virsrakstu un kodu
             document.getElementById('preview-title').innerText = document.getElementById('embedTitle').value || "Server start up";
             const codeInput = document.getElementById('embedCode').value;
             const codePreview = document.getElementById('preview-code');
             if(codeInput) { codePreview.innerText = codeInput; codePreview.style.display = 'block'; }
             else { codePreview.style.display = 'none'; }
 
-            // Atjauno bildi
             const imgUrl = document.getElementById('startImage').value;
             const imgEl = document.getElementById('preview-image');
             if(imgUrl) { imgEl.src = imgUrl; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
             
-            // Atjauno pingu
             const roleSelect = document.getElementById('pingRole');
             if(roleSelect.options.length > 0 && roleSelect.selectedIndex >= 0 && roleSelect.value !== "") {
                 document.getElementById('preview-ping').innerText = "@" + roleSelect.options[roleSelect.selectedIndex].text;
@@ -279,7 +387,6 @@
                 `;
             });
 
-            // Notīrām visus laukus
             document.getElementById('pingRole').innerHTML = '<option value="">Ielādē...</option>';
             document.getElementById('startImage').value = '';
             document.getElementById('startText').value = 'Ielādē datus...';
