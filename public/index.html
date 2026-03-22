@@ -1,137 +1,204 @@
 <!DOCTYPE html>
-
 <html lang="lv">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <title>Seshio Dashboard</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seshio | Dashboard</title>
     <style>
+        :root {
+            --sidebar-color: #2c2f33;
+            --bg-color: #f6f6f7;
+            --primary-blue: #7289da;
+            --text-dark: #23272a;
+            --card-bg: #ffffff;
+        }
 
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; display: flex; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+        }
 
-        .sidebar { width: 250px; background: #ffffff; height: 100vh; border-right: 1px solid #ddd; padding: 20px; box-sizing: border-box; }
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background-color: var(--sidebar-color);
+            height: 100vh;
+            color: white;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
 
-        .main { flex: 1; padding: 40px; }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            font-size: 22px;
+            font-weight: bold;
+            border-bottom: 1px solid #444;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
 
-        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 600px; }
+        .nav-link {
+            padding: 15px 25px;
+            color: #b9bbbe;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 15px;
+        }
 
-        h2 { color: #1a73e8; margin-top: 0; }
+        .nav-link:hover, .nav-link.active {
+            background-color: #42454a;
+            color: white;
+            border-left: 4px solid var(--primary-blue);
+        }
 
-        label { display: block; margin: 15px 0 5px; font-weight: bold; color: #555; }
+        /* Main Content */
+        .content {
+            margin-left: 240px;
+            flex: 1;
+            padding: 40px;
+        }
 
-        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        .header {
+            margin-bottom: 30px;
+        }
 
-        button { background: #1a73e8; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; margin-top: 20px; font-weight: bold; width: 100%; }
+        .header h1 { margin: 0; font-size: 28px; }
+        .header p { color: #72767d; margin: 5px 0 0; }
 
-        button:hover { background: #1557b0; }
+        /* Settings Card */
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 30px;
+            max-width: 800px;
+        }
 
-        .info { font-size: 12px; color: #888; margin-top: 5px; }
+        .form-group {
+            margin-bottom: 20px;
+        }
 
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #4f545c;
+            text-transform: uppercase;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #ebedef;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: border 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border: 1px solid var(--primary-blue);
+        }
+
+        .btn-save {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+
+        .btn-save:hover {
+            background-color: #5b6eae;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #72767d;
+            margin-top: 4px;
+        }
     </style>
-
 </head>
-
 <body>
 
     <div class="sidebar">
-
-        <h3>Seshio Panel</h3>
-
-        <p style="color: #1a73e8; font-weight: bold;">Settings</p>
-
+        <div class="sidebar-header">SESHIO</div>
+        <a href="#" class="nav-link active">🏠 Dashboard</a>
+        <a href="#" class="nav-link">⚙️ Modules</a>
+        <a href="#" class="nav-link">📜 Logs</a>
+        <a href="#" class="nav-link">❓ Support</a>
     </div>
 
-    <div class="main">
-
-        <div class="card">
-
-            <h2>Sesijas Konfigurācija</h2>
-
-            
-
-            <label>Discord Servera ID (Guild ID)</label>
-
-            <input type="text" id="guildId" placeholder="Ielīmē sava servera ID">
-
-            <div class="info">Labais klikšķis uz servera ikonas -> Copy ID</div>
-
-
-
-            <label>Pinga lomas ID</label>
-
-            <input type="text" id="pingRole" placeholder="Piemēram, 1122334455667788">
-
-
-
-            <label>Vajadzīgās balsis</label>
-
-            <input type="number" id="requiredVotes" value="1">
-
-
-
-            <label>Sesijas sākuma bilde (URL)</label>
-
-            <input type="text" id="startImage" placeholder="https://i.imgur.com/example.png">
-
-
-
-            <label>Sesijas teksts</label>
-
-            <textarea id="startText" rows="4" placeholder="Kas parādīsies balsošanas ziņā?"></textarea>
-
-
-
-            <button onclick="save()">SAGLABĀT IZMAIŅAS</button>
-
+    <div class="content">
+        <div class="header">
+            <h1>Server Settings</h1>
+            <p>Konfigurē sava bota darbību šajā serverī.</p>
         </div>
 
+        <div class="card">
+            <div class="form-group">
+                <label>Discord Server ID (Guild ID)</label>
+                <input type="text" id="guildId" placeholder="Ielīmē sava servera ID">
+                <div class="hint">Labais klikšķis uz servera ikonas -> Copy Server ID</div>
+            </div>
+
+            <div class="form-group">
+                <label>Pinga Lomas ID</label>
+                <input type="text" id="pingRole" placeholder="Ielīmē Role ID">
+                <div class="hint">Šī loma tiks iepingota, kad sesija sāksies.</div>
+            </div>
+
+            <div class="form-group">
+                <label>Vajadzīgais balsu skaits</label>
+                <input type="number" id="requiredVotes" value="1" min="1">
+            </div>
+
+            <div class="form-group">
+                <label>Sesijas sākuma bilde (URL)</label>
+                <input type="text" id="startImage" placeholder="https://i.imgur.com/example.png">
+            </div>
+
+            <div class="form-group">
+                <label>Sesijas ziņojuma teksts</label>
+                <textarea id="startText" rows="5" placeholder="Ievadi ziņu, ko bots rādīs..."></textarea>
+            </div>
+
+            <button class="btn-save" onclick="saveSettings()">Save Changes</button>
+        </div>
     </div>
 
-
-
     <script>
-
-        async function save() {
-
+        async function saveSettings() {
             const data = {
-
                 guildId: document.getElementById('guildId').value,
-
                 pingRole: document.getElementById('pingRole').value,
-
                 requiredVotes: document.getElementById('requiredVotes').value,
-
                 startImage: document.getElementById('startImage').value,
-
                 startText: document.getElementById('startText').value
-
             };
 
-
-
             const res = await fetch('/api/save-settings', {
-
                 method: 'POST',
-
                 headers: { 'Content-Type': 'application/json' },
-
                 body: JSON.stringify(data)
-
             });
 
-
-
-            if (res.ok) alert("✅ Iestatījumi saglabāti!");
-
+            if(res.ok) alert("✅ Iestatījumi saglabāti!");
             else alert("❌ Kļūda saglabājot!");
-
         }
-
     </script>
-
 </body>
-
 </html>
