@@ -8,10 +8,10 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
         :root {
-            --bg-dark: #091216; /* Tumšāks, nedaudz zaļgans fons no bildes */
+            --bg-dark: #091216;
             --bg-card: rgba(15, 25, 30, 0.8);
-            --accent-cyan: #4cebda; /* Gaiši cian-zaļš no bildes */
-            --accent-blue: #6c5ce7; /* Login pogas lillā krāsa */
+            --accent-cyan: #4cebda;
+            --accent-blue: #6c5ce7;
             --text-light: #ffffff;
             --text-muted: #9aa8b1;
         }
@@ -29,7 +29,6 @@
             display: flex;
             height: 100vh;
             overflow: hidden;
-            /* Fona mirdzums, kā bildē */
             background-image: radial-gradient(circle at 70% 50%, rgba(76, 235, 218, 0.1), transparent 50%),
                               radial-gradient(circle at 10% 90%, rgba(76, 235, 218, 0.05), transparent 40%);
         }
@@ -40,7 +39,7 @@
             width: 100%;
             height: 100vh;
             align-items: center;
-            justify-content: flex-start; /* Teksts kreisajā pusē */
+            justify-content: flex-start;
             padding: 0 10%;
             position: relative;
             z-index: 10;
@@ -86,7 +85,6 @@
             transform: translateY(-2px);
         }
 
-        /* Lielā fona bilde no atsūtītā ekrānšāviņa */
         .hero-image-bg {
             position: absolute;
             top: 0;
@@ -98,12 +96,10 @@
             background-position: right center;
             background-repeat: no-repeat;
             z-index: 1;
-            /* Pievienojam gradientu, lai saplūst ar tumšo fonu kreisajā pusē */
             mask-image: linear-gradient(to right, transparent 0%, black 30%);
             -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
         }
 
-        /* Augšējais kreisais stūris */
         .top-logo {
             position: absolute;
             top: 30px;
@@ -135,7 +131,8 @@
 
         /* --- DASHBOARD (Panelis) --- */
         #dashboard-page { display: none; width: 100%; height: 100vh; z-index: 20;}
-        .sidebar { width: 260px; background-color: rgba(10, 18, 22, 0.9); border-right: 1px solid rgba(76, 235, 218, 0.1); display: flex; flex-direction: column; padding: 25px 20px; backdrop-filter: blur(10px);}
+        
+        .sidebar { width: 260px; background-color: rgba(10, 18, 22, 0.95); border-right: 1px solid rgba(76, 235, 218, 0.1); display: flex; flex-direction: column; padding: 25px 20px; backdrop-filter: blur(10px); z-index: 100;}
         
         .sidebar-logo { font-size: 22px; font-weight: 800; margin-bottom: 40px; color: var(--text-light); cursor: pointer; display: flex; align-items: center; letter-spacing: 1px;}
         .sidebar-logo span { color: var(--accent-cyan); margin-right: 10px; font-size: 24px;}
@@ -153,6 +150,12 @@
         .header { grid-column: 1 / -1; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end;} 
         .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 5px; color: var(--accent-cyan);} 
         .header p { color: var(--text-muted); font-size: 14px; }
+        
+        /* Mobilā izvēlne un aizvēršanas pogas */
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--accent-cyan); font-size: 28px; cursor: pointer; margin-right: 15px; }
+        .close-sidebar-btn { display: none; background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; position: absolute; top: 20px; right: 20px; }
+        .close-sidebar-btn:hover { color: white; }
+
         .back-btn { background: rgba(76, 235, 218, 0.1); color: var(--accent-cyan); border: 1px solid rgba(76, 235, 218, 0.2); padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: 0.2s; font-weight: 500;} 
         .back-btn:hover {background: rgba(76, 235, 218, 0.2);}
         
@@ -181,6 +184,31 @@
         .discord-embed { border-left: 4px solid var(--accent-cyan); background: #1e1f22; border-radius: 4px; padding: 12px 16px; margin-top: 5px; }
         .embed-title { font-weight: 700; color: #fff; margin-bottom: 8px; font-size: 15px; }
         .embed-image { max-width: 100%; border-radius: 4px; margin-top: 12px; display: none; }
+
+        /* ========================================= */
+        /* TELEFONU DIZAINS (RESPONSIVE) */
+        /* ========================================= */
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.8rem; }
+            .hero-image-bg { width: 100%; opacity: 0.2; mask-image: none; -webkit-mask-image: none; }
+            
+            .main-content { grid-template-columns: 1fr; padding: 20px; }
+            .header { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .form-row { flex-direction: column; gap: 0; }
+            
+            .mobile-menu-btn { display: block; }
+            .close-sidebar-btn { display: block; }
+            
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                top: 0;
+                height: 100vh;
+                transition: left 0.3s ease;
+                box-shadow: 10px 0 30px rgba(0,0,0,0.8);
+            }
+            .sidebar.open { left: 0; }
+        }
     </style>
 </head>
 <body>
@@ -210,7 +238,8 @@
     </div>
 
     <div id="dashboard-page">
-        <div class="sidebar">
+        <div class="sidebar" id="mobile-sidebar">
+            <button class="close-sidebar-btn" onclick="toggleSidebar()">✕</button>
             <div class="sidebar-logo" onclick="backToServers()"><span>❂</span> SESHIO</div>
             <a href="#" onclick="backToServers()" class="nav-item">Dashboard</a>
             
@@ -223,9 +252,12 @@
 
         <div class="main-content">
             <div class="header">
-                <div>
-                    <h1 id="active-server-title">Server Settings</h1>
-                    <p>Konfigurē sava servera sesijas izskatu.</p>
+                <div style="display: flex; align-items: center;">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+                    <div>
+                        <h1 id="active-server-title">Server Settings</h1>
+                        <p>Konfigurē sava servera sesijas izskatu.</p>
+                    </div>
                 </div>
                 <button class="back-btn" onclick="backToServers()">⬅ Visi serveri</button>
             </div>
@@ -286,6 +318,10 @@
         let currentGuildId = null;
         let manageableGuilds = [];
 
+        function toggleSidebar() {
+            document.getElementById('mobile-sidebar').classList.toggle('open');
+        }
+
         function updatePreview() {
             document.getElementById('preview-text').innerText = document.getElementById('startText').value || "Tavs teksts būs šeit...";
             
@@ -308,6 +344,7 @@
         function backToServers() {
             document.getElementById('dashboard-page').style.display = 'none';
             document.getElementById('server-selector-page').style.display = 'block';
+            document.getElementById('mobile-sidebar').classList.remove('open');
         }
 
         window.onload = async () => {
@@ -373,6 +410,7 @@
             currentGuildId = guildId;
             document.getElementById('server-selector-page').style.display = 'none';
             document.getElementById('dashboard-page').style.display = 'flex';
+            document.getElementById('mobile-sidebar').classList.remove('open'); // Aizver izvēlni telefonā, kad uzspiež
             
             document.getElementById('active-server-title').innerText = guildName + " Settings";
 
@@ -446,3 +484,4 @@
     </script>
 </body>
 </html>
+
