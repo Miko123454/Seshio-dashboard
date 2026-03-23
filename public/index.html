@@ -184,6 +184,9 @@
         .discord-embed { border-left: 4px solid var(--accent-cyan); background: #1e1f22; border-radius: 4px; padding: 12px 16px; margin-top: 5px; }
         .embed-title { font-weight: 700; color: #fff; margin-bottom: 8px; font-size: 15px; }
         .embed-image { max-width: 100%; border-radius: 4px; margin-top: 12px; display: none; }
+        
+        /* Pievienotās pogas stils priekšskatījumam */
+        .preview-join-btn { display: none; background-color: #4e5058; color: white; padding: 8px 16px; border-radius: 4px; font-size: 14px; font-weight: 500; text-decoration: none; margin-top: 12px; cursor: default;}
 
         /* ========================================= */
         /* TELEFONU DIZAINS (RESPONSIVE) */
@@ -275,6 +278,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Spēles pieslēgšanās saite (Join Link)</label>
+                    <input type="text" id="serverLink" placeholder="piem., roblox://... vai https://..." oninput="updatePreview()">
+                </div>
+
+                <div class="form-group">
                     <label>Paziņojuma loma (Ping Role)</label>
                     <select id="pingRole" onchange="updatePreview()">
                         <option value="">Ielādē servera lomas...</option>
@@ -306,6 +314,10 @@
                             </div>
                             <div class="discord-text" id="preview-text" style="margin-top: 12px;">Sāksim jaunu sesiju!</div>
                             <img id="preview-image" class="embed-image" src="" alt="Preview">
+                        </div>
+                        
+                        <div class="preview-join-btn" id="preview-join-btn">
+                            Join Server ↗
                         </div>
                     </div>
                 </div>
@@ -339,6 +351,15 @@
             if(roleSelect.options.length > 0 && roleSelect.selectedIndex >= 0 && roleSelect.value !== "") {
                 document.getElementById('preview-ping').innerText = "@" + roleSelect.options[roleSelect.selectedIndex].text;
             } else { document.getElementById('preview-ping').innerText = "@here"; }
+
+            // Pogas priekšskatījums
+            const serverLink = document.getElementById('serverLink').value;
+            const btnPreview = document.getElementById('preview-join-btn');
+            if(serverLink && serverLink.trim() !== '') {
+                btnPreview.style.display = 'inline-block';
+            } else {
+                btnPreview.style.display = 'none';
+            }
         }
 
         function backToServers() {
@@ -410,7 +431,7 @@
             currentGuildId = guildId;
             document.getElementById('server-selector-page').style.display = 'none';
             document.getElementById('dashboard-page').style.display = 'flex';
-            document.getElementById('mobile-sidebar').classList.remove('open'); // Aizver izvēlni telefonā, kad uzspiež
+            document.getElementById('mobile-sidebar').classList.remove('open');
             
             document.getElementById('active-server-title').innerText = guildName + " Settings";
 
@@ -430,6 +451,7 @@
             document.getElementById('startText').value = 'Ielādē datus...';
             document.getElementById('embedTitle').value = '';
             document.getElementById('embedCode').value = '';
+            document.getElementById('serverLink').value = '';
 
             try {
                 const rolesRes = await fetch(`/api/roles/${guildId}`);
@@ -449,6 +471,7 @@
                     if(data.pingRole) document.getElementById('pingRole').value = data.pingRole;
                     if(data.embedTitle) document.getElementById('embedTitle').value = data.embedTitle;
                     if(data.embedCode) document.getElementById('embedCode').value = data.embedCode;
+                    if(data.serverLink) document.getElementById('serverLink').value = data.serverLink;
                 }
             } catch(e) { console.error("Kļūda ielādējot datus", e); }
             
@@ -467,7 +490,8 @@
                 startImage: document.getElementById('startImage').value,
                 startText: document.getElementById('startText').value,
                 embedTitle: document.getElementById('embedTitle').value,
-                embedCode: document.getElementById('embedCode').value
+                embedCode: document.getElementById('embedCode').value,
+                serverLink: document.getElementById('serverLink').value
             };
 
             try {
@@ -484,4 +508,3 @@
     </script>
 </body>
 </html>
-
