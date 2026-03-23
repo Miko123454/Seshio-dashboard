@@ -224,7 +224,7 @@
         <div class="hero-text">
             <h1>Seshio System</h1>
             <p>Automatizē savas lomu spēles sesijas, pārvaldi balsojumus un uzturi kārtību savā serverī ar vienu modernu Discord botu.</p>
-            <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio-dashboard.onrender.com%2F&response_type=token&scope=identify%20guilds" class="btn-login">Login with Discord</a>
+            <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio.lat%2F&response_type=token&scope=identify%20guilds" class="btn-login">Login with Discord</a>
         </div>
         
         <div class="hero-image-bg"></div>
@@ -352,7 +352,6 @@
                 document.getElementById('preview-ping').innerText = "@" + roleSelect.options[roleSelect.selectedIndex].text;
             } else { document.getElementById('preview-ping').innerText = "@here"; }
 
-            // Pogas priekšskatījums
             const serverLink = document.getElementById('serverLink').value;
             const btnPreview = document.getElementById('preview-join-btn');
             if(serverLink && serverLink.trim() !== '') {
