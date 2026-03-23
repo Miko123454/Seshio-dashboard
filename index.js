@@ -1,5 +1,4 @@
 require('dotenv').config();
-// Pievienoti REST, Routes un SlashCommandBuilder, lai pārrakstītu komandas
 const { Client, GatewayIntentBits, Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, REST, Routes, SlashCommandBuilder } = require('discord.js');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -11,14 +10,15 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-// --- MONGODB MODELIS ---
+// --- MONGODB MODELIS (Pievienots serverLink) ---
 const settingsSchema = new mongoose.Schema({
     guildId: { type: String, required: true, unique: true },
     pingRole: String,
     startImage: String,
     startText: String,
     embedTitle: String,
-    embedCode: String
+    embedCode: String,
+    serverLink: String // JAUNS LAUKS!
 });
 const Settings = mongoose.model('Settings', settingsSchema);
 
@@ -28,12 +28,13 @@ const activeSessions = new Map();
 
 // --- WEB API: SAGLABĀT IESTATĪJUMUS ---
 app.post('/api/save-settings', async (req, res) => {
-    const { guildId, pingRole, startImage, startText, embedTitle, embedCode } = req.body;
+    // Sagaidām arī serverLink no mājaslapas
+    const { guildId, pingRole, startImage, startText, embedTitle, embedCode, serverLink } = req.body;
     if (!guildId) return res.status(400).json({ error: "Trūkst Guild ID" });
     try {
         await Settings.findOneAndUpdate(
             { guildId }, 
-            { pingRole, startImage, startText, embedTitle, embedCode }, 
+            { pingRole, startImage, startText, embedTitle, embedCode, serverLink }, 
             { upsert: true, new: true }
         );
         res.json({ success: true });
@@ -79,7 +80,7 @@ client.on(Events.InteractionCreate, async interaction => {
         const voteEmbed = new EmbedBuilder()
             .setTitle(displayTitle)
             .setDescription(`Vajadzīgas **${requiredVotes}** balsis!\n\n${dbData.startText || "Balsošana sākusies!"}`)
-            .setColor('#00f2fe')
+            .setColor('#4cebda')
             .setFooter({ text: `Balsis: 0/${requiredVotes}` });
 
         const row = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId(`vote_${sessionId}`).setLabel('VOTE').setStyle(ButtonStyle.Success));
@@ -124,11 +125,23 @@ client.on(Events.InteractionCreate, async interaction => {
             const startEmbed = new EmbedBuilder()
                 .setTitle(displayTitle)
                 .setDescription(`${displayCode}📋 **Nobalsoja:**\n${sessionData.votedUsers.map(id => `<@${id}>`).join(', ')}`)
-                .setColor('#4cebda'); // Pieskaņots jaunajai Dashboard krāsai
+                .setColor('#4cebda');
             
             if (sessionData.startImage) startEmbed.setImage(sessionData.startImage);
 
-            await channel.send({ content: sessionData.pingRole ? `<@&${sessionData.pingRole}>` : "@here", embeds: [startEmbed] });
+            // Pievienojam "Join Server" pogu, ja saite eksistē!
+            const components = [];
+            if (sessionData.serverLink && sessionData.serverLink.trim() !== '') {
+                const linkRow = new ActionRowBuilder().addComponents(
+                    new ButtonBuilder()
+                        .setLabel('Join Server')
+                        .setStyle(ButtonStyle.Link)
+                        .setURL(sessionData.serverLink)
+                );
+                components.push(linkRow);
+            }
+
+            await channel.send({ content: sessionData.pingRole ? `<@&${sessionData.pingRole}>` : "@here", embeds: [startEmbed], components: components });
             await interaction.editReply({ content: '✅ Sesija palaista!', embeds: [], components: [] });
             activeSessions.delete(sessionId);
         }
@@ -149,7 +162,6 @@ mongoose.connect(process.env.MONGODB_URI)
         client.login(process.env.DISCORD_TOKEN).then(async () => {
             console.log(`✅ Bots tiešsaistē kā ${client.user.tag}`);
             
-            // ŠEIT MĒS PĀRRAKSTĀM KOMANDAS, LAI IZDZĒSTU LOMAS UN BILDES OPCIJAS
             const commands = [
                 new SlashCommandBuilder()
                     .setName('session')
@@ -163,15 +175,8 @@ mongoose.connect(process.env.MONGODB_URI)
 
             const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
             try {
-                console.log('Pārrakstu Discord Slash komandas...');
-                await rest.put(
-                    Routes.applicationCommands(client.user.id),
-                    { body: commands }
-                );
-                console.log('✅ Komandas veiksmīgi atjaunotas! Vecās opcijas ir izdzēstas.');
-            } catch (error) {
-                console.error('❌ Kļūda atjaunojot komandas:', error);
-            }
+                await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
+            } catch (error) { console.error('❌ Kļūda atjaunojot komandas:', error); }
         });
     })
     .catch(err => {
