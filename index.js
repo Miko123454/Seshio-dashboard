@@ -142,9 +142,16 @@ client.on(Events.InteractionCreate, async interaction => {
         }
     }
 });
+// --- PALAIŠANA ---
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => {
+        console.log('✅ DB savienota');
+        // ŠEIT IR NELIELS LABOJUMS (pievienots '0.0.0.0'):
+        app.listen(PORT, '0.0.0.0', () => console.log(`✅ Web Dashboard: Port ${PORT}`));
+        client.login(process.env.DISCORD_TOKEN).then(() => console.log(`✅ Bots tiešsaistē`));
+    })
+    .catch(err => {
+        console.error("❌ Kļūda savienojoties ar DB:", err);
+    });
 
-mongoose.connect(process.env.MONGODB_URI).then(() => {
-    console.log('✅ DB savienota');
-    app.listen(PORT, () => console.log(`✅ Web Dashboard: Port ${PORT}`));
-    client.login(process.env.DISCORD_TOKEN).then(() => console.log(`✅ Bots tiešsaistē`));
 });
