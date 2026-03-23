@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // --- MONGODB MODELIS ---
-// Pievienoti jauni lauki: embedTitle un embedCode
 const settingsSchema = new mongoose.Schema({
     guildId: { type: String, required: true, unique: true },
     pingRole: String,
@@ -28,7 +27,6 @@ const activeSessions = new Map();
 
 // --- WEB API: SAGLABĀT IESTATĪJUMUS ---
 app.post('/api/save-settings', async (req, res) => {
-    // Sagaidām jaunos laukus no mājaslapas
     const { guildId, pingRole, startImage, startText, embedTitle, embedCode } = req.body;
     if (!guildId) return res.status(400).json({ error: "Trūkst Guild ID" });
     try {
@@ -73,7 +71,6 @@ client.on(Events.InteractionCreate, async interaction => {
         const requiredVotes = interaction.options.getInteger('balsis') || 1;
         const sessionId = interaction.id;
 
-        // Izmantojam saglabāto virsrakstu vai noklusējuma tekstu
         const displayTitle = dbData.embedTitle || 'Session start-up vote';
 
         activeSessions.set(sessionId, { ...dbData._doc, requiredVotes, votedUsers: [], currentVotes: 0, authorId: interaction.user.id, channelId: interaction.channelId });
@@ -120,7 +117,6 @@ client.on(Events.InteractionCreate, async interaction => {
             await interaction.deferUpdate();
             const channel = await client.channels.fetch(sessionData.channelId);
             
-            // Izmantojam saglabāto virsrakstu un kodu
             const displayTitle = sessionData.embedTitle || 'Server start up';
             const displayCode = sessionData.embedCode ? `${sessionData.embedCode}\n\n` : '';
 
@@ -142,11 +138,12 @@ client.on(Events.InteractionCreate, async interaction => {
         }
     }
 });
-// --- PALAIŠANA ---
+
+// --- PALAIŠANA (ĪPAŠI RENDERAM) ---
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('✅ DB savienota');
-        // ŠEIT IR NELIELS LABOJUMS (pievienots '0.0.0.0'):
+        // '0.0.0.0' ir obligāts priekš Render, lai nebojātu portus
         app.listen(PORT, '0.0.0.0', () => console.log(`✅ Web Dashboard: Port ${PORT}`));
         client.login(process.env.DISCORD_TOKEN).then(() => console.log(`✅ Bots tiešsaistē`));
     })
@@ -154,4 +151,3 @@ mongoose.connect(process.env.MONGODB_URI)
         console.error("❌ Kļūda savienojoties ar DB:", err);
     });
 
-});
