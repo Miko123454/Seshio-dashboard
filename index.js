@@ -1,5 +1,6 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits, Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+// Pievienoti REST, Routes un SlashCommandBuilder, lai pārrakstītu komandas
+const { Client, GatewayIntentBits, Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, REST, Routes, SlashCommandBuilder } = require('discord.js');
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -123,7 +124,7 @@ client.on(Events.InteractionCreate, async interaction => {
             const startEmbed = new EmbedBuilder()
                 .setTitle(displayTitle)
                 .setDescription(`${displayCode}📋 **Nobalsoja:**\n${sessionData.votedUsers.map(id => `<@${id}>`).join(', ')}`)
-                .setColor('#00f2fe');
+                .setColor('#4cebda'); // Pieskaņots jaunajai Dashboard krāsai
             
             if (sessionData.startImage) startEmbed.setImage(sessionData.startImage);
 
@@ -139,15 +140,40 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 });
 
-// --- PALAIŠANA (ĪPAŠI RENDERAM) ---
+// --- PALAIŠANA UN KOMANDU PĀRRAKSTĪŠANA ---
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('✅ DB savienota');
-        // '0.0.0.0' ir obligāts priekš Render, lai nebojātu portus
         app.listen(PORT, '0.0.0.0', () => console.log(`✅ Web Dashboard: Port ${PORT}`));
-        client.login(process.env.DISCORD_TOKEN).then(() => console.log(`✅ Bots tiešsaistē`));
+        
+        client.login(process.env.DISCORD_TOKEN).then(async () => {
+            console.log(`✅ Bots tiešsaistē kā ${client.user.tag}`);
+            
+            // ŠEIT MĒS PĀRRAKSTĀM KOMANDAS, LAI IZDZĒSTU LOMAS UN BILDES OPCIJAS
+            const commands = [
+                new SlashCommandBuilder()
+                    .setName('session')
+                    .setDescription('Sākt jaunu sesijas balsojumu')
+                    .addIntegerOption(option =>
+                        option.setName('balsis')
+                            .setDescription('Cik balsis vajadzēs, lai sāktu sesiju? (Pēc noklusējuma 1)')
+                            .setRequired(false)
+                    )
+            ].map(command => command.toJSON());
+
+            const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
+            try {
+                console.log('Pārrakstu Discord Slash komandas...');
+                await rest.put(
+                    Routes.applicationCommands(client.user.id),
+                    { body: commands }
+                );
+                console.log('✅ Komandas veiksmīgi atjaunotas! Vecās opcijas ir izdzēstas.');
+            } catch (error) {
+                console.error('❌ Kļūda atjaunojot komandas:', error);
+            }
+        });
     })
     .catch(err => {
         console.error("❌ Kļūda savienojoties ar DB:", err);
     });
-
