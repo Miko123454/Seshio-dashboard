@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // --- NEREDZAMAIS TILTS (CORS) ---
-// Šis atļauj tavai Vercel lapai (seshio.lat) sūtīt datus uz šo serveri!
+// Atļauj tavai Vercel lapai (seshio.lat) sazināties ar šo serveri
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -36,7 +36,7 @@ const Settings = mongoose.model('Settings', settingsSchema);
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages] });
 const activeSessions = new Map();
 
-// --- WEB API ---
+// --- WEB API (Ko izsauks Vercel lapa) ---
 app.post('/api/save-settings', async (req, res) => {
     const { guildId, pingRole, startImage, startText, embedTitle, embedCode, serverLink } = req.body;
     if (!guildId) return res.status(400).json({ error: "Trūkst Guild ID" });
