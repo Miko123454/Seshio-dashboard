@@ -329,7 +329,7 @@
 
     <script>
         const CLIENT_ID = '1485224120047108237';
-        // ŠIS IR TAVS RENDER BOTA SERVERIS (TILTS)
+        // ŠIS IR TAVS RENDER BOTA SERVERIS
         const API_URL = 'https://seshio-dashboard.onrender.com'; 
         
         let currentGuildId = null;
@@ -426,6 +426,7 @@
                 roleSelect.options[0].text = dict[lang].roleSelectDef;
             }
             if(rawUserGuilds.length > 0) renderServerList();
+            updatePreview();
         }
 
         switchLang(currentLang);
@@ -511,7 +512,7 @@
             }
         };
 
-       async function openDashboard(guildId, guildName) {
+        async function openDashboard(guildId, guildName) {
             currentGuildId = guildId;
             document.getElementById('server-selector-page').style.display = 'none';
             document.getElementById('dashboard-page').style.display = 'flex';
@@ -544,7 +545,6 @@
                 if (settingsRes.ok) {
                     const data = await settingsRes.json();
                     
-                    // JAUNUMS: Nolasām servera valodu un uzreiz pārslēdzam UI
                     if(data.language) switchLang(data.language);
 
                     if(data.startText) document.getElementById('startText').value = data.startText;
@@ -563,7 +563,6 @@
             const btn = document.getElementById('saveBtn');
             btn.innerHTML = dict[currentLang].btnSaving;
             
-            // JAUNUMS: Sūtām currentLang (izvēlēto valodu) uz datubāzi
             const data = {
                 guildId: currentGuildId,
                 pingRole: document.getElementById('pingRole').value,
@@ -574,17 +573,6 @@
                 serverLink: document.getElementById('serverLink').value,
                 language: currentLang 
             };
-
-            try {
-                const res = await fetch(`${API_URL}/api/save-settings`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
-                });
-
-                if(res.ok) { btn.innerHTML = dict[currentLang].btnSaved; btn.style.background = 'var(--accent-green)'; } 
-                else { btn.innerHTML = dict[currentLang].btnError; }
-            } catch (err) { btn.innerHTML = dict[currentLang].btnError; }
-            setTimeout(() => { btn.innerHTML = dict[currentLang].btnSave; btn.style.background = 'var(--accent-cyan)'; }, 3000);
-        }
 
             try {
                 const res = await fetch(`${API_URL}/api/save-settings`, {
