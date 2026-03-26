@@ -399,8 +399,11 @@
         </div>
     </div>
 
-    <script>
+   <script>
         const CLIENT_ID = '1485224120047108237';
+        // ŠIS IR TAVS BOTA SERVERIS:
+        const API_URL = 'https://seshio-dashboard.onrender.com'; 
+        
         let currentGuildId = null;
         let manageableGuilds = [];
         let rawUserGuilds = []; 
@@ -481,25 +484,20 @@
         function switchLang(lang) {
             currentLang = lang;
             localStorage.setItem('seshio_lang', lang);
-            
             document.getElementById('btn-lv').classList.toggle('active', lang === 'lv');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (dict[lang][key]) el.innerHTML = dict[lang][key];
             });
-
             document.querySelectorAll('[data-i18n-ph]').forEach(el => {
                 const key = el.getAttribute('data-i18n-ph');
                 if (dict[lang][key]) el.placeholder = dict[lang][key];
             });
-
             const roleSelect = document.getElementById('pingRole');
             if(roleSelect && roleSelect.options.length > 0 && roleSelect.options[0].value === "") {
                 roleSelect.options[0].text = dict[lang].roleSelectDef;
             }
-
             if(rawUserGuilds.length > 0) renderServerList();
         }
 
@@ -540,36 +538,25 @@
         function renderServerList() {
             const serverList = document.getElementById('server-list');
             serverList.innerHTML = '';
-
             const adminGuilds = rawUserGuilds.filter(g => {
                 const perms = BigInt(g.permissions);
                 return (perms & 8n) === 8n || (perms & 32n) === 32n;
             });
-
             manageableGuilds = adminGuilds.filter(g => rawBotGuilds.includes(g.id));
 
             if(adminGuilds.length === 0) {
                 serverList.innerHTML = `<div style="color:var(--text-muted); grid-column: 1/-1;">${dict[currentLang].noServers}</div>`;
                 return;
             }
-
             adminGuilds.forEach(guild => {
                 const isBotInGuild = rawBotGuilds.includes(guild.id);
                 let iconHtml = guild.icon ? 
                     `<img src="https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png" class="server-icon-large">` : 
                     `<div class="server-icon-large">${guild.name.charAt(0)}</div>`;
-
                 let buttonHtml = isBotInGuild ? 
                     `<button class="btn-manage" onclick="openDashboard('${guild.id}', '${guild.name.replace(/'/g, "\\'")}')">${dict[currentLang].btnManage}</button>` :
                     `<a href="https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=8&scope=bot%20applications.commands&guild_id=${guild.id}" target="_blank" class="btn-invite">${dict[currentLang].btnAddBot}</a>`;
-
-                serverList.innerHTML += `
-                    <div class="server-card">
-                        ${iconHtml}
-                        <div class="server-name">${guild.name}</div>
-                        ${buttonHtml}
-                    </div>
-                `;
+                serverList.innerHTML += `<div class="server-card">${iconHtml}<div class="server-name">${guild.name}</div>${buttonHtml}</div>`;
             });
         }
 
@@ -588,14 +575,12 @@
                 try {
                     const [guildsRes, botGuildsRes] = await Promise.all([
                         fetch('https://discord.com/api/users/@me/guilds', { headers: { authorization: `${tokenType} ${accessToken}` } }),
-                        fetch('/api/bot-guilds')
+                        fetch(`${API_URL}/api/bot-guilds`) // Lasa datus no Render
                     ]);
                     
                     rawUserGuilds = await guildsRes.json();
                     rawBotGuilds = await botGuildsRes.json();
-                    
                     renderServerList();
-
                 } catch(e) { console.error(e); }
             }
         };
@@ -605,7 +590,6 @@
             document.getElementById('server-selector-page').style.display = 'none';
             document.getElementById('dashboard-page').style.display = 'flex';
             document.getElementById('mobile-sidebar').classList.remove('open');
-            
             document.getElementById('active-server-title').innerText = guildName + " Settings";
 
             const sidebarList = document.getElementById('sidebar-server-list');
@@ -623,14 +607,14 @@
             document.getElementById('serverLink').value = '';
 
             try {
-                const rolesRes = await fetch(`/api/roles/${guildId}`);
+                const rolesRes = await fetch(`${API_URL}/api/roles/${guildId}`); // Lasa lomas no Render
                 if (rolesRes.ok) {
                     const roles = await rolesRes.json();
                     const select = document.getElementById('pingRole');
                     roles.forEach(role => { select.innerHTML += `<option value="${role.id}">${role.name}</option>`; });
                 }
 
-                const settingsRes = await fetch(`/api/settings/${guildId}`);
+                const settingsRes = await fetch(`${API_URL}/api/settings/${guildId}`); // Lasa datubāzi no Render
                 if (settingsRes.ok) {
                     const data = await settingsRes.json();
                     if(data.startText) document.getElementById('startText').value = data.startText;
@@ -641,13 +625,11 @@
                     if(data.serverLink) document.getElementById('serverLink').value = data.serverLink;
                 }
             } catch(e) { console.error(e); }
-            
             updatePreview();
         }
 
         async function saveData() {
             if(!currentGuildId) return;
-            
             const btn = document.getElementById('saveBtn');
             btn.innerHTML = dict[currentLang].btnSaving;
             
@@ -662,14 +644,14 @@
             };
 
             try {
-                const res = await fetch('/api/save-settings', {
+                // Sūta saglabāt datus uz Render
+                const res = await fetch(`${API_URL}/api/save-settings`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
                 });
 
                 if(res.ok) { btn.innerHTML = dict[currentLang].btnSaved; btn.style.background = 'var(--accent-green)'; } 
                 else { btn.innerHTML = dict[currentLang].btnError; }
             } catch (err) { btn.innerHTML = dict[currentLang].btnError; }
-            
             setTimeout(() => { btn.innerHTML = dict[currentLang].btnSave; btn.style.background = 'var(--accent-cyan)'; }, 3000);
         }
     </script>
