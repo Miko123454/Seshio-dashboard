@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// CORS Neredzamais tilts
+// --- NEREDZAMAIS TILTS (CORS) ---
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 
 app.use(express.static('public'));
 
-// --- MONGODB MODELIS (Pievienota valoda) ---
+// --- MONGODB MODELIS (AR VALODU) ---
 const settingsSchema = new mongoose.Schema({
     guildId: { type: String, required: true, unique: true },
     pingRole: String,
@@ -28,15 +28,15 @@ const settingsSchema = new mongoose.Schema({
     embedTitle: String,
     embedCode: String,
     serverLink: String,
-    language: { type: String, default: 'lv' } // JAUNS!
+    language: { type: String, default: 'lv' }
 });
 const Settings = mongoose.model('Settings', settingsSchema);
 
-// --- DISCORD BOTS ---
+// --- DISCORD BOTA SAGATAVOŠANA ---
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages] });
 const activeSessions = new Map();
 
-// --- WEB API ---
+// --- WEB API (Ko izsauc Vercel lapa) ---
 app.post('/api/save-settings', async (req, res) => {
     const { guildId, pingRole, startImage, startText, embedTitle, embedCode, serverLink, language } = req.body;
     if (!guildId) return res.status(400).json({ error: "Trūkst Guild ID" });
@@ -57,7 +57,9 @@ app.get('/api/settings/:guildId', async (req, res) => {
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.get('/api/bot-guilds', (req, res) => { res.json(client.guilds.cache.map(g => g.id)); });
+app.get('/api/bot-guilds', (req, res) => {
+    res.json(client.guilds.cache.map(g => g.id));
+});
 
 app.get('/api/roles/:guildId', async (req, res) => {
     try {
@@ -68,8 +70,9 @@ app.get('/api/roles/:guildId', async (req, res) => {
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// --- BOTA LOĢIKA (AR VALODĀM) ---
+// --- DISCORD BOTA LOĢIKA ---
 client.on(Events.InteractionCreate, async interaction => {
+    
     // 1. DASHBOARD KOMANDA
     if (interaction.isChatInputCommand() && interaction.commandName === 'dashboard') {
         const dbData = await Settings.findOne({ guildId: interaction.guildId });
@@ -157,8 +160,6 @@ client.on(Events.InteractionCreate, async interaction => {
             const channel = await client.channels.fetch(sessionData.channelId);
             
             const displayTitle = sessionData.embedTitle || 'Server start up';
-            let codePrefix = lang === 'en' ? 'CODE' : 'KODS';
-            // Ja lietotājs iestatījis savu tekstu, piem, "KODS: 123", tas paliek kā ir
             const displayCode = sessionData.embedCode ? `${sessionData.embedCode}\n\n` : '';
             const votedPrefix = lang === 'en' ? '📋 **Voted:**' : '📋 **Nobalsoja:**';
 
@@ -200,7 +201,7 @@ mongoose.connect(process.env.MONGODB_URI)
             console.log(`✅ Bots tiešsaistē kā ${client.user.tag}`);
             const commands = [
                 new SlashCommandBuilder().setName('session').setDescription('Sākt jaunu sesijas balsojumu / Start session vote').addIntegerOption(opt => opt.setName('balsis').setDescription('Cik balsis vajadzēs?').setRequired(false)),
-                new SlashCommandBuilder().setName('dashboard').setDescription('Atvērt Seshio paneli / Open Seshio Dashboard') // JAUNA KOMANDA
+                new SlashCommandBuilder().setName('dashboard').setDescription('Atvērt Seshio paneli / Open Seshio Dashboard')
             ].map(cmd => cmd.toJSON());
             
             const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
