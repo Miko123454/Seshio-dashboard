@@ -116,36 +116,49 @@
         .btn-save:hover { box-shadow: 0 0 20px rgba(76, 235, 218, 0.4); transform: translateY(-2px); background: #6cf0e3;}
 
         /* ====== JAUNAIS DISCORD PREVIEW ====== */
-        .preview-panel { background: #313338; border-radius: 8px; padding: 20px; font-family: 'gg sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #dbdee1; border: 1px solid rgba(255,255,255,0.05); align-self: start; box-shadow: 0 10px 30px rgba(0,0,0,0.3);}
+        .preview-panel { 
+            background: #313338; 
+            border-radius: 8px; 
+            padding: 20px; 
+            font-family: 'gg sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            color: #dbdee1; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            align-self: start; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: left; /* FIX: Vairs netiks centrēts! */
+        }
         .preview-header { font-size: 12px; font-weight: 800; color: #949ba4; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
         
-        .discord-message { display: flex; gap: 16px; }
-        .discord-avatar { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background-color: #2b2d31; }
+        .discord-message { display: flex; gap: 16px; align-items: flex-start; }
+        .discord-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background-color: #2b2d31; margin-top: 2px;}
         .discord-avatar img { width: 100%; height: 100%; object-fit: cover; }
         
         .discord-content { flex: 1; min-width: 0; }
-        .discord-name { font-weight: 600; color: #f2f3f5; font-size: 16px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-        .bot-tag { background: #5865F2; color: white; font-size: 10px; padding: 2px 4px; border-radius: 3px; font-weight: 700; display: flex; align-items: center; gap: 2px; }
-        .bot-tag svg { width: 12px; height: 12px; }
+        .discord-name { font-weight: 500; color: #f2f3f5; font-size: 16px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; line-height: 1.375;}
+        .bot-tag { background: #5865F2; color: white; font-size: 10px; padding: 1px 4px; border-radius: 3px; font-weight: 600; display: flex; align-items: center; gap: 4px; line-height: 1.3;}
+        .bot-tag svg { width: 15px; height: 15px; fill: white; }
         
         .mention-pill { background: rgba(88, 101, 242, 0.3); color: #c9cdcf; padding: 0 4px; border-radius: 3px; font-weight: 500; font-size: 14px; }
         
-        .discord-embed { background: #2b2d31; border-radius: 4px; border-left: 4px solid var(--accent-cyan); padding: 16px; margin-top: 8px; max-width: 450px; }
-        .embed-inner { display: flex; justify-content: space-between; gap: 16px; }
-        .embed-main-content { flex: 1; }
-        .embed-title { font-weight: 700; color: #f2f3f5; font-size: 16px; margin-bottom: 8px; }
-        .embed-desc { font-size: 14px; line-height: 1.375; color: #dbdee1; white-space: pre-wrap; margin-bottom: 12px; }
+        .discord-embed { background: #2b2d31; border-radius: 4px; border-left: 4px solid var(--accent-cyan); padding: 12px 16px 16px; margin-top: 4px; max-width: 432px; }
+        .embed-grid { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+        .embed-main-content { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        
+        .embed-title { font-weight: 600; color: #f2f3f5; font-size: 16px; margin-bottom: 8px; line-height: 1.375; }
+        .embed-desc { font-size: 14px; line-height: 1.375; color: #dbdee1; white-space: pre-wrap; margin-bottom: 0; }
         
         .embed-field { margin-top: 12px; margin-bottom: 12px;}
-        .embed-field-name { font-size: 14px; font-weight: 700; color: #f2f3f5; margin-bottom: 4px; }
+        .embed-field-name { font-size: 14px; font-weight: 600; color: #f2f3f5; margin-bottom: 4px; }
         .embed-field-value { font-size: 14px; color: #dbdee1; }
         
+        /* FIX: Bilde vienmēr būs 80x80 klucītis labajā pusē */
         .embed-thumbnail { width: 80px; height: 80px; object-fit: cover; border-radius: 4px; flex-shrink: 0; display: none; }
+        
         .embed-footer { font-size: 12px; color: #949ba4; margin-top: 12px; display: flex; align-items: center; font-weight: 500; }
         
         .discord-btn-row { display: flex; gap: 8px; margin-top: 8px; }
-        .discord-btn-success { background-color: #248046; color: white; padding: 8px 16px; border-radius: 3px; font-size: 14px; font-weight: 600; border: none; }
-        .preview-join-btn { display: none; background-color: #4e5058; color: white; padding: 8px 16px; border-radius: 3px; font-size: 14px; font-weight: 600; text-decoration: none; }
+        .discord-btn-success { background-color: #248046; color: white; padding: 6px 16px; border-radius: 3px; font-size: 14px; font-weight: 500; border: none; cursor: default;}
+        .preview-join-btn { display: none; background-color: #4e5058; color: white; padding: 6px 16px; border-radius: 3px; font-size: 14px; font-weight: 500; text-decoration: none; }
 
         @media (max-width: 768px) {
             #landing-page { flex-direction: column; justify-content: center; text-align: center; }
@@ -177,13 +190,11 @@
             <p data-i18n="heroDesc">Automatizē savas lomu spēles sesijas, pārvaldi balsojumus un uzturi kārtību savā serverī ar vienu modernu Discord botu.</p>
             <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio.lat%2F&response_type=token&scope=identify%20guilds" class="btn-login" data-i18n="loginBtn">Login with Discord</a>
         </div>
-        
         <div class="reviews-container">
             <div class="reviews-track">
                 <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Server Owner</p></div></div></div>
                 <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>RP Administrator</p></div></div></div>
                 <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"Balsošanas sistēma novērš spamu. Spēlētāji ieliek '/session', un bots pats visu izdara. 10/10 rekomendēju."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Community Manager</p></div></div></div>
-
                 <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Server Owner</p></div></div></div>
                 <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>RP Administrator</p></div></div></div>
                 <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"Balsošanas sistēma novērš spamu. Spēlētāji ieliek '/session', un bots pats visu izdara. 10/10 rekomendēju."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Community Manager</p></div></div></div>
@@ -260,7 +271,7 @@
                         <div class="discord-name">
                             Seshio 
                             <span class="bot-tag">
-                                <svg aria-label="Verified Bot" aria-hidden="false" role="img" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path fill="#fff" d="M7.4 11.17L4 8.62l1.6-2.14 2.1 1.57L12 4l1.6 2-6.2 5.17z"></path></svg>
+                                <svg aria-label="Verified Bot" aria-hidden="false" role="img" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M7.4 11.17L4 8.62l1.6-2.14 2.1 1.57L12 4l1.6 2-6.2 5.17z"></path></svg>
                                 APP
                             </span>
                         </div>
@@ -269,20 +280,26 @@
                         </div>
                         
                         <div class="discord-embed">
-                            <div class="embed-inner">
+                            <div class="embed-grid">
                                 <div class="embed-main-content">
                                     <div class="embed-title" id="preview-title">LVRPL | Server start up</div>
+                                    
                                     <div class="embed-desc">
-                                        <span id="preview-code" style="font-weight: 700; display: block; margin-bottom: 12px;">KODS: LVRPL</span>
-                                        <div class="embed-field-name">📋 Votes:</div>
-                                        <div class="embed-field-value" style="margin-bottom: 12px;">
-                                            <span class="mention-pill">@Lietotājs</span>
+                                        <strong id="preview-code" style="display: block; margin-bottom: 12px; color: #f2f3f5;">KODS: LVRPL</strong>
+                                        
+                                        <div class="embed-field">
+                                            <div class="embed-field-name">📋 Votes:</div>
+                                            <div class="embed-field-value">
+                                                <span class="mention-pill">@Lietotājs</span>
+                                            </div>
                                         </div>
+                                        
                                         <span id="preview-text">Sāksim jaunu sesiju!</span>
                                     </div>
                                 </div>
                                 <img id="preview-image" class="embed-thumbnail" src="" alt="Preview">
                             </div>
+                            
                             <div class="embed-footer" id="preview-footer">
                                 Votes: 0 / 10
                             </div>
