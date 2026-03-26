@@ -130,16 +130,18 @@
         
         .mention-pill { background: rgba(88, 101, 242, 0.3); color: #c9cdcf; padding: 0 4px; border-radius: 3px; font-weight: 500; font-size: 14px; }
         
-        .discord-embed { background: #2b2d31; border-radius: 4px; border-left: 4px solid var(--accent-cyan); padding: 16px; margin-top: 8px; max-width: 432px; }
+        .discord-embed { background: #2b2d31; border-radius: 4px; border-left: 4px solid var(--accent-cyan); padding: 16px; margin-top: 8px; max-width: 450px; }
+        .embed-inner { display: flex; justify-content: space-between; gap: 16px; }
+        .embed-main-content { flex: 1; }
         .embed-title { font-weight: 700; color: #f2f3f5; font-size: 16px; margin-bottom: 8px; }
         .embed-desc { font-size: 14px; line-height: 1.375; color: #dbdee1; white-space: pre-wrap; margin-bottom: 12px; }
         
-        .embed-field { margin-top: 12px; }
+        .embed-field { margin-top: 12px; margin-bottom: 12px;}
         .embed-field-name { font-size: 14px; font-weight: 700; color: #f2f3f5; margin-bottom: 4px; }
         .embed-field-value { font-size: 14px; color: #dbdee1; }
         
-        .embed-image { max-width: 100%; border-radius: 4px; margin-top: 16px; display: none; }
-        .embed-footer { font-size: 12px; color: #949ba4; margin-top: 16px; display: flex; align-items: center; font-weight: 500; }
+        .embed-thumbnail { width: 80px; height: 80px; object-fit: cover; border-radius: 4px; flex-shrink: 0; display: none; }
+        .embed-footer { font-size: 12px; color: #949ba4; margin-top: 12px; display: flex; align-items: center; font-weight: 500; }
         
         .discord-btn-row { display: flex; gap: 8px; margin-top: 8px; }
         .discord-btn-success { background-color: #248046; color: white; padding: 8px 16px; border-radius: 3px; font-size: 14px; font-weight: 600; border: none; }
@@ -173,12 +175,18 @@
         <div class="hero-text">
             <h1>Seshio System</h1>
             <p data-i18n="heroDesc">Automatizē savas lomu spēles sesijas, pārvaldi balsojumus un uzturi kārtību savā serverī ar vienu modernu Discord botu.</p>
-            <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&permissions=8&scope=bot%20applications.commands" class="btn-login" data-i18n="loginBtn">Login with Discord</a>
+            <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio.lat%2F&response_type=token&scope=identify%20guilds" class="btn-login" data-i18n="loginBtn">Login with Discord</a>
         </div>
+        
         <div class="reviews-container">
             <div class="reviews-track">
-                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Owner</p></div></div></div>
-                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>Admin</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Server Owner</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>RP Administrator</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"Balsošanas sistēma novērš spamu. Spēlētāji ieliek '/session', un bots pats visu izdara. 10/10 rekomendēju."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Community Manager</p></div></div></div>
+
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Server Owner</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>RP Administrator</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"Balsošanas sistēma novērš spamu. Spēlētāji ieliek '/session', un bots pats visu izdara. 10/10 rekomendēju."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Community Manager</p></div></div></div>
             </div>
         </div>
         <div class="hero-image-bg"></div>
@@ -261,22 +269,20 @@
                         </div>
                         
                         <div class="discord-embed">
-                            <div class="embed-title" id="preview-title">LVRPL | Server start up</div>
-                            
-                            <div class="embed-desc">
-                                <span id="preview-code" style="font-weight: 700; display: block; margin-bottom: 12px;">KODS: LVRPL</span>
-                                <span id="preview-text">Sāksim jaunu sesiju!</span>
-                            </div>
-                            
-                            <div class="embed-field">
-                                <div class="embed-field-name">📋 Votes:</div>
-                                <div class="embed-field-value">
-                                    <span class="mention-pill">@Lietotājs</span>
+                            <div class="embed-inner">
+                                <div class="embed-main-content">
+                                    <div class="embed-title" id="preview-title">LVRPL | Server start up</div>
+                                    <div class="embed-desc">
+                                        <span id="preview-code" style="font-weight: 700; display: block; margin-bottom: 12px;">KODS: LVRPL</span>
+                                        <div class="embed-field-name">📋 Votes:</div>
+                                        <div class="embed-field-value" style="margin-bottom: 12px;">
+                                            <span class="mention-pill">@Lietotājs</span>
+                                        </div>
+                                        <span id="preview-text">Sāksim jaunu sesiju!</span>
+                                    </div>
                                 </div>
+                                <img id="preview-image" class="embed-thumbnail" src="" alt="Preview">
                             </div>
-
-                            <img id="preview-image" class="embed-image" src="" alt="Preview">
-
                             <div class="embed-footer" id="preview-footer">
                                 Votes: 0 / 10
                             </div>
