@@ -2,15 +2,25 @@ require('dotenv').config();
 const { Client, GatewayIntentBits, Events, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, REST, Routes, SlashCommandBuilder } = require('discord.js');
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+
+// --- NEREDZAMAIS TILTS (CORS) ---
+// Šis atļauj tavai Vercel lapai (seshio.lat) sūtīt datus uz šo serveri!
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    if (req.method === 'OPTIONS') return res.sendStatus(200);
+    next();
+});
+
 app.use(express.static('public'));
 
-// --- MONGODB MODELIS (Pievienots serverLink) ---
+// --- MONGODB MODELIS ---
 const settingsSchema = new mongoose.Schema({
     guildId: { type: String, required: true, unique: true },
     pingRole: String,
@@ -18,7 +28,7 @@ const settingsSchema = new mongoose.Schema({
     startText: String,
     embedTitle: String,
     embedCode: String,
-    serverLink: String // JAUNS LAUKS!
+    serverLink: String 
 });
 const Settings = mongoose.model('Settings', settingsSchema);
 
@@ -26,9 +36,8 @@ const Settings = mongoose.model('Settings', settingsSchema);
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages] });
 const activeSessions = new Map();
 
-// --- WEB API: SAGLABĀT IESTATĪJUMUS ---
+// --- WEB API ---
 app.post('/api/save-settings', async (req, res) => {
-    // Sagaidām arī serverLink no mājaslapas
     const { guildId, pingRole, startImage, startText, embedTitle, embedCode, serverLink } = req.body;
     if (!guildId) return res.status(400).json({ error: "Trūkst Guild ID" });
     try {
@@ -41,7 +50,6 @@ app.post('/api/save-settings', async (req, res) => {
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// --- WEB API: IEGŪT ESOŠOS IESTATĪJUMUS ---
 app.get('/api/settings/:guildId', async (req, res) => {
     try {
         const data = await Settings.findOne({ guildId: req.params.guildId });
@@ -49,12 +57,10 @@ app.get('/api/settings/:guildId', async (req, res) => {
     } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// --- WEB API: BOTA SERVERU SARAKSTS ---
 app.get('/api/bot-guilds', (req, res) => {
     res.json(client.guilds.cache.map(g => g.id));
 });
 
-// --- WEB API: IEGŪT SERVERA LOMAS ---
 app.get('/api/roles/:guildId', async (req, res) => {
     try {
         const guild = await client.guilds.fetch(req.params.guildId).catch(() => null);
@@ -72,7 +78,6 @@ client.on(Events.InteractionCreate, async interaction => {
 
         const requiredVotes = interaction.options.getInteger('balsis') || 1;
         const sessionId = interaction.id;
-
         const displayTitle = dbData.embedTitle || 'Session start-up vote';
 
         activeSessions.set(sessionId, { ...dbData._doc, requiredVotes, votedUsers: [], currentVotes: 0, authorId: interaction.user.id, channelId: interaction.channelId });
@@ -129,7 +134,6 @@ client.on(Events.InteractionCreate, async interaction => {
             
             if (sessionData.startImage) startEmbed.setImage(sessionData.startImage);
 
-            // Pievienojam "Join Server" pogu, ja saite eksistē!
             const components = [];
             if (sessionData.serverLink && sessionData.serverLink.trim() !== '') {
                 const linkRow = new ActionRowBuilder().addComponents(
@@ -153,32 +157,19 @@ client.on(Events.InteractionCreate, async interaction => {
     }
 });
 
-// --- PALAIŠANA UN KOMANDU PĀRRAKSTĪŠANA ---
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
         console.log('✅ DB savienota');
-        app.listen(PORT, '0.0.0.0', () => console.log(`✅ Web Dashboard: Port ${PORT}`));
+        app.listen(PORT, '0.0.0.0', () => console.log(`✅ Web Backend: Port ${PORT}`));
         
         client.login(process.env.DISCORD_TOKEN).then(async () => {
             console.log(`✅ Bots tiešsaistē kā ${client.user.tag}`);
-            
             const commands = [
-                new SlashCommandBuilder()
-                    .setName('session')
-                    .setDescription('Sākt jaunu sesijas balsojumu')
-                    .addIntegerOption(option =>
-                        option.setName('balsis')
-                            .setDescription('Cik balsis vajadzēs, lai sāktu sesiju? (Pēc noklusējuma 1)')
-                            .setRequired(false)
-                    )
-            ].map(command => command.toJSON());
-
+                new SlashCommandBuilder().setName('session').setDescription('Sākt jaunu sesijas balsojumu').addIntegerOption(opt => opt.setName('balsis').setDescription('Cik balsis vajadzēs?').setRequired(false))
+            ].map(cmd => cmd.toJSON());
             const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
-            try {
-                await rest.put(Routes.applicationCommands(client.user.id), { body: commands });
-            } catch (error) { console.error('❌ Kļūda atjaunojot komandas:', error); }
+            try { await rest.put(Routes.applicationCommands(client.user.id), { body: commands }); } 
+            catch (err) { console.error('❌ Kļūda atjaunojot komandas:', err); }
         });
     })
-    .catch(err => {
-        console.error("❌ Kļūda savienojoties ar DB:", err);
-    });
+    .catch(err => console.error("❌ Kļūda savienojoties ar DB:", err));
