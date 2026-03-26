@@ -246,7 +246,7 @@
                 <div class="preview-header">Live Discord Preview</div>
                 <div class="discord-message">
                     <div class="discord-avatar">
-                        <img src="https://media.discordapp.net/attachments/1183060714771746816/1344403153406001153/Dmtdcsdmtdcsdmtd.jpg" alt="Bot Avatar" id="bot-logo-img">
+                        <img src="https://cdn.discordapp.com/attachments/1485233746994139147/1485345443914453246/bj.jpg?ex=69c6247e&is=69c4d2fe&hm=b95d392ab9a45c90d5fd6b048632722a6f4b80de511b4f81ee58ca762426e9f5&" alt="Bot Avatar" id="bot-logo-img">
                     </div>
                     <div class="discord-content">
                         <div class="discord-name">
@@ -390,12 +390,10 @@
         function toggleSidebar() { document.getElementById('mobile-sidebar').classList.toggle('open'); }
 
         function updatePreview() {
-            // Teksti
             const textInput = document.getElementById('startText').value;
             document.getElementById('preview-text').innerText = textInput || (currentLang === 'lv' ? "Tavs teksts būs šeit..." : "Your text will be here...");
             document.getElementById('preview-title').innerText = document.getElementById('embedTitle').value || "Server start up";
             
-            // Kods (Vairs nedublēsies!)
             const codeInput = document.getElementById('embedCode').value;
             const codePreview = document.getElementById('preview-code');
             if(codeInput) { 
@@ -405,23 +403,19 @@
                 codePreview.style.display = 'none'; 
             }
 
-            // Bilde
             const imgUrl = document.getElementById('startImage').value;
             const imgEl = document.getElementById('preview-image');
             if(imgUrl) { imgEl.src = imgUrl; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
             
-            // Loma
             const roleSelect = document.getElementById('pingRole');
             if(roleSelect.options.length > 0 && roleSelect.selectedIndex > 0 && roleSelect.value !== "") {
                 document.getElementById('preview-ping').innerText = "@" + roleSelect.options[roleSelect.selectedIndex].text;
             } else { document.getElementById('preview-ping').innerText = "@here"; }
 
-            // Poga (Join)
             const serverLink = document.getElementById('serverLink').value;
             const btnPreview = document.getElementById('preview-join-btn');
             if(serverLink && serverLink.trim() !== '') { btnPreview.style.display = 'inline-block'; } else { btnPreview.style.display = 'none'; }
             
-            // Footer
             document.getElementById('preview-footer').innerText = (currentLang === 'lv' ? "Balsis: 0 / X" : "Votes: 0 / X");
         }
 
