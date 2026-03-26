@@ -12,7 +12,6 @@
             --bg-card: rgba(15, 25, 30, 0.8);
             --accent-cyan: #4cebda;
             --accent-blue: #6c5ce7;
-            --accent-gold: #f1c40f;
             --text-light: #ffffff;
             --text-muted: #9aa8b1;
         }
@@ -54,6 +53,20 @@
         .top-logo { position: absolute; top: 30px; left: 10%; display: flex; align-items: center; font-size: 20px; font-weight: 700; z-index: 20; letter-spacing: 1px; }
         .top-logo span { color: var(--accent-cyan); margin-right: 10px; font-size: 24px;}
 
+        /* REVIEWS */
+        .reviews-container { width: 450px; height: 80vh; overflow: hidden; position: relative; mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); z-index: 2; }
+        .reviews-track { display: flex; flex-direction: column; gap: 20px; animation: scroll-vertical 30s linear infinite; }
+        .reviews-track:hover { animation-play-state: paused; }
+        @keyframes scroll-vertical { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+        .review-card { background: var(--bg-card); border: 1px solid rgba(76, 235, 218, 0.15); border-radius: 16px; padding: 25px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: 0.3s; }
+        .review-card:hover { border-color: var(--accent-cyan); transform: scale(1.02); box-shadow: 0 10px 30px rgba(76, 235, 218, 0.1); }
+        .stars { color: #f1c40f; font-size: 16px; margin-bottom: 10px; letter-spacing: 2px;}
+        .review-text { font-size: 14px; color: var(--text-light); line-height: 1.6; margin-bottom: 20px; font-style: italic; }
+        .review-author { display: flex; align-items: center; gap: 12px; }
+        .author-avatar { width: 35px; height: 35px; border-radius: 50%; background: var(--accent-blue); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; color: white;}
+        .author-info h4 { font-size: 14px; color: var(--accent-cyan); margin: 0; }
+        .author-info p { font-size: 12px; color: var(--text-muted); margin: 0; }
+
         /* SERVERU IZVĒLNE */
         #server-selector-page { display: none; width: 100%; height: 100vh; overflow-y: auto; padding: 60px 10%; z-index: 20;}
         .selector-header h2 { font-size: 32px; margin-bottom: 10px; color: var(--accent-cyan); }
@@ -65,6 +78,8 @@
         .server-name { font-weight: 600; margin-bottom: 20px; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .btn-manage { background: var(--accent-cyan); color: #000; padding: 12px 20px; border-radius: 6px; font-weight: 700; display: block; width: 100%; cursor: pointer; border: none; font-size: 14px; transition: 0.2s; }
         .btn-manage:hover { background: #6cf0e3; box-shadow: 0 0 15px rgba(76,235,218,0.4); }
+        .btn-invite { background: #2b3a42; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; display: block; width: 100%; cursor: pointer; border: 1px solid rgba(76,235,218,0.3); font-size: 14px; transition: 0.2s;}
+        .btn-invite:hover { background: #374a54; }
 
         /* DASHBOARD */
         #dashboard-page { display: none; width: 100%; height: 100vh; z-index: 20;}
@@ -72,36 +87,104 @@
         .sidebar-logo { font-size: 22px; font-weight: 800; margin-bottom: 40px; color: var(--text-light); cursor: pointer; display: flex; align-items: center; letter-spacing: 1px;}
         .sidebar-logo span { color: var(--accent-cyan); margin-right: 10px; font-size: 24px;}
         .sidebar-server-list { flex: 1; overflow-y: auto; margin-right: -10px; padding-right: 10px; }
+        .sidebar-server-list::-webkit-scrollbar { width: 4px; }
+        .sidebar-server-list::-webkit-scrollbar-thumb { background: rgba(76,235,218,0.3); border-radius: 4px; }
         .nav-item { display: flex; align-items: center; padding: 12px 15px; color: var(--text-muted); text-decoration: none; border-radius: 8px; margin-bottom: 5px; font-weight: 500; transition: 0.2s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;} 
+        .nav-item:hover { color: #fff; background: rgba(255,255,255,0.05); }
         .nav-item.active { background: linear-gradient(90deg, rgba(76, 235, 218, 0.1) 0%, transparent 100%); color: var(--accent-cyan); border-left: 3px solid var(--accent-cyan); }
+        .section-title { font-size: 11px; text-transform: uppercase; color: var(--text-muted); margin: 30px 0 15px 15px; font-weight: 700; letter-spacing: 1px;}
         .main-content { flex: 1; padding: 40px; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .header { grid-column: 1 / -1; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end;} 
+        .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 5px; color: var(--accent-cyan);} 
+        .header p { color: var(--text-muted); font-size: 14px; }
         
-        .header { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: flex-end; }
-        .premium-badge { background: var(--accent-gold); color: #000; font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 800; display: none; margin-left: 10px; vertical-align: middle;}
+        .mobile-menu-btn { display: none; background: none; border: none; color: var(--accent-cyan); font-size: 28px; cursor: pointer; margin-right: 15px; }
+        .close-sidebar-btn { display: none; background: none; border: none; color: var(--text-muted); font-size: 24px; cursor: pointer; position: absolute; top: 20px; right: 20px; }
+        .close-sidebar-btn:hover { color: white; }
+        .back-btn { background: rgba(76, 235, 218, 0.1); color: var(--accent-cyan); border: 1px solid rgba(76, 235, 218, 0.2); padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: 0.2s; font-weight: 500;} 
+        .back-btn:hover {background: rgba(76, 235, 218, 0.2);}
+        
+        .panel { background-color: var(--bg-card); border: 1px solid rgba(76, 235, 218, 0.15); border-radius: 12px; padding: 30px; backdrop-filter: blur(10px);}
+        .form-row { display: flex; gap: 15px; margin-bottom: 20px; }
+        .form-row .form-group { margin-bottom: 0; flex: 1; }
+        .form-group { margin-bottom: 20px; } 
+        .form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; }
+        input, textarea, select { width: 100%; background-color: rgba(0, 0, 0, 0.3); border: 1px solid rgba(76, 235, 218, 0.2); border-radius: 8px; color: var(--text-light); padding: 12px 15px; font-size: 14px; transition: border-color 0.2s;}
+        select { cursor: pointer; appearance: none; } 
+        select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent-cyan); }
+        .btn-save { width: 100%; background: var(--accent-cyan); color: #000; border: none; padding: 16px; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 10px; transition: 0.3s; } 
+        .btn-save:hover { box-shadow: 0 0 20px rgba(76, 235, 218, 0.4); transform: translateY(-2px); background: #6cf0e3;}
 
-        .panel { background-color: var(--bg-card); border: 1px solid rgba(76, 235, 218, 0.15); border-radius: 12px; padding: 25px; backdrop-filter: blur(10px);}
-        .form-group { margin-bottom: 15px; } 
-        .form-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-weight: 500; }
-        .premium-lock { color: var(--accent-gold); float: right; font-weight: 700; font-size: 10px; text-transform: uppercase; }
+        /* ====== TIGHT DISCORD PREVIEW (BEZ ATSTARPĒM) ====== */
+        .preview-panel { 
+            background: #313338; 
+            border-radius: 8px; 
+            padding: 16px; 
+            font-family: 'gg sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            color: #dbdee1; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            align-self: start; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: left;
+        }
+        .preview-header { font-size: 12px; font-weight: 800; color: #949ba4; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
         
-        input, textarea, select { width: 100%; background-color: rgba(0, 0, 0, 0.3); border: 1px solid rgba(76, 235, 218, 0.2); border-radius: 8px; color: var(--text-light); padding: 10px 12px; font-size: 14px; transition: 0.2s;}
-        input:disabled, textarea:disabled { opacity: 0.3; cursor: not-allowed; }
+        .discord-message { display: flex; gap: 12px; align-items: flex-start; }
+        .discord-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background-color: #2b2d31; margin-top: 2px;}
+        .discord-avatar img { width: 100%; height: 100%; object-fit: cover; }
         
-        .btn-save { width: 100%; background: var(--accent-cyan); color: #000; border: none; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        .btn-premium-buy { width: 100%; background: linear-gradient(45deg, #f1c40f, #f39c12); color: #000; border: none; padding: 14px; border-radius: 8px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-
-        /* ====== TIGHT DISCORD PREVIEW ====== */
-        .preview-panel { background: #313338; border-radius: 8px; padding: 16px; font-family: 'gg sans', sans-serif; align-self: start; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: left;}
-        .discord-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background-color: #2b2d31; }
-        .discord-name { font-weight: 500; color: #f2f3f5; font-size: 16px; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
-        .bot-tag { background: #5865F2; color: white; font-size: 10px; padding: 1px 4px; border-radius: 3px; font-weight: 600; display: flex; align-items: center; gap: 4px;}
-        .discord-embed { background: #2b2d31; border-radius: 4px; border-left: 4px solid var(--accent-cyan); padding: 8px 12px; margin-top: 4px; max-width: 432px; }
+        .discord-content { flex: 1; min-width: 0; }
+        .discord-name { font-weight: 500; color: #f2f3f5; font-size: 16px; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; line-height: 1.2;}
+        .bot-tag { background: #5865F2; color: white; font-size: 10px; padding: 1px 4px; border-radius: 3px; font-weight: 600; display: flex; align-items: center; gap: 4px; line-height: 1.2;}
+        .bot-tag svg { width: 14px; height: 14px; fill: white; }
+        
+        .mention-pill { background: rgba(88, 101, 242, 0.3); color: #c9cdcf; padding: 0 4px; border-radius: 3px; font-weight: 500; font-size: 14px; }
+        
+        .discord-embed { 
+            background: #2b2d31; 
+            border-radius: 4px; 
+            border-left: 4px solid var(--accent-cyan); 
+            padding: 8px 12px 12px 12px; /* Super mazs padding */
+            margin-top: 4px; 
+            max-width: 432px; 
+        }
         .embed-flex-container { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
+        
+        .embed-main-content { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 6px; /* PILNĪBĀ SASPIESTS KOPĀ */
+            flex: 1; 
+            min-width: 0;
+        }
+        
         .embed-title { font-weight: 600; color: #f2f3f5; font-size: 16px; margin: 0; line-height: 1.3; }
-        .embed-thumbnail { width: 72px; height: 72px; object-fit: cover; border-radius: 4px; flex-shrink: 0; display: none; }
-        .embed-footer { font-size: 12px; color: #f2f3f5; font-weight: 700; margin-top: 8px; }
+        .embed-field { font-size: 14px; color: #dbdee1; margin: 0; line-height: 1.3; }
+        .embed-field strong { color: #f2f3f5; font-weight: 700; }
+        .embed-desc { font-size: 14px; line-height: 1.3; color: #dbdee1; white-space: pre-wrap; margin: 0; }
+        
+        .embed-thumbnail { width: 72px; height: 72px; object-fit: cover; border-radius: 4px; flex-shrink: 0; display: none; margin-left: 8px; }
+        
+        .embed-footer { font-size: 12px; color: #f2f3f5; font-weight: 700; margin-top: 8px; } /* Footer bold and close */
+        
+        .discord-btn-row { display: flex; gap: 8px; margin-top: 8px; }
+        .discord-btn-success { background-color: #248046; color: white; padding: 6px 16px; border-radius: 3px; font-size: 14px; font-weight: 500; border: none; cursor: default;}
+        .preview-join-btn { display: none; background-color: #4e5058; color: white; padding: 6px 16px; border-radius: 3px; font-size: 14px; font-weight: 500; text-decoration: none; }
 
-        .beta-badge { background: #e67e22; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; display: none; }
+        @media (max-width: 768px) {
+            #landing-page { flex-direction: column; justify-content: center; text-align: center; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .reviews-container { display: none; }
+            .hero-image-bg { width: 100%; opacity: 0.2; mask-image: none; -webkit-mask-image: none; }
+            .main-content { grid-template-columns: 1fr; padding: 20px; }
+            .header { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .form-row { flex-direction: column; gap: 0; }
+            .mobile-menu-btn { display: block; }
+            .close-sidebar-btn { display: block; }
+            .sidebar { position: fixed; left: -100%; top: 0; height: 100vh; transition: left 0.3s ease; box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
+            .sidebar.open { left: 0; }
+            .lang-switcher { top: 20px; right: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -115,8 +198,18 @@
         <div class="top-logo"><span>❂</span> SESHIO</div>
         <div class="hero-text">
             <h1>Seshio System</h1>
-            <p data-i18n="heroDesc">Automatizē savas lomu spēles sesijas ar modernu Discord botu.</p>
+            <p data-i18n="heroDesc">Automatizē savas lomu spēles sesijas, pārvaldi balsojumus un uzturi kārtību savā serverī ar vienu modernu Discord botu.</p>
             <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio.lat%2F&response_type=token&scope=identify%20guilds" class="btn-login" data-i18n="loginBtn">Login with Discord</a>
+        </div>
+        <div class="reviews-container">
+            <div class="reviews-track">
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Server Owner</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>RP Administrator</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"Balsošanas sistēma novērš spamu. Spēlētāji ieliek '/session', un bots pats visu izdara. 10/10 rekomendēju."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Community Manager</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Server Owner</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>RP Administrator</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"Balsošanas sistēma novērš spamu. Spēlētāji ieliek '/session', un bots pats visu izdara. 10/10 rekomendēju."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Community Manager</p></div></div></div>
+            </div>
         </div>
         <div class="hero-image-bg"></div>
     </div>
@@ -124,75 +217,98 @@
     <div id="server-selector-page">
         <div class="selector-header">
             <h2 data-i18n="selectTitle">Izvēlies Serveri</h2>
+            <p><span data-i18n="hello">Sveiks, </span><span id="welcome-name" style="color:var(--text-light); font-weight:600;">Lietotāj</span><span data-i18n="helloSub">! Šeit ir serveri, kuros tu esi administrators.</span></p>
         </div>
-        <div class="server-grid" id="server-list"></div>
+        <div class="server-grid" id="server-list"><div style="color: var(--text-muted);" data-i18n="loading">Ielādē serverus...</div></div>
     </div>
 
     <div id="dashboard-page">
-        <div class="sidebar">
+        <div class="sidebar" id="mobile-sidebar">
+            <button class="close-sidebar-btn" onclick="toggleSidebar()">✕</button>
             <div class="sidebar-logo" onclick="backToServers()"><span>❂</span> SESHIO</div>
-            <div class="sidebar-server-list" id="sidebar-server-list"></div>
+            <a href="#" onclick="backToServers()" class="nav-item">Dashboard</a>
+            <div class="section-title" data-i18n="activeServer">AKTĪVAIS SERVERIS</div>
+            <div class="sidebar-server-list" id="sidebar-server-list"><a href="#" class="nav-item" data-i18n="loading">Ielādē...</a></div>
         </div>
 
         <div class="main-content">
             <div class="header">
-                <div>
-                    <h1><span id="active-server-title">Settings</span> <span class="premium-badge" id="premium-badge">👑 PREMIUM</span> <span class="beta-badge" id="beta-badge">BETA ACCESS</span></h1>
-                    <p data-i18n="settingsDesc">Konfigurē sava servera sesijas izskatu.</p>
+                <div style="display: flex; align-items: center;">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+                    <div><h1 id="active-server-title">Server Settings</h1><p data-i18n="settingsDesc">Konfigurē sava servera sesijas izskatu.</p></div>
                 </div>
-                <button class="back-btn" onclick="backToServers()" data-i18n="backBtn">⬅ Atpakaļ</button>
+                <button class="back-btn" onclick="backToServers()" data-i18n="backBtn">⬅ Visi serveri</button>
             </div>
 
             <div class="panel">
-                <div class="form-group">
-                    <label>Bota Vārds (Custom Name) <span class="premium-lock" id="lock-name">👑 Premium</span></label>
-                    <input type="text" id="botName" placeholder="Seshio" oninput="updatePreview()" disabled>
-                </div>
-
-                <div class="form-row" style="display:flex; gap:15px;">
-                    <div class="form-group" style="flex:1">
-                        <label data-i18n="lblTitle">Embed Virsraksts</label>
-                        <input type="text" id="embedTitle" oninput="updatePreview()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label data-i18n="lblTitle">Virsraksts (Embed Title)</label>
+                        <input type="text" id="embedTitle" data-i18n-ph="phTitle" placeholder="LVRPL | Server start up" oninput="updatePreview()">
                     </div>
-                    <div class="form-group" style="flex:1">
+                    <div class="form-group">
                         <label data-i18n="lblCode">Piekļuves Kods</label>
-                        <input type="text" id="embedCode" oninput="updatePreview()">
+                        <input type="text" id="embedCode" data-i18n-ph="phCode" placeholder="KODS: LVRPL" oninput="updatePreview()">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label data-i18n="lblImg">Sākuma Bilde (Thumbnail) <span class="premium-lock" id="lock-img">👑 Premium (Max 3)</span></label>
-                    <input type="text" id="startImage" placeholder="Saites atdalīt ar komatu" oninput="updatePreview()" disabled>
+                    <label data-i18n="lblLink">Spēles pieslēgšanās saite (Join Link)</label>
+                    <input type="text" id="serverLink" data-i18n-ph="phLink" placeholder="piem., roblox://... vai https://..." oninput="updatePreview()">
                 </div>
 
                 <div class="form-group">
-                    <label>Bota Apraksts (Description) <span class="premium-lock" id="lock-desc">👑 Premium</span></label>
-                    <textarea id="startText" rows="3" oninput="updatePreview()"></textarea>
+                    <label data-i18n="lblRole">Paziņojuma loma (Ping Role)</label>
+                    <select id="pingRole" onchange="updatePreview()"><option value="">-- Ielādē... --</option></select>
                 </div>
-
+                <div class="form-group">
+                    <label data-i18n="lblImg">Sākuma Bilde (Attēla URL)</label>
+                    <input type="text" id="startImage" data-i18n-ph="phImg" placeholder="https://i.imgur.com/bilde.png" oninput="updatePreview()">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="lblText">Paziņojuma Teksts</label>
+                    <textarea id="startText" rows="4" oninput="updatePreview()"></textarea>
+                </div>
                 <button class="btn-save" id="saveBtn" onclick="saveData()" data-i18n="btnSave">SAGLABĀT IZMAIŅAS</button>
-                <button class="btn-premium-buy" id="buyPremiumBtn" onclick="buyPremium()">👑 UPGRADE TO PREMIUM</button>
             </div>
 
             <div class="preview-panel">
-                <div class="discord-message" style="display:flex; gap:12px;">
+                <div class="preview-header">Live Discord Preview</div>
+                <div class="discord-message">
                     <div class="discord-avatar">
-                        <img src="https://cdn.discordapp.com/attachments/1485233746994139147/1485345443914453246/bj.jpg" alt="Avatar">
+                        <img src="https://cdn.discordapp.com/attachments/1485233746994139147/1485345443914453246/bj.jpg?ex=69c6247e&is=69c4d2fe&hm=b95d392ab9a45c90d5fd6b048632722a6f4b80de511b4f81ee58ca762426e9f5&" alt="Bot Avatar">
                     </div>
                     <div class="discord-content">
-                        <div class="discord-name"><span id="pre-bot-name">Seshio</span> <span class="bot-tag">APP</span></div>
-                        <div class="mention-pill" style="width:fit-content; font-size:14px; margin-bottom:4px;">@Loma</div>
+                        <div class="discord-name">
+                            Seshio 
+                            <span class="bot-tag">
+                                <svg aria-label="Verified Bot" aria-hidden="false" role="img" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M7.4 11.17L4 8.62l1.6-2.14 2.1 1.57L12 4l1.6 2-6.2 5.17z"></path></svg>
+                                APP
+                            </span>
+                        </div>
+                        <div style="margin-bottom: 2px;">
+                            <span class="mention-pill" id="preview-ping">@Loma</span>
+                        </div>
+                        
                         <div class="discord-embed">
                             <div class="embed-flex-container">
-                                <div style="flex:1">
-                                    <div class="embed-title" id="pre-title">LVRPL | Session</div>
-                                    <div style="font-size:14px; margin:4px 0;"><strong id="pre-code">KODS: LVRPL</strong></div>
-                                    <div style="font-size:14px; margin-bottom:8px;"><strong>📋 Votes:</strong> <span class="mention-pill">@Lietotājs</span></div>
-                                    <div id="pre-text" style="font-size:14px; color:#dbdee1;">Sāksim jaunu sesiju!</div>
+                                <div class="embed-main-content">
+                                    <div class="embed-title" id="preview-title">LVRPL | Server start up</div>
+                                    <div class="embed-field" id="preview-code-container" style="display:none;"><strong id="preview-code">KODS: LVRPL</strong></div>
+                                    <div class="embed-field"><strong>📋 Votes:</strong> <span class="mention-pill">@Lietotājs</span></div>
+                                    <div class="embed-desc" id="preview-text">Sāksim jaunu sesiju!</div>
                                 </div>
-                                <img id="pre-img" class="embed-thumbnail" src="">
+                                <img id="preview-image" class="embed-thumbnail" src="" alt="Preview">
                             </div>
-                            <div class="embed-footer">Votes: 0 / 10</div>
+                            
+                            <div class="embed-footer" id="preview-footer">
+                                Votes: 0 / 10
+                            </div>
+                        </div>
+
+                        <div class="discord-btn-row">
+                            <button class="discord-btn-success">VOTE</button>
+                            <a href="#" class="preview-join-btn" id="preview-join-btn">Join Server ↗</a>
                         </div>
                     </div>
                 </div>
@@ -202,115 +318,266 @@
     </div>
 
     <script>
+        const CLIENT_ID = '1485224120047108237';
         const API_URL = 'https://seshio-dashboard.onrender.com'; 
+        
         let currentGuildId = null;
-        let isPremium = false;
+        let manageableGuilds = [];
         let rawUserGuilds = []; 
         let rawBotGuilds = [];
 
-        async function checkPremium(guildId) {
-            const res = await fetch(`${API_URL}/api/settings/${guildId}`);
-            const data = await res.json();
-            isPremium = data.isPremium || false;
+        const dict = {
+            lv: {
+                heroDesc: "Automatizē savas lomu spēles sesijas, pārvaldi balsojumus un uzturi kārtību savā serverī ar vienu modernu Discord botu.",
+                loginBtn: "Login with Discord",
+                selectTitle: "Izvēlies Serveri",
+                hello: "Sveiks, ",
+                helloSub: "! Šeit ir serveri, kuros tu esi administrators.",
+                loading: "Ielādē...",
+                noServers: "Tev nav neviena servera, kuru tu varētu pārvaldīt.",
+                btnManage: "Pārvaldīt",
+                btnAddBot: "Pievienot Botu",
+                activeServer: "AKTĪVAIS SERVERIS",
+                settingsDesc: "Konfigurē sava servera sesijas izskatu.",
+                backBtn: "⬅ Visi serveri",
+                lblTitle: "Virsraksts (Embed Title)",
+                lblCode: "Piekļuves Kods",
+                lblLink: "Spēles pieslēgšanās saite (Join Link)",
+                lblRole: "Paziņojuma loma (Ping Role)",
+                lblImg: "Sākuma Bilde (Attēla URL)",
+                lblText: "Paziņojuma Teksts",
+                phTitle: "LVRPL | Server start up",
+                phCode: "KODS: LVRPL",
+                phLink: "piem., roblox://... vai https://...",
+                phImg: "https://i.imgur.com/bilde.png",
+                btnSave: "SAGLABĀT IZMAIŅAS",
+                btnSaving: "SAGLABĀ...",
+                btnSaved: "✅ SAGLABĀTS!",
+                btnError: "❌ KĻŪDA!",
+                roleSelectDef: "-- Izvēlies lomu, ko pingot --",
+                rev1: '"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"',
+                rev2: '"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."',
+                rev3: '"Balsošanas sistēma novērš spamu. Spēlētāji ieliek \'/session\', un bots pats visu izdara. 10/10 rekomendēju."'
+            },
+            en: {
+                heroDesc: "Automate your roleplay sessions, manage votes, and maintain order in your server with one modern Discord bot.",
+                loginBtn: "Login with Discord",
+                selectTitle: "Select a Server",
+                hello: "Hello, ",
+                helloSub: "! Here are the servers where you have admin permissions.",
+                loading: "Loading...",
+                noServers: "You don't have any manageable servers.",
+                btnManage: "Manage",
+                btnAddBot: "Add Bot",
+                activeServer: "ACTIVE SERVER",
+                settingsDesc: "Configure your server's session appearance.",
+                backBtn: "⬅ All servers",
+                lblTitle: "Embed Title",
+                lblCode: "Access Code",
+                lblLink: "Game Join Link",
+                lblRole: "Ping Role",
+                lblImg: "Start Image (URL)",
+                lblText: "Notification Text",
+                phTitle: "NYRP | Server start up",
+                phCode: "CODE: NYRP",
+                phLink: "e.g., roblox://... or https://...",
+                phImg: "https://i.imgur.com/image.png",
+                btnSave: "SAVE CHANGES",
+                btnSaving: "SAVING...",
+                btnSaved: "✅ SAVED!",
+                btnError: "❌ ERROR!",
+                roleSelectDef: "-- Select a role to ping --",
+                rev1: '"Before this, we made polls manually and messed around with pings. With Seshio, sessions start with one click. Perfect!"',
+                rev2: '"The Dashboard is the best part. I can change access codes in a second without typing commands in Discord."',
+                rev3: '"The voting system prevents spam. Players type \'/session\', and the bot does the rest. 10/10 recommend."'
+            }
+        };
 
-            // UI Atjaunošana atkarībā no Premium
-            document.getElementById('premium-badge').style.display = isPremium ? 'inline-block' : 'none';
-            document.getElementById('beta-badge').style.display = isPremium ? 'inline-block' : 'none';
-            document.getElementById('buyPremiumBtn').style.display = isPremium ? 'none' : 'block';
-            
-            // Atbloķējam laukus
-            document.getElementById('botName').disabled = !isPremium;
-            document.getElementById('startImage').disabled = !isPremium;
-            
-            // Paslēpjam lock tekstus
-            document.getElementById('lock-name').style.display = isPremium ? 'none' : 'block';
-            document.getElementById('lock-img').style.display = isPremium ? 'none' : 'block';
-        }
+        let currentLang = localStorage.getItem('seshio_lang') || 'lv';
 
-        function updatePreview() {
-            document.getElementById('pre-bot-name').innerText = document.getElementById('botName').value || "Seshio";
-            document.getElementById('pre-title').innerText = document.getElementById('embedTitle').value || "Server Session";
-            document.getElementById('pre-code').innerText = "KODS: " + (document.getElementById('embedCode').value || "NAV");
-            document.getElementById('pre-text').innerText = document.getElementById('startText').value || "Sāksim jaunu sesiju!";
-            
-            const imgUrl = document.getElementById('startImage').value.split(',')[0];
-            const imgEl = document.getElementById('pre-img');
-            if(imgUrl && isPremium) { imgEl.src = imgUrl; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
-        }
-
-        async function openDashboard(guildId, guildName) {
-            currentGuildId = guildId;
-            document.getElementById('server-selector-page').style.display = 'none';
-            document.getElementById('dashboard-page').style.display = 'flex';
-            document.getElementById('active-server-title').innerText = guildName;
-
-            await checkPremium(guildId);
-            
-            const res = await fetch(`${API_URL}/api/settings/${guildId}`);
-            const data = await res.json();
-            
-            document.getElementById('botName').value = data.botName || '';
-            document.getElementById('embedTitle').value = data.embedTitle || '';
-            document.getElementById('embedCode').value = data.embedCode || '';
-            document.getElementById('startImage').value = data.startImage || '';
-            document.getElementById('startText').value = data.startText || '';
-            
+        function switchLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('seshio_lang', lang);
+            document.getElementById('btn-lv').classList.toggle('active', lang === 'lv');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[lang][key]) el.innerHTML = dict[lang][key];
+            });
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const key = el.getAttribute('data-i18n-ph');
+                if (dict[lang][key]) el.placeholder = dict[lang][key];
+            });
+            const roleSelect = document.getElementById('pingRole');
+            if(roleSelect && roleSelect.options.length > 0 && roleSelect.options[0].value === "") {
+                roleSelect.options[0].text = dict[lang].roleSelectDef;
+            }
+            if(rawUserGuilds.length > 0) renderServerList();
             updatePreview();
         }
 
-        async function buyPremium() {
-            const res = await fetch(`${API_URL}/api/create-checkout-session`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ guildId: currentGuildId })
-            });
-            const data = await res.json();
-            if(data.url) window.location.href = data.url;
-        }
+        switchLang(currentLang);
+        function toggleSidebar() { document.getElementById('mobile-sidebar').classList.toggle('open'); }
 
-        async function saveData() {
-            const btn = document.getElementById('saveBtn');
-            btn.innerText = "SAGLABĀ...";
+        function updatePreview() {
+            const textInput = document.getElementById('startText').value;
+            document.getElementById('preview-text').innerText = textInput || (currentLang === 'lv' ? "Tavs teksts būs šeit..." : "Your text will be here...");
+            document.getElementById('preview-title').innerText = document.getElementById('embedTitle').value || "Server start up";
             
-            const data = {
-                guildId: currentGuildId,
-                botName: isPremium ? document.getElementById('botName').value : 'Seshio',
-                embedTitle: document.getElementById('embedTitle').value,
-                embedCode: document.getElementById('embedCode').value,
-                startImage: isPremium ? document.getElementById('startImage').value : '',
-                startText: document.getElementById('startText').value
-            };
+            const codeInput = document.getElementById('embedCode').value;
+            const codePreviewContainer = document.getElementById('preview-code-container');
+            const codePreviewText = document.getElementById('preview-code');
+            if(codeInput) { 
+                codePreviewText.innerText = codeInput; 
+                codePreviewContainer.style.display = 'block'; 
+            } else { 
+                codePreviewContainer.style.display = 'none'; 
+            }
 
-            await fetch(`${API_URL}/api/save-settings`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
-            });
+            const imgUrl = document.getElementById('startImage').value;
+            const imgEl = document.getElementById('preview-image');
+            if(imgUrl) { imgEl.src = imgUrl; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
+            
+            const roleSelect = document.getElementById('pingRole');
+            if(roleSelect.options.length > 0 && roleSelect.selectedIndex > 0 && roleSelect.value !== "") {
+                document.getElementById('preview-ping').innerText = "@" + roleSelect.options[roleSelect.selectedIndex].text;
+            } else { document.getElementById('preview-ping').innerText = "@here"; }
 
-            btn.innerText = "✅ SAGLABĀTS!";
-            setTimeout(() => btn.innerText = "SAGLABĀT IZMAIŅAS", 2000);
+            const serverLink = document.getElementById('serverLink').value;
+            const btnPreview = document.getElementById('preview-join-btn');
+            if(serverLink && serverLink.trim() !== '') { btnPreview.style.display = 'inline-block'; } else { btnPreview.style.display = 'none'; }
+            
+            document.getElementById('preview-footer').innerText = (currentLang === 'lv' ? "Balsis: 0 / X" : "Votes: 0 / X");
         }
 
         function backToServers() {
             document.getElementById('dashboard-page').style.display = 'none';
             document.getElementById('server-selector-page').style.display = 'block';
+            document.getElementById('mobile-sidebar').classList.remove('open');
         }
 
-        // --- IELĀDES LOĢIKA ---
+        function renderServerList() {
+            const serverList = document.getElementById('server-list');
+            serverList.innerHTML = '';
+            const adminGuilds = rawUserGuilds.filter(g => {
+                const perms = BigInt(g.permissions);
+                return (perms & 8n) === 8n || (perms & 32n) === 32n;
+            });
+            manageableGuilds = adminGuilds.filter(g => rawBotGuilds.includes(g.id));
+
+            if(adminGuilds.length === 0) {
+                serverList.innerHTML = `<div style="color:var(--text-muted); grid-column: 1/-1;">${dict[currentLang].noServers}</div>`;
+                return;
+            }
+            adminGuilds.forEach(guild => {
+                const isBotInGuild = rawBotGuilds.includes(guild.id);
+                let iconHtml = guild.icon ? 
+                    `<img src="https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png" class="server-icon-large">` : 
+                    `<div class="server-icon-large">${guild.name.charAt(0)}</div>`;
+                let buttonHtml = isBotInGuild ? 
+                    `<button class="btn-manage" onclick="openDashboard('${guild.id}', '${guild.name.replace(/'/g, "\\'")}')">${dict[currentLang].btnManage}</button>` :
+                    `<a href="https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=8&scope=bot%20applications.commands&guild_id=${guild.id}" target="_blank" class="btn-invite">${dict[currentLang].btnAddBot}</a>`;
+                serverList.innerHTML += `<div class="server-card">${iconHtml}<div class="server-name">${guild.name}</div>${buttonHtml}</div>`;
+            });
+        }
+
         window.onload = async () => {
             const fragment = new URLSearchParams(window.location.hash.slice(1));
-            const token = fragment.get('access_token');
-            if (token) {
+            const [accessToken, tokenType] = [fragment.get('access_token'), fragment.get('token_type')];
+
+            if (accessToken) {
                 document.getElementById('landing-page').style.display = 'none';
                 document.getElementById('server-selector-page').style.display = 'block';
-                const guilds = await fetch('https://discord.com/api/users/@me/guilds', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json());
-                const list = document.getElementById('server-list');
-                guilds.filter(g => (BigInt(g.permissions) & 8n) === 8n).forEach(g => {
-                    const card = document.createElement('div');
-                    card.className = 'server-card';
-                    card.innerHTML = `<div class="server-icon-large">${g.name[0]}</div><div class="server-name">${g.name}</div><button class="btn-manage">Pārvaldīt</button>`;
-                    card.onclick = () => openDashboard(g.id, g.name);
-                    list.appendChild(card);
-                });
+
+                fetch('https://discord.com/api/users/@me', { headers: { authorization: `${tokenType} ${accessToken}` } })
+                .then(res => res.json())
+                .then(user => { document.getElementById('welcome-name').innerText = user.username; });
+
+                try {
+                    const [guildsRes, botGuildsRes] = await Promise.all([
+                        fetch('https://discord.com/api/users/@me/guilds', { headers: { authorization: `${tokenType} ${accessToken}` } }),
+                        fetch(`${API_URL}/api/bot-guilds`) 
+                    ]);
+                    
+                    rawUserGuilds = await guildsRes.json();
+                    rawBotGuilds = await botGuildsRes.json();
+                    renderServerList();
+                } catch(e) { console.error(e); }
             }
         };
+
+        async function openDashboard(guildId, guildName) {
+            currentGuildId = guildId;
+            document.getElementById('server-selector-page').style.display = 'none';
+            document.getElementById('dashboard-page').style.display = 'flex';
+            document.getElementById('mobile-sidebar').classList.remove('open');
+            document.getElementById('active-server-title').innerText = guildName + " Settings";
+
+            const sidebarList = document.getElementById('sidebar-server-list');
+            sidebarList.innerHTML = '';
+            manageableGuilds.forEach(g => {
+                const isActive = g.id === guildId;
+                sidebarList.innerHTML += `<a href="#" onclick="openDashboard('${g.id}', '${g.name.replace(/'/g, "\\'")}')" class="nav-item ${isActive ? 'active' : ''}">${g.name}</a>`;
+            });
+
+            document.getElementById('pingRole').innerHTML = `<option value="">${dict[currentLang].roleSelectDef}</option>`;
+            document.getElementById('startImage').value = '';
+            document.getElementById('startText').value = '';
+            document.getElementById('embedTitle').value = '';
+            document.getElementById('embedCode').value = '';
+            document.getElementById('serverLink').value = '';
+
+            try {
+                const rolesRes = await fetch(`${API_URL}/api/roles/${guildId}`);
+                if (rolesRes.ok) {
+                    const roles = await rolesRes.json();
+                    const select = document.getElementById('pingRole');
+                    roles.forEach(role => { select.innerHTML += `<option value="${role.id}">${role.name}</option>`; });
+                }
+
+                const settingsRes = await fetch(`${API_URL}/api/settings/${guildId}`);
+                if (settingsRes.ok) {
+                    const data = await settingsRes.json();
+                    
+                    if(data.language) switchLang(data.language);
+
+                    if(data.startText) document.getElementById('startText').value = data.startText;
+                    if(data.startImage) document.getElementById('startImage').value = data.startImage;
+                    if(data.pingRole) document.getElementById('pingRole').value = data.pingRole;
+                    if(data.embedTitle) document.getElementById('embedTitle').value = data.embedTitle;
+                    if(data.embedCode) document.getElementById('embedCode').value = data.embedCode;
+                    if(data.serverLink) document.getElementById('serverLink').value = data.serverLink;
+                }
+            } catch(e) { console.error(e); }
+            updatePreview();
+        }
+
+        async function saveData() {
+            if(!currentGuildId) return;
+            const btn = document.getElementById('saveBtn');
+            btn.innerHTML = dict[currentLang].btnSaving;
+            
+            const data = {
+                guildId: currentGuildId,
+                pingRole: document.getElementById('pingRole').value,
+                startImage: document.getElementById('startImage').value,
+                startText: document.getElementById('startText').value,
+                embedTitle: document.getElementById('embedTitle').value,
+                embedCode: document.getElementById('embedCode').value,
+                serverLink: document.getElementById('serverLink').value,
+                language: currentLang 
+            };
+
+            try {
+                const res = await fetch(`${API_URL}/api/save-settings`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
+                });
+
+                if(res.ok) { btn.innerHTML = dict[currentLang].btnSaved; btn.style.background = 'var(--accent-green)'; } 
+                else { btn.innerHTML = dict[currentLang].btnError; }
+            } catch (err) { btn.innerHTML = dict[currentLang].btnError; }
+            setTimeout(() => { btn.innerHTML = dict[currentLang].btnSave; btn.style.background = 'var(--accent-cyan)'; }, 3000);
+        }
     </script>
 </body>
 </html>
