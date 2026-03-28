@@ -80,8 +80,6 @@
         .server-name { font-weight: 600; margin-bottom: 20px; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .btn-manage { background: var(--accent-cyan); color: #000; padding: 12px 20px; border-radius: 6px; font-weight: 700; display: block; width: 100%; cursor: pointer; border: none; font-size: 14px; transition: 0.2s; }
         .btn-manage:hover { background: #6cf0e3; }
-        .btn-invite { background: #2b3a42; color: #fff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; display: block; width: 100%; cursor: pointer; border: 1px solid rgba(76,235,218,0.3); font-size: 14px; transition: 0.2s;}
-        .btn-invite:hover { background: #374a54; }
 
         /* DASHBOARD */
         #dashboard-page { display: none; width: 100%; height: 100vh; z-index: 20;}
@@ -97,11 +95,7 @@
         .main-content { flex: 1; padding: 40px; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .header { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px;}
         .header h1 { font-size: 28px; font-weight: 600; margin-bottom: 5px; color: var(--accent-cyan);} 
-        .header p { color: var(--text-muted); font-size: 14px; }
         .premium-badge { background: var(--accent-gold); color: #000; font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 800; display: none; margin-left: 10px; vertical-align: middle;}
-        
-        .back-btn { background: rgba(76, 235, 218, 0.1); color: var(--accent-cyan); border: 1px solid rgba(76, 235, 218, 0.2); padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; transition: 0.2s; font-weight: 500;} 
-        .back-btn:hover {background: rgba(76, 235, 218, 0.2);}
 
         .panel { background-color: var(--bg-card); border: 1px solid rgba(76, 235, 218, 0.15); border-radius: 12px; padding: 25px; backdrop-filter: blur(10px); margin-bottom: 20px;}
         .panel-title { color: var(--accent-cyan); font-size: 16px; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid rgba(76,235,218,0.2); padding-bottom: 10px;}
@@ -113,43 +107,40 @@
         .premium-lock { color: var(--accent-gold); float: right; font-weight: 700; font-size: 10px; text-transform: uppercase; }
         
         input, textarea, select { width: 100%; background-color: rgba(0, 0, 0, 0.3); border: 1px solid rgba(76, 235, 218, 0.2); border-radius: 8px; color: var(--text-light); padding: 10px 12px; font-size: 14px; transition: 0.2s;}
-        input:disabled, textarea:disabled, select:disabled { opacity: 0.3; cursor: not-allowed; }
-        select:focus, input:focus, textarea:focus { outline: none; border-color: var(--accent-cyan); }
+        input:disabled { opacity: 0.4; cursor: not-allowed; }
         
         .btn-save { width: 100%; background: var(--accent-cyan); color: #000; border: none; padding: 16px; border-radius: 8px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        .btn-save:hover { box-shadow: 0 0 15px rgba(76, 235, 218, 0.4); transform: translateY(-2px); }
         .btn-premium-buy { width: 100%; background: linear-gradient(45deg, #f1c40f, #f39c12); color: #000; border: none; padding: 16px; border-radius: 8px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        .btn-premium-buy:hover { box-shadow: 0 0 15px rgba(241, 196, 15, 0.4); transform: translateY(-2px); }
-
-        /* ====== TOGGLE SLĒDZIS ====== */
-        .switch-container { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        
+        /* TOGGLE */
+        .switch-container { display: flex; align-items: center; gap: 10px; }
+        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); transition: .3s; border-radius: 24px; border: 1px solid rgba(76, 235, 218, 0.3); }
-        .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: var(--text-muted); transition: .3s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent-cyan); border-color: var(--accent-cyan); }
-        input:checked + .slider:before { transform: translateX(20px); background-color: #000; }
-        .feature-box { background: rgba(0,0,0,0.2); border: 1px solid rgba(76,235,218,0.1); border-radius: 8px; padding: 15px; margin-top: 15px; margin-bottom: 15px; border-left: 3px solid var(--accent-cyan); }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #2b3a42; transition: .4s; border-radius: 20px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-cyan); }
+        input:checked + .slider:before { transform: translateX(20px); }
 
         /* ====== TIGHT DISCORD PREVIEW ====== */
         .preview-sticky { position: sticky; top: 40px; }
         .preview-panel { background: #313338; border-radius: 8px; padding: 16px; font-family: 'gg sans', sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: left; color: #dbdee1; margin-bottom: 20px;}
-        .preview-header { font-size: 12px; font-weight: 800; color: #949ba4; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; display: flex; justify-content: space-between;}
-        
         .preview-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-        .preview-tab { font-size: 11px; padding: 5px 10px; background: rgba(0,0,0,0.3); border-radius: 4px; cursor: pointer; font-weight: 700; color: #949ba4; border: 1px solid transparent;}
-        .preview-tab.active { background: rgba(76,235,218,0.1); color: var(--accent-cyan); border-color: rgba(76,235,218,0.3);}
+        .preview-tab { font-size: 11px; padding: 5px 10px; background: rgba(0,0,0,0.3); border-radius: 4px; cursor: pointer; font-weight: 700; color: #949ba4;}
+        .preview-tab.active { background: var(--accent-cyan); color: #000; }
 
-        .discord-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background-color: #2b2d31; }
-        .discord-name { font-weight: 500; color: #f2f3f5; font-size: 16px; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; }
-        .bot-tag { background: #5865F2; color: white; font-size: 10px; padding: 1px 4px; border-radius: 3px; font-weight: 600; display: flex; align-items: center; gap: 4px;}
+        .discord-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+        .discord-name { font-weight: 500; color: #f2f3f5; font-size: 16px; display: flex; align-items: center; gap: 6px; }
+        .bot-tag { background: #5865F2; color: white; font-size: 10px; padding: 1px 4px; border-radius: 3px; font-weight: 600; }
         .discord-embed { background: #2b2d31; border-radius: 4px; border-left: 4px solid var(--accent-cyan); padding: 8px 12px; margin-top: 4px; max-width: 432px; }
         .discord-embed.ssd-mode { border-left-color: var(--accent-red); }
         .embed-flex-container { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
         .embed-title { font-weight: 600; color: #f2f3f5; font-size: 16px; margin: 0; line-height: 1.3; }
-        .embed-thumbnail { width: 72px; height: 72px; object-fit: cover; border-radius: 4px; flex-shrink: 0; display: none; }
+        .embed-thumbnail { width: 72px; height: 72px; object-fit: cover; border-radius: 4px; display: none; }
         .embed-footer { font-size: 12px; color: #f2f3f5; font-weight: 700; margin-top: 8px; }
         .mention-pill { background: rgba(88, 101, 242, 0.3); color: #c9cdcf; padding: 0 4px; border-radius: 3px; font-weight: 500; font-size: 14px; }
+        
+        .btn-manual-ssd { background: var(--accent-red); color: white; border: none; padding: 10px; border-radius: 4px; font-weight: 700; font-size: 12px; cursor: pointer; margin-top: 10px; width: 100%; transition: 0.3s;}
+        .btn-manual-ssd:hover { background: #c0392b; transform: scale(1.02); }
     </style>
 </head>
 <body>
@@ -166,16 +157,14 @@
             <p data-i18n="heroDesc">Automatizē savas lomu spēles sesijas, pārvaldi balsojumus un uzturi kārtību savā serverī ar vienu modernu Discord botu.</p>
             <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio.lat%2F&response_type=token&scope=identify%20guilds" class="btn-login" data-i18n="loginBtn">Login with Discord</a>
         </div>
-        
         <div class="reviews-container">
             <div class="reviews-track">
-                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Server Owner</p></div></div></div>
-                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>RP Administrator</p></div></div></div>
-                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"Balsošanas sistēma novērš spamu. Spēlētāji ieliek '/session', un bots pats visu izdara. 10/10 rekomendēju."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Community Manager</p></div></div></div>
-                
-                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Server Owner</p></div></div></div>
-                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>RP Administrator</p></div></div></div>
-                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"Balsošanas sistēma novērš spamu. Spēlētāji ieliek '/session', un bots pats visu izdara. 10/10 rekomendēju."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Community Manager</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Owner</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>Admin</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"Balsošanas sistēma novērš spamu. Spēlētāji ieliek '/session', un bots pats visu izdara. 10/10 rekomendēju."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Manager</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev1">"..."</p><div class="review-author"><div class="author-avatar">M</div><div class="author-info"><h4>Mikus</h4><p>FiveM Owner</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev2">"..."</p><div class="review-author"><div class="author-avatar" style="background: #e84393;">A</div><div class="author-info"><h4>Anna</h4><p>Admin</p></div></div></div>
+                <div class="review-card"><div class="stars">★★★★★</div><p class="review-text" data-i18n="rev3">"..."</p><div class="review-author"><div class="author-avatar" style="background: #00b894;">D</div><div class="author-info"><h4>Dāvis</h4><p>Manager</p></div></div></div>
             </div>
         </div>
         <div class="hero-image-bg"></div>
@@ -202,43 +191,36 @@
                     <h1><span id="active-server-title">Settings</span> <span class="premium-badge" id="premium-badge">👑 PREMIUM</span></h1>
                     <p data-i18n="settingsDesc">Konfigurē sava servera sesijas izskatu.</p>
                 </div>
-                <button class="back-btn" onclick="backToServers()" data-i18n="backBtn">⬅ Atpakaļ</button>
+                <button class="btn-login" style="padding: 8px 15px; font-size: 14px;" onclick="backToServers()" data-i18n="backBtn">⬅ Atpakaļ</button>
             </div>
 
             <div>
                 <div class="panel">
-                    <div class="panel-title" data-i18n="panel1">1. Pamata Iestatījumi</div>
+                    <div class="panel-title" data-i18n="panelGeneral">1. Pamata Iestatījumi</div>
                     <div class="form-group">
-                        <label><span data-i18n="lblBotName">Bota Vārds (Custom Name)</span> <span class="premium-lock" id="lock-name">👑 Premium</span></label>
-                        <input type="text" id="botName" placeholder="Seshio" oninput="updatePreview()" disabled>
+                        <label data-i18n="lblBotName">Bota Vārds (Custom Name)</label>
+                        <input type="text" id="botName" placeholder="Seshio" oninput="updatePreview()">
                     </div>
-                    
                     <div class="form-row">
                         <div class="form-group">
-                            <label data-i18n="lblTitle">Virsraksts (Embed Title)</label>
-                            <input type="text" id="embedTitle" data-i18n-ph="phTitle" placeholder="LVRPL | Server start up" oninput="updatePreview()">
+                            <label data-i18n="lblTitle">Embed Virsraksts</label>
+                            <input type="text" id="embedTitle" placeholder="LVRPL | Session" oninput="updatePreview()">
                         </div>
                         <div class="form-group">
-                            <label><span data-i18n="lblCode">Piekļuves Kods</span> <span class="premium-lock" id="lock-code">👑 Premium</span></label>
-                            <input type="text" id="embedCode" data-i18n-ph="phCode" placeholder="KODS: LVRPL" oninput="updatePreview()" disabled>
+                            <label data-i18n="lblCode">Piekļuves Kods</label>
+                            <input type="text" id="embedCode" placeholder="KODS: 1234" oninput="updatePreview()">
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label data-i18n="lblLink">Spēles pieslēgšanās saite (Join Link)</label>
-                        <input type="text" id="serverLink" data-i18n-ph="phLink" placeholder="piem., roblox://..." oninput="updatePreview()">
-                    </div>
-
                     <div class="form-group">
                         <label data-i18n="lblRole">Paziņojuma loma (Ping Role)</label>
                         <select id="pingRole" onchange="updatePreview()"><option value="">-- Ielādē... --</option></select>
                     </div>
                     <div class="form-group">
-                        <label><span data-i18n="lblImg">Sākuma Bilde (Attēla URL)</span> <span class="premium-lock" id="lock-img">👑 Premium</span></label>
-                        <input type="text" id="startImage" data-i18n-ph="phImg" placeholder="https://i.imgur.com/bilde.png" oninput="updatePreview()" disabled>
+                        <label data-i18n="lblImg">Sākuma Bilde (URL)</label>
+                        <input type="text" id="startImage" placeholder="https://i.imgur.com/..." oninput="updatePreview()">
                     </div>
                     <div class="form-group">
-                        <label data-i18n="lblText">Paziņojuma Teksts</label>
+                        <label data-i18n="lblText">Apraksta Teksts</label>
                         <textarea id="startText" rows="3" oninput="updatePreview()"></textarea>
                     </div>
                 </div>
@@ -246,41 +228,24 @@
                 <div class="panel">
                     <div class="panel-title" data-i18n="panelSsd">2. Server Shutdown (SSD)</div>
                     
-                    <div class="feature-box">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <label style="margin:0; font-size: 14px; color: var(--accent-cyan);" data-i18n="autoSsdTitle">Automātiskais SSD</label>
+                    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 3px solid var(--accent-gold);">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="font-size: 13px; font-weight: 700; color: var(--accent-gold);" data-i18n="premiumApi">Automātiskais SSD (Premium API)</span>
+                            <span class="premium-lock" id="lock-ssd">👑 Premium</span>
                         </div>
-                        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 15px;" data-i18n="autoSsdDesc">Bots automātiski izziņos SSD, ja spēlētāju skaits privātajā serverī nokritīsies zem norādītā sliekšņa.</p>
-                        
-                        <div style="display: flex; gap: 20px; align-items: center;">
-                            <div class="switch-container">
-                                <label class="switch">
-                                    <input type="checkbox" id="autoSsdToggle" onchange="toggleSsdInput()">
-                                    <span class="slider"></span>
-                                </label>
-                                <span style="font-size: 12px; font-weight: 600;" data-i18n="autoSsdOn">Ieslēgt Auto-SSD</span>
-                            </div>
-                            
-                            <div style="flex: 1; display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 12px; white-space: nowrap;" data-i18n="autoSsdLimit">Ja spēlētāju mazāk par:</span>
-                                <input type="number" id="autoSsdLimit" placeholder="5" min="1" max="50" style="margin: 0; width: 80px;" disabled>
-                            </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>ER:LC API Key</label><input type="text" id="erlcApiKey" disabled></div>
+                            <div class="form-group"><label>Server ID</label><input type="text" id="erlcServerId" disabled></div>
+                        </div>
+                        <div class="switch-container">
+                            <label class="switch"><input type="checkbox" id="autoSsdToggle" disabled><span class="slider"></span></label>
+                            <span style="font-size: 12px; color: var(--text-muted);" data-i18n="autoSsdOn">Ieslēgt Auto-SSD (ja < X spēlētāji)</span>
                         </div>
                     </div>
 
-                    <label style="color:white; font-size:13px; margin-bottom:10px; display:block;" data-i18n="ssdVisuals">Kā izskatīsies SSD ziņa?</label>
-                    <div class="form-group">
-                        <label data-i18n="lblSsdTitle">SSD Virsraksts</label>
-                        <input type="text" id="ssdTitle" data-i18n-ph="phSsdTitle" placeholder="Server Shutdown" oninput="updatePreview()">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblSsdImg">SSD Bilde (Thumbnail)</label>
-                        <input type="text" id="ssdImage" data-i18n-ph="phImg" placeholder="https://i.imgur.com/..." oninput="updatePreview()">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="lblSsdText">SSD Teksts</label>
-                        <textarea id="ssdText" rows="3" data-i18n-ph="phSsdText" placeholder="Paldies par spēli!" oninput="updatePreview()"></textarea>
-                    </div>
+                    <div class="form-group"><label data-i18n="lblSsdTitle">SSD Virsraksts</label><input type="text" id="ssdTitle" oninput="updatePreview()"></div>
+                    <div class="form-group"><label data-i18n="lblSsdImg">SSD Bilde</label><input type="text" id="ssdImage" oninput="updatePreview()"></div>
+                    <div class="form-group"><label data-i18n="lblSsdText">SSD Teksts</label><textarea id="ssdText" rows="2" oninput="updatePreview()"></textarea></div>
                 </div>
 
                 <button class="btn-save" id="saveBtn" onclick="saveData()" data-i18n="btnSave">SAGLABĀT IZMAIŅAS</button>
@@ -289,341 +254,194 @@
 
             <div class="preview-sticky">
                 <div class="preview-tabs">
-                    <div class="preview-tab active" id="tab-start" onclick="switchPreview('start')" data-i18n="tabStart">Session Start</div>
-                    <div class="preview-tab" id="tab-ssd" onclick="switchPreview('ssd')" data-i18n="tabSsd">Server Shutdown</div>
+                    <div class="preview-tab active" id="tab-start" onclick="switchPreview('start')">Session Start</div>
+                    <div class="preview-tab" id="tab-ssd" onclick="switchPreview('ssd')">Shutdown (SSD)</div>
                 </div>
-
                 <div class="preview-panel">
-                    <div class="preview-header">Live Discord Preview</div>
                     <div class="discord-message" style="display:flex; gap:12px;">
-                        <div class="discord-avatar">
-                            <img src="https://cdn.discordapp.com/attachments/1485233746994139147/1485345443914453246/bj.jpg?ex=69c6247e&is=69c4d2fe&hm=b95d392ab9a45c90d5fd6b048632722a6f4b80de511b4f81ee58ca762426e9f5&" alt="Bot Avatar">
-                        </div>
+                        <div class="discord-avatar"><img src="https://cdn.discordapp.com/attachments/1485233746994139147/1485345443914453246/bj.jpg?ex=69c6247e&is=69c4d2fe&hm=b95d392ab9a45c90d5fd6b048632722a6f4b80de511b4f81ee58ca762426e9f5&" alt="Avatar"></div>
                         <div class="discord-content">
                             <div class="discord-name"><span id="pre-bot-name">Seshio</span> <span class="bot-tag">APP</span></div>
-                            <div class="mention-pill" style="width:fit-content; font-size:14px; margin-bottom:4px;" id="pre-ping">@Loma</div>
-                            
+                            <div class="mention-pill" style="width:fit-content; font-size:14px; margin-bottom:4px;" id="pre-ping">@here</div>
                             <div class="discord-embed" id="pre-embed-box">
                                 <div class="embed-flex-container">
                                     <div style="flex:1">
-                                        <div class="embed-title" id="pre-title">LVRPL | Server start up</div>
-                                        <div style="font-size:14px; margin:4px 0;" id="pre-code-div"><strong id="pre-code">KODS: LVRPL</strong></div>
-                                        <div style="font-size:14px; margin-bottom:8px;" id="pre-votes-div"><strong>📋 Votes:</strong> <span class="mention-pill">@Lietotājs</span></div>
-                                        <div id="pre-text" style="font-size:14px; color:#dbdee1;">Sāksim jaunu sesiju!</div>
+                                        <div class="embed-title" id="pre-title">LVRPL | Session</div>
+                                        <div style="font-size:14px; margin:4px 0;" id="pre-code-div"><strong id="pre-code">KODS: 1234</strong></div>
+                                        <div style="font-size:14px; margin-bottom:8px;" id="pre-votes-div"><strong>📋 Votes:</strong> <span class="mention-pill">@User</span></div>
+                                        <div id="pre-text" style="font-size:14px; color:#dbdee1;">Sāksim sesiju!</div>
                                     </div>
                                     <img id="pre-img" class="embed-thumbnail" src="">
                                 </div>
                                 <div class="embed-footer" id="pre-footer">Votes: 0 / 10</div>
                             </div>
+                            <button class="btn-manual-ssd" id="manual-send-btn" onclick="sendManualMessage()">SEND MANUAL MESSAGE</button>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 
     <script>
-        const CLIENT_ID = '1485224120047108237';
         const API_URL = 'https://seshio-dashboard.onrender.com'; 
-        
         let currentGuildId = null;
         let isPremium = false;
-        let currentPreviewMode = 'start'; 
+        let currentPreviewMode = 'start';
         let rawUserGuilds = []; 
         let rawBotGuilds = [];
-        let manageableGuilds = []; 
 
         const dict = {
             lv: {
-                heroDesc: "Automatizē savas lomu spēles sesijas, pārvaldi balsojumus un uzturi kārtību savā serverī ar vienu modernu Discord botu.",
-                loginBtn: "Login with Discord", selectTitle: "Izvēlies Serveri", hello: "Sveiks, ", helloSub: "! Šeit ir serveri, kuros tu esi administrators.",
-                loading: "Ielādē...", noServers: "Tev nav neviena servera, kuru tu varētu pārvaldīt.", btnManage: "Pārvaldīt", btnAddBot: "Pievienot Botu",
-                activeServer: "AKTĪVAIS SERVERIS", settingsDesc: "Konfigurē sava servera sesijas izskatu.", backBtn: "⬅ Visi serveri",
-                panel1: "1. Pamata Iestatījumi", lblBotName: "Bota Vārds (Custom Name)", lblTitle: "Virsraksts (Embed Title)", lblCode: "Piekļuves Kods",
-                lblLink: "Spēles pieslēgšanās saite (Join Link)", lblRole: "Paziņojuma loma (Ping Role)", lblImg: "Sākuma Bilde (Attēla URL)", lblText: "Paziņojuma Teksts",
-                panelSsd: "2. Server Shutdown (SSD)", autoSsdTitle: "Automātiskais SSD", autoSsdDesc: "Bots automātiski izziņos SSD, ja spēlētāju skaits privātajā serverī nokritīsies zem norādītā sliekšņa.",
-                autoSsdOn: "Ieslēgt Auto-SSD", autoSsdLimit: "Ja spēlētāju mazāk par:", ssdVisuals: "Kā izskatīsies SSD ziņa?", lblSsdTitle: "SSD Virsraksts",
-                lblSsdImg: "SSD Bilde (Thumbnail)", lblSsdText: "SSD Teksts",
-                phTitle: "LVRPL | Server start up", phCode: "KODS: LVRPL", phLink: "piem., roblox://...", phImg: "https://i.imgur.com/bilde.png",
-                phSsdTitle: "Server Shutdown", phSsdText: "Paldies par spēli! Serveris tiek slēgts.",
-                btnSave: "SAGLABĀT IZMAIŅAS", btnSaving: "SAGLABĀ...", btnSaved: "✅ SAGLABĀTS!", btnError: "❌ KĻŪDA!", roleSelectDef: "-- Izvēlies lomu --",
-                tabStart: "Session Start", tabSsd: "Server Shutdown",
-                rev1: '"Pirms tam manuāli likām aptaujas un čakarējāmies ar pingiem. Ar Seshio sesijas sākas ar vienu pogas spiedienu. Perfekti!"',
-                rev2: '"Vislabākais ir Dashboard. Varu nomainīt pieejas kodus sekundes laikā bez liekas koda rakstīšanas Discordā."',
-                rev3: '"Balsošanas sistēma novērš spamu. Spēlētāji ieliek \'/session\', un bots pats visu izdara. 10/10 rekomendēju."'
+                heroDesc: "Automatizē savas RP sesijas ar modernu Discord botu.", loginBtn: "Ienākt ar Discord", selectTitle: "Izvēlies Serveri", 
+                hello: "Sveiks, ", helloSub: "!", loading: "Ielādē...", noServers: "Tev nav admin tiesību nevienā serverī.", btnManage: "Pārvaldīt", 
+                activeServer: "AKTĪVAIS SERVERIS", settingsDesc: "Konfigurē bota darbību.", backBtn: "⬅ Atpakaļ", panelGeneral: "1. Pamata Iestatījumi", 
+                lblBotName: "Bota Vārds", lblTitle: "Virsraksts", lblCode: "Kods", lblRole: "Loma (Ping)", lblImg: "Bilde (URL)", 
+                lblText: "Teksts", panelSsd: "2. Server Shutdown (SSD)", premiumApi: "Automātiskais SSD (Premium API)", autoSsdOn: "Ieslēgt Auto-SSD", 
+                lblSsdTitle: "SSD Virsraksts", lblSsdImg: "SSD Bilde", lblSsdText: "SSD Teksts", btnSave: "SAGLABĀT IZMAIŅAS", btnSaving: "SAGLABĀ...", 
+                btnSaved: "✅ SAGLABĀTS!", btnError: "❌ KĻŪDA!", roleSelectDef: "-- Izvēlies lomu --", rev1: "Izcils bots!", rev2: "Viss strādā perfekti.", rev3: "RP kļuvis vieglāks."
             },
             en: {
-                heroDesc: "Automate your roleplay sessions, manage votes, and maintain order in your server with one modern Discord bot.",
-                loginBtn: "Login with Discord", selectTitle: "Select a Server", hello: "Hello, ", helloSub: "! Here are the servers where you have admin permissions.",
-                loading: "Loading...", noServers: "You don't have any manageable servers.", btnManage: "Manage", btnAddBot: "Add Bot",
-                activeServer: "ACTIVE SERVER", settingsDesc: "Configure your server's session appearance.", backBtn: "⬅ All servers",
-                panel1: "1. General Settings", lblBotName: "Bot Name (Custom Name)", lblTitle: "Embed Title", lblCode: "Access Code",
-                lblLink: "Game Join Link", lblRole: "Ping Role", lblImg: "Start Image (URL)", lblText: "Notification Text",
-                panelSsd: "2. Server Shutdown (SSD)", autoSsdTitle: "Automatic SSD", autoSsdDesc: "The bot will automatically announce SSD if the player count in the private server drops below the specified threshold.",
-                autoSsdOn: "Enable Auto-SSD", autoSsdLimit: "If players are less than:", ssdVisuals: "How will the SSD message look?", lblSsdTitle: "SSD Title",
-                lblSsdImg: "SSD Image (Thumbnail)", lblSsdText: "SSD Text",
-                phTitle: "NYRP | Server start up", phCode: "CODE: NYRP", phLink: "e.g., roblox://...", phImg: "https://i.imgur.com/image.png",
-                phSsdTitle: "Server Shutdown", phSsdText: "Thanks for playing! Server is closing.",
-                btnSave: "SAVE CHANGES", btnSaving: "SAVING...", btnSaved: "✅ SAVED!", btnError: "❌ ERROR!", roleSelectDef: "-- Select a role --",
-                tabStart: "Session Start", tabSsd: "Server Shutdown",
-                rev1: '"Before this, we made polls manually and messed around with pings. With Seshio, sessions start with one click. Perfect!"',
-                rev2: '"The Dashboard is the best part. I can change access codes in a second without typing commands in Discord."',
-                rev3: '"The voting system prevents spam. Players type \'/session\', and the bot does the rest. 10/10 recommend."'
+                heroDesc: "Automate your RP sessions with a modern Discord bot.", loginBtn: "Login with Discord", selectTitle: "Select Server", 
+                hello: "Hello, ", helloSub: "!", loading: "Loading...", noServers: "No admin servers found.", btnManage: "Manage", 
+                activeServer: "ACTIVE SERVER", settingsDesc: "Configure bot settings.", backBtn: "⬅ Back", panelGeneral: "1. General Settings", 
+                lblBotName: "Bot Name", lblTitle: "Title", lblCode: "Code", lblRole: "Ping Role", lblImg: "Image URL", 
+                lblText: "Text", panelSsd: "2. Server Shutdown (SSD)", premiumApi: "Automatic SSD (Premium API)", autoSsdOn: "Enable Auto-SSD", 
+                lblSsdTitle: "SSD Title", lblSsdImg: "SSD Image", lblSsdText: "SSD Text", btnSave: "SAVE CHANGES", btnSaving: "SAVING...", 
+                btnSaved: "✅ SAVED!", btnError: "❌ ERROR!", roleSelectDef: "-- Select role --", rev1: "Great bot!", rev2: "Everything works.", rev3: "RP made easy."
             }
         };
 
         let currentLang = localStorage.getItem('seshio_lang') || 'lv';
 
         function switchLang(lang) {
-            currentLang = lang;
-            localStorage.setItem('seshio_lang', lang);
+            currentLang = lang; localStorage.setItem('seshio_lang', lang);
             document.getElementById('btn-lv').classList.toggle('active', lang === 'lv');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-            
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (dict[lang][key]) el.innerHTML = dict[lang][key];
-            });
-            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-                const key = el.getAttribute('data-i18n-ph');
-                if (dict[lang][key]) el.placeholder = dict[lang][key];
-            });
-            
-            const roleSelect = document.getElementById('pingRole');
-            if(roleSelect && roleSelect.options.length > 0 && roleSelect.options[0].value === "") {
-                roleSelect.options[0].text = dict[lang].roleSelectDef;
-            }
-            if(rawUserGuilds.length > 0) renderServerLists();
+            document.querySelectorAll('[data-i18n]').forEach(el => { if (dict[lang][el.getAttribute('data-i18n')]) el.innerHTML = dict[lang][el.getAttribute('data-i18n')]; });
             updatePreview();
         }
-
-        switchLang(currentLang);
 
         function switchPreview(mode) {
             currentPreviewMode = mode;
             document.getElementById('tab-start').classList.toggle('active', mode === 'start');
             document.getElementById('tab-ssd').classList.toggle('active', mode === 'ssd');
+            document.getElementById('manual-send-btn').innerText = mode === 'start' ? "SEND STARTUP VOTE" : "SEND SSD MESSAGE";
             updatePreview();
-        }
-
-        function toggleSsdInput() {
-            const isChecked = document.getElementById('autoSsdToggle').checked;
-            document.getElementById('autoSsdLimit').disabled = !isChecked;
         }
 
         async function checkPremium(guildId) {
             const res = await fetch(`${API_URL}/api/settings/${guildId}`);
             const data = await res.json();
             isPremium = data.isPremium || false;
-
             document.getElementById('premium-badge').style.display = isPremium ? 'inline-block' : 'none';
             document.getElementById('buyPremiumBtn').style.display = isPremium ? 'none' : 'block';
-            
-            document.getElementById('botName').disabled = !isPremium;
-            document.getElementById('embedCode').disabled = !isPremium;
-            document.getElementById('startImage').disabled = !isPremium;
-            
-            document.getElementById('lock-name').style.display = isPremium ? 'none' : 'block';
-            document.getElementById('lock-code').style.display = isPremium ? 'none' : 'block';
-            document.getElementById('lock-img').style.display = isPremium ? 'none' : 'block';
+            document.getElementById('erlcApiKey').disabled = !isPremium;
+            document.getElementById('erlcServerId').disabled = !isPremium;
+            document.getElementById('autoSsdToggle').disabled = !isPremium;
+            document.getElementById('lock-ssd').style.display = isPremium ? 'none' : 'block';
         }
 
         function updatePreview() {
-            document.getElementById('pre-bot-name').innerText = (isPremium && document.getElementById('botName').value) ? document.getElementById('botName').value : "Seshio";
-            
+            document.getElementById('pre-bot-name').innerText = document.getElementById('botName').value || "Seshio";
             const roleSelect = document.getElementById('pingRole');
             document.getElementById('pre-ping').innerText = (roleSelect.options.length > 0 && roleSelect.selectedIndex > 0) ? "@" + roleSelect.options[roleSelect.selectedIndex].text : "@here";
-
+            
             const embedBox = document.getElementById('pre-embed-box');
-
             if (currentPreviewMode === 'start') {
                 embedBox.classList.remove('ssd-mode');
-                document.getElementById('pre-title').innerText = document.getElementById('embedTitle').value || (currentLang === 'lv' ? "LVRPL | Server start up" : "Server start up");
-                document.getElementById('pre-text').innerText = document.getElementById('startText').value || (currentLang === 'lv' ? "Sāksim jaunu sesiju!" : "Let's start a new session!");
-                
-                const codeInput = document.getElementById('embedCode').value;
-                if(isPremium && codeInput) { 
-                    document.getElementById('pre-code-div').style.display = 'block'; 
-                    document.getElementById('pre-code').innerText = codeInput; 
-                } else { 
-                    document.getElementById('pre-code-div').style.display = 'none'; 
-                }
-                
+                document.getElementById('pre-title').innerText = document.getElementById('embedTitle').value || "Server Session";
+                document.getElementById('pre-text').innerText = document.getElementById('startText').value || "Sāksim jaunu sesiju!";
+                document.getElementById('pre-code-div').style.display = 'block';
+                document.getElementById('pre-code').innerText = "KODS: " + (document.getElementById('embedCode').value || "1234");
                 document.getElementById('pre-votes-div').style.display = 'block';
                 document.getElementById('pre-footer').style.display = 'block';
-                
-                const imgUrl = document.getElementById('startImage').value;
-                const imgEl = document.getElementById('pre-img');
-                if(imgUrl && isPremium) { imgEl.src = imgUrl; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
+                const img = document.getElementById('startImage').value;
+                document.getElementById('pre-img').src = img; document.getElementById('pre-img').style.display = img ? 'block' : 'none';
             } else {
                 embedBox.classList.add('ssd-mode');
-                document.getElementById('pre-title').innerText = document.getElementById('ssdTitle').value || (currentLang === 'lv' ? "Server Shutdown" : "Server Shutdown");
-                document.getElementById('pre-text').innerText = document.getElementById('ssdText').value || (currentLang === 'lv' ? "Paldies par spēli! Serveris tiek slēgts." : "Thanks for playing! Server is closing.");
+                document.getElementById('pre-title').innerText = document.getElementById('ssdTitle').value || "Server Shutdown";
+                document.getElementById('pre-text').innerText = document.getElementById('ssdText').value || "Paldies par spēli!";
                 document.getElementById('pre-code-div').style.display = 'none';
                 document.getElementById('pre-votes-div').style.display = 'none';
                 document.getElementById('pre-footer').style.display = 'none';
-                
-                const imgUrl = document.getElementById('ssdImage').value;
-                const imgEl = document.getElementById('pre-img');
-                if(imgUrl) { imgEl.src = imgUrl; imgEl.style.display = 'block'; } else { imgEl.style.display = 'none'; }
+                const img = document.getElementById('ssdImage').value;
+                document.getElementById('pre-img').src = img; document.getElementById('pre-img').style.display = img ? 'block' : 'none';
             }
         }
 
-        function renderServerLists() {
-            const serverList = document.getElementById('server-list');
-            const sidebarList = document.getElementById('sidebar-server-list');
-            serverList.innerHTML = '';
-            sidebarList.innerHTML = '';
-
-            const adminGuilds = rawUserGuilds.filter(g => {
-                const perms = BigInt(g.permissions);
-                return (perms & 8n) === 8n || (perms & 32n) === 32n;
-            });
-            manageableGuilds = adminGuilds.filter(g => rawBotGuilds.includes(g.id));
-
-            if(adminGuilds.length === 0) {
-                serverList.innerHTML = `<div style="color:var(--text-muted); grid-column: 1/-1;">${dict[currentLang].noServers}</div>`;
-                return;
-            }
-
-            // Mājaslapas Režģis (Rāda visus Admin serverus, pat kur nav bota)
-            adminGuilds.forEach(guild => {
-                const isBotInGuild = rawBotGuilds.includes(guild.id);
-                let iconHtml = guild.icon ? 
-                    `<img src="https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png" class="server-icon-large">` : 
-                    `<div class="server-icon-large">${guild.name.charAt(0)}</div>`;
-                
-                let buttonHtml = isBotInGuild ? 
-                    `<button class="btn-manage" onclick="openDashboard('${guild.id}', '${guild.name.replace(/'/g, "\\'")}')">${dict[currentLang].btnManage}</button>` :
-                    `<a href="https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=8&scope=bot%20applications.commands&guild_id=${guild.id}" target="_blank" class="btn-invite">${dict[currentLang].btnAddBot}</a>`;
-                
-                serverList.innerHTML += `<div class="server-card">${iconHtml}<div class="server-name">${guild.name}</div>${buttonHtml}</div>`;
-            });
-
-            // Sidebar List (Rāda tikai tos, kuros IR bots un var pārvaldīt)
-            manageableGuilds.forEach(g => {
-                const isActive = g.id === currentGuildId;
-                sidebarList.innerHTML += `<a href="#" onclick="openDashboard('${g.id}', '${g.name.replace(/'/g, "\\'")}')" class="nav-item ${isActive ? 'active' : ''}">${g.name}</a>`;
+        function renderLists() {
+            const list = document.getElementById('server-list'); const side = document.getElementById('sidebar-server-list');
+            list.innerHTML = ''; side.innerHTML = '';
+            const admins = rawUserGuilds.filter(g => (BigInt(g.permissions) & 8n) === 8n);
+            admins.forEach(g => {
+                const inBot = rawBotGuilds.includes(g.id);
+                const icon = g.icon ? `<img src="https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png" class="server-icon-large">` : `<div class="server-icon-large">${g.name[0]}</div>`;
+                list.innerHTML += `<div class="server-card">${icon}<div class="server-name">${g.name}</div>${inBot ? `<button class="btn-manage" onclick="openDashboard('${g.id}', '${g.name.replace(/'/g, "\\'")}')">Pārvaldīt</button>` : `<a href="https://discord.com/api/oauth2/authorize?client_id=${CLIENT_ID}&permissions=8&scope=bot%20applications.commands&guild_id=${g.id}" class="btn-manage" style="background:#2b3a42; color:white; text-decoration:none;">Pievienot</a>`}</div>`;
+                if(inBot) side.innerHTML += `<a href="#" onclick="openDashboard('${g.id}', '${g.name.replace(/'/g, "\\'")}')" class="nav-item ${g.id === currentGuildId ? 'active' : ''}">${g.name}</a>`;
             });
         }
 
-        window.onload = async () => {
-            const fragment = new URLSearchParams(window.location.hash.slice(1));
-            const [accessToken, tokenType] = [fragment.get('access_token'), fragment.get('token_type')];
-
-            if (accessToken) {
-                document.getElementById('landing-page').style.display = 'none';
-                document.getElementById('server-selector-page').style.display = 'block';
-
-                fetch('https://discord.com/api/users/@me', { headers: { authorization: `${tokenType} ${accessToken}` } })
-                .then(res => res.json())
-                .then(user => { document.getElementById('welcome-name').innerText = user.username; });
-
-                try {
-                    const [guildsRes, botGuildsRes] = await Promise.all([
-                        fetch('https://discord.com/api/users/@me/guilds', { headers: { authorization: `${tokenType} ${accessToken}` } }),
-                        fetch(`${API_URL}/api/bot-guilds`) 
-                    ]);
-                    
-                    rawUserGuilds = await guildsRes.json();
-                    rawBotGuilds = await botGuildsRes.json();
-                    renderServerLists();
-                } catch(e) { console.error(e); }
-            }
-        };
-
-        async function openDashboard(guildId, guildName) {
-            currentGuildId = guildId;
-            document.getElementById('server-selector-page').style.display = 'none';
+        async function openDashboard(id, name) {
+            currentGuildId = id; document.getElementById('server-selector-page').style.display = 'none';
             document.getElementById('dashboard-page').style.display = 'flex';
-            document.getElementById('active-server-title').innerText = guildName + " Settings";
-
-            renderServerLists(); // Atjauno sidebar, lai iezīmētu aktīvo serveri
-
-            await checkPremium(guildId);
-            
-            try {
-                const rolesRes = await fetch(`${API_URL}/api/roles/${guildId}`);
-                if (rolesRes.ok) {
-                    const roles = await rolesRes.json();
-                    const select = document.getElementById('pingRole');
-                    select.innerHTML = `<option value="">${dict[currentLang].roleSelectDef}</option>`;
-                    roles.forEach(role => { select.innerHTML += `<option value="${role.id}">${role.name}</option>`; });
-                }
-            } catch(e) {}
-
-            const res = await fetch(`${API_URL}/api/settings/${guildId}`);
-            const data = await res.json();
-            
-            if(data.language) switchLang(data.language);
-
-            document.getElementById('botName').value = data.botName || '';
-            if(data.pingRole) document.getElementById('pingRole').value = data.pingRole;
-            document.getElementById('embedTitle').value = data.embedTitle || '';
-            document.getElementById('embedCode').value = data.embedCode || '';
-            document.getElementById('startImage').value = data.startImage || '';
-            document.getElementById('startText').value = data.startText || '';
-            
-            document.getElementById('autoSsdToggle').checked = data.autoSsdEnabled || false;
-            document.getElementById('autoSsdLimit').value = data.autoSsdThreshold || '';
-            
-            document.getElementById('ssdTitle').value = data.ssdTitle || '';
-            document.getElementById('ssdImage').value = data.ssdImage || '';
-            document.getElementById('ssdText').value = data.ssdText || '';
-            
-            toggleSsdInput();
+            document.getElementById('active-server-title').innerText = name;
+            renderLists(); await checkPremium(id);
+            const rolesRes = await fetch(`${API_URL}/api/roles/${id}`);
+            const select = document.getElementById('pingRole'); select.innerHTML = '<option value="">-- Loma --</option>';
+            if(rolesRes.ok) { (await rolesRes.json()).forEach(r => select.innerHTML += `<option value="${r.id}">${r.name}</option>`); }
+            const setRes = await fetch(`${API_URL}/api/settings/${id}`);
+            const d = await setRes.json();
+            document.getElementById('botName').value = d.botName || '';
+            document.getElementById('embedTitle').value = d.embedTitle || '';
+            document.getElementById('embedCode').value = d.embedCode || '';
+            document.getElementById('startImage').value = d.startImage || '';
+            document.getElementById('startText').value = d.startText || '';
+            document.getElementById('pingRole').value = d.pingRole || '';
+            document.getElementById('erlcApiKey').value = d.erlcApiKey || '';
+            document.getElementById('erlcServerId').value = d.erlcServerId || '';
+            document.getElementById('autoSsdToggle').checked = d.autoSsdEnabled || false;
+            document.getElementById('ssdTitle').value = d.ssdTitle || '';
+            document.getElementById('ssdImage').value = d.ssdImage || '';
+            document.getElementById('ssdText').value = d.ssdText || '';
             updatePreview();
         }
 
-        async function buyPremium() {
-            if(!currentGuildId) return;
-            const res = await fetch(`${API_URL}/api/create-checkout-session`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ guildId: currentGuildId })
-            }).then(r => r.json());
-            if(res.url) window.location.href = res.url;
-        }
-
         async function saveData() {
-            if(!currentGuildId) return;
-            const btn = document.getElementById('saveBtn');
-            btn.innerHTML = dict[currentLang].btnSaving;
-            
+            const btn = document.getElementById('saveBtn'); btn.innerHTML = "...";
             const data = {
-                guildId: currentGuildId,
-                language: currentLang,
-                botName: isPremium ? document.getElementById('botName').value : 'Seshio',
-                pingRole: document.getElementById('pingRole').value,
-                embedTitle: document.getElementById('embedTitle').value,
-                embedCode: isPremium ? document.getElementById('embedCode').value : '',
-                startImage: isPremium ? document.getElementById('startImage').value : '',
-                startText: document.getElementById('startText').value,
-                
-                autoSsdEnabled: document.getElementById('autoSsdToggle').checked,
-                autoSsdThreshold: document.getElementById('autoSsdLimit').value || 5,
-                
-                ssdTitle: document.getElementById('ssdTitle').value,
-                ssdImage: document.getElementById('ssdImage').value,
-                ssdText: document.getElementById('ssdText').value
+                guildId: currentGuildId, botName: document.getElementById('botName').value, pingRole: document.getElementById('pingRole').value,
+                embedTitle: document.getElementById('embedTitle').value, embedCode: document.getElementById('embedCode').value,
+                startImage: document.getElementById('startImage').value, startText: document.getElementById('startText').value,
+                erlcApiKey: document.getElementById('erlcApiKey').value, erlcServerId: document.getElementById('erlcServerId').value,
+                autoSsdEnabled: document.getElementById('autoSsdToggle').checked, ssdTitle: document.getElementById('ssdTitle').value,
+                ssdImage: document.getElementById('ssdImage').value, ssdText: document.getElementById('ssdText').value
             };
+            await fetch(`${API_URL}/api/save-settings`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
+            btn.innerHTML = "SAGLABĀTS"; setTimeout(() => btn.innerHTML = "SAGLABĀT IZMAIŅAS", 2000);
+        }
 
-            try {
-                await fetch(`${API_URL}/api/save-settings`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
-                });
-                btn.innerHTML = dict[currentLang].btnSaved;
-                btn.style.background = 'var(--accent-green)';
-            } catch(e) {
-                btn.innerHTML = dict[currentLang].btnError;
+        async function buyPremium() {
+            const res = await fetch(`${API_URL}/api/create-checkout-session`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({guildId: currentGuildId})});
+            const d = await res.json(); if(d.url) window.location.href = d.url;
+        }
+
+        function backToServers() { document.getElementById('dashboard-page').style.display = 'none'; document.getElementById('server-selector-page').style.display = 'block'; }
+
+        window.onload = async () => {
+            const f = new URLSearchParams(window.location.hash.slice(1)); const token = f.get('access_token');
+            if(token) {
+                document.getElementById('landing-page').style.display = 'none'; document.getElementById('server-selector-page').style.display = 'block';
+                const userRes = await fetch('https://discord.com/api/users/@me', {headers: {authorization: `Bearer ${token}`}});
+                const u = await userRes.json(); document.getElementById('welcome-name').innerText = u.username;
+                const gs = await fetch('https://discord.com/api/users/@me/guilds', {headers: {authorization: `Bearer ${token}`}});
+                rawUserGuilds = await gs.json();
+                const bgs = await fetch(`${API_URL}/api/bot-guilds`);
+                rawBotGuilds = await bgs.json();
+                renderLists();
             }
-            setTimeout(() => { btn.innerHTML = dict[currentLang].btnSave; btn.style.background = 'var(--accent-cyan)'; }, 2000);
-        }
-
-        function backToServers() {
-            document.getElementById('dashboard-page').style.display = 'none';
-            document.getElementById('server-selector-page').style.display = 'block';
-        }
+            switchLang(currentLang);
+        };
     </script>
 </body>
 </html>
