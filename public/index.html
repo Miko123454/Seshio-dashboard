@@ -87,6 +87,9 @@
         .sidebar-logo { font-size: 22px; font-weight: 800; margin-bottom: 40px; color: var(--text-light); cursor: pointer; display: flex; align-items: center; letter-spacing: 1px;}
         .sidebar-logo span { color: var(--accent-cyan); margin-right: 10px; font-size: 24px;}
         .sidebar-server-list { flex: 1; overflow-y: auto; margin-right: -10px; padding-right: 10px; }
+        .nav-item { display: flex; align-items: center; padding: 12px 15px; color: var(--text-muted); text-decoration: none; border-radius: 8px; margin-bottom: 5px; font-weight: 500; transition: 0.2s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px;} 
+        .nav-item:hover { color: #fff; background: rgba(255,255,255,0.05); }
+        .nav-item.active { background: linear-gradient(90deg, rgba(76, 235, 218, 0.1) 0%, transparent 100%); color: var(--accent-cyan); border-left: 3px solid var(--accent-cyan); }
         
         .main-content { flex: 1; padding: 40px; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .header { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: flex-end; }
@@ -149,7 +152,7 @@
         <div class="top-logo"><span>❂</span> SESHIO</div>
         <div class="hero-text">
             <h1>Seshio System</h1>
-            <p>Automatizē savas lomu spēles sesijas ar modernu Discord botu.</p>
+            <p>Automatizē savas lomu spēles sesijas, ER:LC integrācija un Auto-SSD funkcijas vienuviet.</p>
             <a href="https://discord.com/api/oauth2/authorize?client_id=1485224120047108237&redirect_uri=https%3A%2F%2Fseshio.lat%2F&response_type=token&scope=identify%20guilds" class="btn-login">Login with Discord</a>
         </div>
         
@@ -283,7 +286,7 @@
                     <div class="preview-header" id="preview-header-text">Live Discord Preview</div>
                     <div class="discord-message" style="display:flex; gap:12px;">
                         <div class="discord-avatar">
-                            <img src="https://cdn.discordapp.com/attachments/1485233746994139147/1485345443914453246/bj.jpg" alt="Avatar">
+                            <img src="https://cdn.discordapp.com/attachments/1485233746994139147/1485345443914453246/bj.jpg?ex=69c6247e&is=69c4d2fe&hm=b95d392ab9a45c90d5fd6b048632722a6f4b80de511b4f81ee58ca762426e9f5&" alt="Avatar">
                         </div>
                         <div class="discord-content">
                             <div class="discord-name"><span id="pre-bot-name">Seshio</span> <span class="bot-tag">APP</span></div>
@@ -314,6 +317,7 @@
         let currentGuildId = null;
         let isPremium = false;
         let currentPreviewMode = 'start'; 
+        let manageableGuilds = []; // Pievienots saraksts sidebaram!
 
         function switchLang(lang) {
             document.getElementById('btn-lv').classList.toggle('active', lang === 'lv');
@@ -394,6 +398,14 @@
             document.getElementById('server-selector-page').style.display = 'none';
             document.getElementById('dashboard-page').style.display = 'flex';
             document.getElementById('active-server-title').innerText = guildName;
+
+            // SIDEBAR IELĀDE SALABOTA!
+            const sidebarList = document.getElementById('sidebar-server-list');
+            sidebarList.innerHTML = '';
+            manageableGuilds.forEach(g => {
+                const isActive = g.id === guildId;
+                sidebarList.innerHTML += `<a href="#" onclick="openDashboard('${g.id}', '${g.name.replace(/'/g, "\\'")}')" class="nav-item ${isActive ? 'active' : ''}">${g.name}</a>`;
+            });
 
             await checkPremium(guildId);
             
@@ -483,8 +495,10 @@
                 const guilds = await fetch('https://discord.com/api/users/@me/guilds', { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json());
                 const list = document.getElementById('server-list');
                 
-                // ATJAUNOTA IELĀDE (AR BILDĒM)
-                guilds.filter(g => (BigInt(g.permissions) & 8n) === 8n).forEach(g => {
+                // Atlasam un saglabājam serverus
+                manageableGuilds = guilds.filter(g => (BigInt(g.permissions) & 8n) === 8n);
+                
+                manageableGuilds.forEach(g => {
                     const card = document.createElement('div');
                     card.className = 'server-card';
                     
